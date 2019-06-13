@@ -1,0 +1,104 @@
+<!--pages/order/order.wxml-->
+<view class='my_order'>
+  <!-- <swiper class="swiper-wrap-tab" display-multiple-items="{{4}}" next-margin="140rpx">
+  <block wx:for="{{tabs}}" wx:key="index">
+    <swiper-item class="swiper-item-tab tc " bindtap="jumpTab" data-index="{{index}}">
+      <view class="swiper-item-tab-text {{currentTab == index ? 'active-tab': ''}}">
+        {{item.name}}
+      </view>
+    </swiper-item>
+  </block>
+</swiper> -->
+<!-- <swiper class='w_sw_con' current='{{currentTab}}' bindchange="swiperChangeTab">
+    <block wx:for="{{tabs}}" wx:key="index">
+      <swiper-item class="swiper-slide">
+        <scroll-view data-index="{{index}}" style='height:100%;' scroll-y bindscrolltolower="scrolltolower">
+
+          <view class='recommend' wx:if="{{index == 0}}">
+            <index-recommend 
+            swiper-list="{{recommend.homeBanners}}" 
+            advertisement="{{recommend.homeAdvertise}}" 
+            grid-list="{{recommend.homeNavigs}}" 
+            pp-list="{{recommend.homeCopywrs}}" 
+            newproductList="{{recommend.homeRecommend}}"
+            floor-list="{{recommend.homeFloors}}">
+            </index-recommend>
+          </view>
+
+          <view class="list" wx:else>
+            <view class="item" wx:for="{{list}}" data-pid="{{item.productId}}" bindtap="gotoDetail">
+              <view class="img-wrap" style="line-height:0">
+                <image src="{{item.imgUrl}}" class="item-image" mode="widthFix"></image>
+              </view>
+
+              <view class="content">
+                <view class="title">{{item.productTitle }}</view>
+                <view class="hongbao">红包直抵</view>
+                <view class="h3">￥
+                  <text class="money">{{digitalFr.toFixedDecimal(item.priceCurrentPrice,2)}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+
+        </scroll-view>
+      </swiper-item>
+    </block>
+  </swiper>
+ -->
+  <view class='order_list flex flex-main-center'>
+    <view class="swiper-tab-list all_order " > <text data-current="0" bindtap="swichNav" class="{{currentTab==0 ? 'on' : ''}}">全部</text > </view>
+    <view class="swiper-tab-list be_paid " > <text data-current="1" bindtap="swichNav" class="{{currentTab==1 ? 'on' : ''}}">待支付</text ></view>
+    <view class="swiper-tab-list for_receive " ><text data-current="2" bindtap="swichNav" class="{{currentTab==2 ? 'on' : ''}}">待收货</text ></view>
+  </view> 
+<swiper current="{{currentTab}}" class="swiper-box" duration="300" bindchange="swiperChangeTab">
+  <block wx:for="{{tabs}}" wx:key="index">
+    <swiper-item class="swiper_side" >
+      <scroll-view data-index="{{index}}" style='height:100%;' scroll-y bindscrolltolower="scrolltolower">
+        <view class='mar_20'>
+          <view class='order_list_all'>
+            <view class='order_status flex flex-main-justify'>
+              <view  class='order_list_time'>2019-02-30 13:20:32</view>
+              <view class='order_list_status pricetxt'>待支付</view>
+            </view>
+            <view class='order_list_img flex flex-main-justify' bindtap='GoCommoditylist'>
+                <image src='../../img/pro01.jpg'></image>
+                <image src='../../img/pro01.jpg'></image>
+                <image src='../../img/pro01.jpg'></image>
+            </view>
+            <view class='order_total flex flex-main-right'>
+              <text>共计<text class='order_tatal_list'>2</text>件商品</text>
+              <text class='order_total_pad'>合计：¥ <text class='order_total_price'>36</text></text>
+            </view>
+            <view class='order_choice flex flex-main-right'>
+              <button class='cancel_order' id='cancel_order' bindtap='cancel_order'>取消订单</button>
+              <button class='pay_order' id='pay_order' class='pay_order'>立即支付</button>
+            </view>
+            </view>
+        </view>
+        <view class='mar_20'>
+          <view class='order_list_all'>
+            <view class='order_status flex flex-main-justify'>
+              <view  class='order_list_time'>2019-02-30 13:20:32</view>
+              <view class='order_list_status pricetxt'>待支付</view>
+            </view>
+            <view class='order_list_img flex flex-main-justify' bindtap='GoCommoditylist'>
+                <image src='../../img/pro01.jpg'></image>
+                <image src='../../img/pro01.jpg'></image>
+                <image src='../../img/pro01.jpg'></image>
+            </view>
+            <view class='order_total flex flex-main-right'>
+              <text>共计<text class='order_tatal_list'>2</text>件商品</text>
+              <text class='order_total_pad'>合计：¥ <text class='order_total_price'>36</text></text>
+            </view>
+            <view class='order_choice flex flex-main-right'>
+              <button class='cancel_order' id='cancel_order' bindtap='cancel_order'>取消订单</button>
+              <button class='pay_order' id='pay_order' class='pay_order'>立即支付</button>
+            </view>
+            </view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+  </block>
+</swiper>
+</view>

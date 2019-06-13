@@ -1,0 +1,102 @@
+@import '../../style/flex.wxss';
+@import '../../style/common.wxss';
+page{
+  background: #f6f6f6;
+}
+.cart{
+    padding-bottom: 100rpx;
+  font-size: 26rpx;
+}
+.item{
+  border-bottom: 1px solid #eee;
+}
+/* 头部店铺信息 */
+.storeInfo{
+  display: flex;
+  padding: 18rpx 0rpx 18rpx 30rpx;
+  background: #fff;
+  box-sizing: border-box;
+}
+.storeInfo .avatar{
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+.storeInfo .storeName{
+  margin-left: 16rpx;
+  line-height: 56rpx;
+}
+/* 包邮信息 */
+.discount{
+  padding-left: 30rpx;
+  height:50rpx;
+  line-height: 50rpx;
+  font-size:20rpx;
+  color: #666;
+  box-sizing: border-box;
+}
+/* 底部操作 */
+.count{
+    display: flex;
+    position: fixed;
+    padding-left: 30rpx;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 98rpx;
+    line-height: 80rpx;
+    box-sizing: border-box;
+    color: #232323;
+    background: #fff;
+    padding:9rpx 24rpx;
+}
+/* 全选 */
+.selectAll{
+  float: left;
+  display: flex;
+  align-items: center;
+  font-size: 30rpx;
+  width:208rpx;
+}
+.selectAll .noSelected{
+  display:inline-block;
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  border: 1px solid #cecece;
+}
+.selectAll .selectedImg{
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  border: 1px solid #cecece;
+}
+.selectAllText{
+    margin-left: 18rpx;
+}
+
+.countPrice{
+  width:274rpx;
+  float: left;
+  text-align: center;
+  font-size: 30rpx;
+}
+.countPrice view{
+  height: 40rpx;
+  line-height: 40rpx;
+}
+.countPrice text{
+  margin-right: 15rpx;
+}
+.account{
+  float: right;
+height: 80rpx;
+line-height: 80rpx;
+width:222rpx;
+text-align:center;
+box-sizing:border-box;
+color:#fff;
+background:#e61817;
+border-radius:50rpx;
+}

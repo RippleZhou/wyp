@@ -1,0 +1,125 @@
+/* pages/shoppingcart/index.wxss */
+@import '../../style/flex.wxss';
+@import '../../style/common.wxss';
+/* 商品 */
+.commodityItem{
+  display: flex;
+  position: relative;
+  padding:24rpx;
+  box-sizing: border-box;
+  background: #fff;
+  transition: all .5s;
+  border-bottom:1px solid #e6e6e6;
+}
+/* 选择按钮 */
+.selectedBtn{
+  display: flex;
+  align-items: center;
+  margin:0 24rpx;
+}
+.noSelected{
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  border: 1px solid #cecece;
+}
+.selectedBtn .selectedImg{
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  border: 1px solid #cecece;
+}
+/* 商品信息 */
+.commodityInfo{
+  display: flex;
+  width: calc(100% - 80rpx);
+}
+.commodityImg{
+  margin-right: 24rpx;
+  width: 184rpx;
+  height: 184rpx;
+}
+.commodityImg image{
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;  
+}
+/* 商品title */
+.commodityTitle{
+  width: calc(100% - 220rpx);
+}
+.title{
+  display: -webkit-box;
+  width: 100%;
+  height: 70rpx;
+  line-height:35rpx;
+  font-size: 26rpx;
+  font-weight:600;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.standard{
+  padding-top: 16rpx;
+  width: 100%;
+  height: 90rpx;
+  box-sizing: border-box;
+}
+.count{
+  margin-top:64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 60rpx;
+}
+.input{
+  display: block;
+  width: 43rpx;
+  height: 43rpx;
+  line-height: 43rpx;
+  text-align: center;
+  border-radius:50%;
+  border:1px solid #cecece;
+  float: left;
+}
+.cart-add{
+  border-left: none;
+  background: #FBFBFB;
+}
+.cart-reduce{
+  border-right: none;
+  background: #FBFBFB;
+}
+.cart-text{
+  text-align:center;
+  width:90rpx;
+  background:#F4F4F4;
+  font-size:30rpx;
+  float:left;
+  height:43rpx;
+  line-height:43rpx;
+  background:#fff;
+}
+/* 删除按钮 */
+.deleteBtn{
+  display: flex;
+  position: absolute;
+  width: 70px;
+  height: 100%;
+  top: 0rpx;
+  right: -90px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ef5225;
+}
+.deleteImg{
+  margin-bottom: 10rpx;
+  width: 50rpx;
+  height: 50rpx;
+  vertical-align: middle;
+}
+.deleteText{
+  color: #fff;
+}

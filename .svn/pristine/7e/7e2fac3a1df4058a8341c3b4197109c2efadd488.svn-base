@@ -1,0 +1,27 @@
+<!--pages/shoppingcart/index.wxml-->
+<view class="commodityItem" bindtouchstart="handleTouchStart" bindtouchmove="handleTouchMove" style="transform:translateX({{-rightSpace}}px)">
+  <view class="selectedBtn" bindtap="handleSelect" data-is-selected="{{commodity.isselected}}">
+    <view class="noSelected" wx:if="{{commodity.isselected==0}}"></view>
+    <image class="selectedImg" wx:else src="/images/selected.png"></image>
+  </view>
+  <view class="commodityInfo">
+    <view class="commodityImg">
+      <image src="{{commodity.image}}"></image>          
+    </view>
+    <view class="commodityTitle">
+      <view class="title">{{commodity.title}}</view>
+      <view class="count">
+        <view class="price color_red">￥{{commodity.price}}</view>
+        <view class="commodityNum">
+           <text bindtap='reduce'  class="input cart-reduce"  data-index="{{selectedNum}}">-</text>
+            <input class="cart-text" value="{{selectedNum}}" min="1" max="{{commodity.stock}}" bindchange="numChange" />
+            <text bindtap='add' class="input cart-add"  data-index="{{selectedNum}}">+</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="deleteBtn">
+    <image class="deleteImg" src="/images/delete.png"></image>
+    <text class="deleteText">删除</text>
+  </view>
+</view>

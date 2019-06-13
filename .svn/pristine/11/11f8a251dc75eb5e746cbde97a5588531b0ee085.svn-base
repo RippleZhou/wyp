@@ -1,0 +1,24 @@
+<view class='font_30'>
+  <view class='wyb_counts'>
+    <view class='wyb_count flex flex-main-justify'>
+      <view class=''>
+        <view class='my_wyb'><text class='font_34'>当前物业币</text> </view>
+        <view class='fl my_wyb'><text class='font_34'>128个</text></view>
+      </view>
+      <view bindtap='GoMyWyb' class='m_t'><text class='font_24'>物业币说明</text></view>
+    </view>
+  </view>
+  <view class='wyb_detail'>
+    <view class='detail_title'> <text class='font_30 font_700'>物业币明细</text><text class='font_24 color_999 new_10'>最近10条物业币明细</text></view>
+  </view>
+  <block wx:for="{{wyblist}}">
+    <view class='detali_list'>
+      <view class='detali_list_num'><text class='shopping_num font_30'>购物订单号：</text><text>{{item.shoppingNum}}</text> <text class='count font_36 font_700'>+{{item.acount}}</text></view>
+      <view class='detali_list_date'><text class='shopping_date font_26 color_999'>{{item.timer}}</text></view>
+    </view>
+  </block>
+  <view class='footer'>查看全部明细></view>
+</view>
+
+
+

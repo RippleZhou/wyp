@@ -1,0 +1,44 @@
+<!--pages/suggest/suggest.wxml-->
+<view class='title'>
+<!-- 统计字数 有需求在注释 -->
+  <!-- <view class='title-right'>
+    <span class='title-right-count'>{{words_count}}</span>/200
+  </view> -->
+      <button class='submit_btn' bindtap="submit">提交</button>
+  </view>
+<view class='content'>
+    <block wx:if='{{textarea_hidden == 0}}'>
+        <textarea class='text_class' bindinput="textarea_hidden" placeholder="我们想听听您的心声，如果愿意，请您留下联系方式， 我们期待与您的真诚沟通。\n(建议添加相关问题截图)" placeholder-style="color:rgba(153,153,153,1);" maxlength='200'/>
+    </block>
+    <block wx:else>
+        <view class='text_class'>{{text_data}}</view>
+    </block>
+</view>
+<view class='pic-content'>
+    <view class="camera" bindtap='uploadImg'>
+        <image src="/img/camera.png" class="img">
+        </image>
+        <text class='upload'>上传照片</text>
+        <text class='more'>(最多6张)</text>
+    </view>
+
+    <block wx:for="{{pics}}" wx:for-item="pic">
+          <image class="each-img" src='{{pic}}'>
+                <icon class='delete-icon' type="clear" size="40rpx" color="#999999" bindtap='delete_this' data-src="{{pic}}"/>
+          </image>
+     </block>
+</view>
+
+<!-- <view class='sub'>
+    <button bindtap="submit">提交</button>
+</view> -->
+
+<view class="mask {{mask_show ? 'mask-show' : ''}}" catchtouchmove="doNotMove" bindtap='closePage'>
+    <view class='mask-content'>
+        <view class='content'>意见提交成功</view>
+        <view class='close'>
+            <image src="/img/common/close.png" class='close-icon'>
+            </image>
+        </view>
+    </view>
+</view>

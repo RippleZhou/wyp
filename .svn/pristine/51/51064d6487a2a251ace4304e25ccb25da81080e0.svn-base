@@ -1,0 +1,176 @@
+Page({
+
+  data: {
+    cartList: [
+      {
+        logo: '/images/avatar.jpeg',
+        shopid: 11,
+        commodity: [
+          {
+            id: 1,
+            image: '/img/pro01.jpg',
+            title: '雅诗兰黛鲜活焕亮红石榴晚霜50ml 补水保湿 滋润排浊',
+            price: '100',
+            stock: 10,
+            quantity: 1,
+            isselected: 0,
+          },
+          {
+            id: 2,
+            image: '/img/pro01.jpg',
+            title: '雅诗兰黛鲜活焕亮红石榴晚霜50ml 补水保湿 滋润排浊',
+            price: '10',
+            stock: 5,
+            quantity: 1,
+            isselected: 0,
+          }
+        ]
+      },
+      {
+        logo: '/images/avatar5.jpg',
+        shopid: 450,
+        commodity: [
+          {
+            id: 3,
+            image: '/img/pro01.jpg',
+            title: '雅诗兰黛鲜活焕亮红石榴晚霜50ml 补水保湿 滋润排浊',
+            price: '90',
+            stock: 10,
+            quantity: 1,
+            isselected: 0,
+          },
+          {
+            id: 4,
+            image: '/img/pro01.jpg',
+            title: '雅诗兰黛鲜活焕亮红石榴晚霜50ml 补水保湿 滋润排浊',
+            price: '100',
+            stock: 5,
+            quantity: 1,
+            isselected: 0,
+          },
+          {
+            id: 5,
+            image: '/img/pro01.jpg',
+            title: '雅诗兰黛鲜活焕亮红石榴晚霜50ml 补水保湿 滋润排浊',
+            standard: '111 + 黑色',
+            price: '100',
+            stock: 2,
+            quantity: 1,
+            isselected: 0,
+          }
+        ]
+      },
+      {
+        logo: '/images/avatar.jpeg',
+        shopid: 550,
+        commodity: [
+          {
+            id: 6,
+            image: '/img/pro01.jpg',
+            title: '雅诗兰黛鲜活焕亮红石榴晚霜50ml 补水保湿 滋润排浊',
+            standard: '111 + 黑色',
+            price: '100',
+            stock: 1,
+            quantity: 1,
+            isselected: 0,
+          }
+        ]
+      },
+    ],
+    /* 商品是否全选中 */
+    isSelectedAll: false,
+    /* 已选中商品的价格 */
+    countPrice: 0,
+    /* 统计所有选中的商品数量 */
+    countSelectedNum: 0,
+  },
+  /* 处理商品选中 */
+  handleSelect(e) {
+    let countPrice = 0;
+    let countSelectedNum = 0;
+    let cartList = this.data.cartList;
+    let length = cartList.length;
+
+    /* 因为是假数据，所以需要循环查找到对应的数据将其替换 */
+    for (let i = 0; i < length; i++) {
+      for (let j = 0; j < cartList[i].commodity.length; j++) {
+        if (cartList[i].commodity[j].id == e.detail.commodity.id) {
+          cartList[i].commodity[j] = e.detail.commodity;
+          cartList[i].commodity[j].selectedNum = e.detail.selectedNum;
+        }
+        if (cartList[i].commodity[j].isselected == 1) {
+          /* 点击选中的时候，计算价格，要判断下设置的商品选中数量，
+           * 我这里的是对点击了的商品才设置了选中的数量，所以需要对没有点击的商品数量设置为1，然后就默认的加一
+           */
+          if (cartList[i].commodity[j].selectedNum != undefined) {
+            countPrice += cartList[i].commodity[j].price * cartList[i].commodity[j].selectedNum;
+            countSelectedNum += cartList[i].commodity[j].selectedNum
+          } else {
+            countPrice += cartList[i].commodity[j].price * 1;
+            countSelectedNum += 1;
+          }
+        }
+      }
+    }
+
+    /* 对是否全选中进行判断 */
+    let isSelectedAll = true;
+    for (let i = 0; i < length; i++) {
+      for (let j = 0; j < cartList[i].commodity.length; j++) {
+        /* 若商品中的isselecetd有为0的就终止循环，直接设置为未全选 */
+        if (cartList[i].commodity[j].isselected == 0) {
+          isSelectedAll = false;
+          break;
+        }
+      }
+    }
+
+    this.setData({
+      cartList,
+      isSelectedAll,
+      countPrice,
+      countSelectedNum
+    })
+  },
+  /* 全选中商品 */
+  handleSelectAll() {
+    let isSelectedAll = !this.data.isSelectedAll;
+    let cartList = this.data.cartList;
+    let length = cartList.length;
+    let countPrice = 0;
+    let countSelectedNum = 0;
+
+    /* 遍历数据中的isselected来进行全选的操作 */
+    for (let i = 0; i < length; i++) {
+      for (let j = 0; j < cartList[i].commodity.length; j++) {
+        if (isSelectedAll) {
+          cartList[i].commodity[j].isselected = 1;
+          /* 全选的时候，计算价格，要判断下设置的商品选中数量，
+           * 我这里的是对点击了的商品才设置了选中的数量，所以需要对没有点击的商品数量设置为1，然后就默认加一
+           */
+          if (cartList[i].commodity[j].selectedNum != undefined) {
+            countPrice += parseInt(cartList[i].commodity[j].price) * cartList[i].commodity[j].selectedNum;
+            countSelectedNum += cartList[i].commodity[j].selectedNum;
+          } else {
+            countPrice += cartList[i].commodity[j].price * 1;
+            countSelectedNum += 1;
+          }
+        } else {
+          cartList[i].commodity[j].isselected = 0;
+        }
+      }
+    }
+
+    this.setData({
+      isSelectedAll,
+      cartList,
+      countPrice,
+      countSelectedNum
+    })
+  },
+  GoPay:function(){
+    wx.navigateTo({
+      url: '/pages/ReturnRequest/rerurnSuccess/rerurnSuccess',
+    })
+  }
+})

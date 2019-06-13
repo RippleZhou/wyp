@@ -1,0 +1,80 @@
+/* pages/mywy/mywy.wxss */
+@import '../../style/flex.wxss';
+@import '../../style/common.wxss';
+page{
+  background: #f6f6f6;
+}
+.my_wy{
+  margin-top: 10rpx;
+  padding: 0 24rpx;
+}
+.pad_24_0{
+  padding:24rpx 0;
+  border-bottom:1px solid #f6f6f6;
+}
+.wy_img{
+  margin:20rpx 0;
+margin-left:30rpx;
+width:50rpx;
+height:46rpx;
+}
+.wy_img image{
+  height: 46rpx;
+  width: 50rpx;
+}
+.w_206{
+  display: inline-block;
+  width: 206rpx;
+}
+.jiaofei{
+  margin-right:50rpx;
+}
+.h90{
+  height: 90rpx;
+  line-height: 90rpx;
+}
+.bd_1{
+    border-bottom:1px solid #f6f6f6;
+}
+.h45{
+  height: 45rpx;
+  line-height: 45rpx;
+  display: block;
+}
+.h46{
+  height: 46rpx;
+  line-height: 46rpx;
+}
+.w_428{
+  width: 428rpx;
+  border-right: 1px solid #e6e6e6;
+}
+.h_186{
+  height: 186rpx;
+}
+.footer{
+  background: #f6f6f6;
+  /* width: 156rpx; */
+  height: 24rpx;
+  margin:0 auto;
+  position: absolute;
+  bottom:100rpx;
+  left: 0;
+  right:0;
+}
+.reset_wy{
+  font-size: 30rpx;
+   position: absolute;
+   top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  border-radius: 0;
+  color:#e61817;
+  border-bottom:1px solid #e61817;
+}
+.reset_wy::after{
+  border:0;
+}
+.btn_hover{
+  color:blue;
+}

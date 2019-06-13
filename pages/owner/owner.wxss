@@ -1,0 +1,133 @@
+@import '../../style/flex.wxss';
+@import '../../style/common.wxss';
+page{
+  width: 100%;
+  background:#f6f6f6;
+}
+.owner_top{
+  background: #ddbc6c;
+  padding:24rpx;
+  height: 210rpx;
+  line-height: 210rpx;
+  width: 100%;
+}
+.utximg{
+  height: 150rpx;
+  width: 150rpx;
+  margin: 30rpx 0;
+}
+
+.utximg image{
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+}
+.click_login{
+    height: 150rpx;
+    margin: 30rpx 0;
+}
+.own_login{
+  display: inline-block;
+  margin-left:26rpx;
+  background: #ddbc6c;
+  color: #ffffff;
+}
+.own_login::after{
+  border:0;
+}
+.wyb_counts{
+  padding: 0 24rpx;
+  background: #ddbc6c;
+}
+.wyb_count{
+  color:#ffffff;
+  padding: 0 24rpx;
+  background: #565454;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-radius: 20rpx 20rpx 0 0;
+}
+.owner_info{
+  background: #ffffff;
+  margin:20rpx 24rpx;
+  border-radius: 30rpx 30rpx 0 0;
+}
+.my_orders{
+  padding: 0 24rpx;
+  border-bottom:1px solid #e6e6e6;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.my_owner_bt{
+  height: 142rpx;
+  padding: 42rpx 84rpx 28rpx;
+
+}
+.my_orders_img{
+  height: 58rpx;
+  width: 58rpx;
+  margin:20rpx auto;
+
+}
+.my_orders_img image{
+  height: 100%;
+  width: 100%;
+}
+
+.used_tool{
+  padding: 40rpx 24rpx;
+  height: 342rpx;
+}
+.mr_74{
+  margin-right:48rpx;
+}
+.mar_tl{
+  margin:32rpx 0 0 28rpx;
+}
+.mask{
+ position: absolute;
+ left: 0;
+ right: 0;
+ top: 0;
+ bottom: 0;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background-color: rgba(0,0,0,0.4);
+ z-index: 9999;
+}
+ 
+.modal-content{
+ display: flex;
+ flex-direction: column;
+ width: 90%;
+ /* height: 80%; */
+ background-color: #fff;
+ border-radius: 10rpx;
+}
+ 
+.modal-btn-wrapper{
+ display: flex;
+ flex-direction: row;
+ height: 100rpx;
+ line-height: 100rpx;
+ border-top: 2rpx solid rgba(7,17,27,0.1);
+}
+ 
+.cancel-btn, .confirm-btn{
+ flex: 1;
+ height: 100rpx;
+ line-height: 100rpx;
+ text-align: center;
+ font-size: 32rpx;
+}
+ 
+.cancel-btn{
+ border-right: 2rpx solid rgba(7,17,27,0.1);
+}
+ 
+.main-content{
+ flex: 1;
+ height: 100%;
+ overflow-y: hidden; 
+}

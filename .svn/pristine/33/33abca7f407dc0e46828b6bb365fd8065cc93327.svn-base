@@ -1,0 +1,26 @@
+/* pages/Setting/Setting.wxss */
+@import '../../style/flex.wxss';
+page{
+  background: #f6f6f6;
+}
+.delete,.comments,.about,.logOut{
+  font-size: 30rpx;
+  background: #fff;
+  height: 90rpx;
+  line-height: 90rpx;
+  margin:0 auto;
+  padding: 0 24rpx;
+}
+.cor_9{
+  color:#999999;
+}
+.cor_red{
+  color: #e61817;
+}
+.delete,.comments{
+  border:1px solid #e6e6e6;
+}
+.logOut{
+  margin-top:20rpx;
+  text-align: center;
+}

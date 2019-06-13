@@ -1,0 +1,36 @@
+<view class='font_30 my_wy bgc_fff'>
+  <view class='my_address pad_24_0 flex flex-main-left'>
+    <view class='color_999 w_206'>请选择所在小区</view>
+    <view>安林小区（杨新路97弄）</view>
+  </view>
+  <view class='pad_24_0 flex flex-main-left'>
+    <view class='color_999 w_206'> 收费物业单位</view>
+    <view class='w_428'>上海上岗物业公司</view>
+    <view class='wy_img'><image src="/img/phone.png"></image></view>
+  </view>
+  <view  class='pad_24_0 flex flex-main-left'>
+    <view class='color_999 w_206'>缴费户号</view>
+    <view>12312412413515</view>
+  </view>
+  <view class='pad_24_0'>
+    <view class='h46'><text class='color_999 w_206'>户名:</text><text>赵铁柱</text></view>
+    <view class='h46'><text class='color_999 w_206'>住址信息：</text><text>杨新路197弄12号楼402室</text> </view>
+    <view class='h46'><text class='color_999 w_206'>当前欠费金额：</text><text>999元</text></view>
+  </view>
+  <view class='footer'>
+    <button class='reset_wy' bindtap='resetWy'  hover-class="btn_hover"> 重新绑定物业</button>
+  </view>
+</view> 
+<!-- //模态框 -->
+<view class='mask font_30' wx:if='{{show}}' bindtap='clickMask'>
+ <view class='modal-content' style='height:{{height}}'>
+    <view class='modal-title'>确认重新绑定</view>
+    <view class='modal-contain'>重新绑定物业公司，之前的物业币即被清空，您确定要重新绑定物业？</view>
+    <view class='modal-btn-wrapper'>
+      <view class='cancel-btn'  bindtap='cancel'>以后再说</view>
+      <view class='confirm-btn'  bindtap='conFirm'>确认</view>
+    </view>
+ </view>
+</view>
+
+

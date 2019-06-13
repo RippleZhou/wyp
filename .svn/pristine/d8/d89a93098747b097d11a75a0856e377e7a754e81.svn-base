@@ -1,0 +1,44 @@
+<!--pages/details/details.wxml-->
+<!--轮播图-->
+<swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{activeColor}}" circular='{ true }'>
+  <block wx:for="{{imgUrls}}">
+    <swiper-item>
+      <navigator url="{{item.link}}" hover-class="navigator-hover">
+        <image src="{{item.url}}" class="slide-image" />
+      </navigator>
+    </swiper-item>
+  </block>
+</swiper>
+<view class='details_introduce'>
+  <view class='font_26 detail_title'>德世朗(DESLON)DYGB-450 男女保温杯子304不 锈钢学生户外运动家用450ml </view>
+  <view class='detail_price mar_24'><text class='price-rmb detail_price pricetxt'>￥</text>
+        <text class='pricetxt price-rmb detail_price pricetxt'>168</text>
+        <text class='detail_getwyb price-rmb'>可获得物业币60粒</text>
+  </view>
+  <view class='detail_specifications pad_20 font_26 flex flex-main-justify'>
+      <view class='font_999'><text> 规格</text>
+      <text class='mar_left_10 font_333'>请选择规格</text>
+    </view>
+    <view><text>＞</text></view>
+  </view>
+</view>
+<view class='details_content'>
+  <view class='details_content_banner'>详情页</view>
+</view>
+<view class='saler_list font_26'>
+  <view class='personal_saler'> <text>小区</text><text class='list_buyer'>100+人已买</text>
+  </view>
+  <view wx:for="{{ buyerlist }}" bindtap='lookbuyer'>
+    <view class='buyerlist flex flex-main-justify '>
+      <view class='buyer_info'>
+        <image class='utximg' src='{{item.pimg}}'></image>
+      </view>
+      <view class='buyer_phone'>{{ item.phone }}</view>
+      <view class='buyer_time'>{{ item.timer }}</view>
+    </view>
+  </view>
+</view>
+<view class='details_button flex flex-main-justify'>
+  <input type='button' id='joincar' class='detail_btn' placeholder='加入购物车'>加入购物车</input>
+  <input type='button' id='buynow' class='detail_btn' placeholder='立即购买'></input>
+</view>

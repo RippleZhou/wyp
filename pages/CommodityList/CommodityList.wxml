@@ -1,0 +1,19 @@
+<!--pages/CommodityList/CommodityList.wxml-->
+<view class='flex flex-main-justify pad_24 bgc_fff'>
+  <view>商品</view>
+  <view>共<text class='commodity_total'></text>件</view>
+</view>
+<block wx:for='{{ commodityList }}'>
+  <view class='commodity_top  flex flex-main-justify bgc_fff pad_24'> 
+      <view class=''><image src='{{item.url}}' class='commodity_img'></image></view>    
+      <view class='flexbox-3 font_30' >
+        <view class='title_clamp color_333'>{{item.title}}</view>
+        <view class='color_999'>单价:¥{{item.price}}</view>
+      </view>
+      <view class='font_30 commodity_price'>
+        <view class='color_333'>¥{{item.totalPrice }}</view>
+        <view class='color_999'>x{{item.amount}}</view>
+      </view>
+  </view>
+</block>
+

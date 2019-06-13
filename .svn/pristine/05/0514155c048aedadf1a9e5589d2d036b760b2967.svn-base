@@ -1,0 +1,15 @@
+<!--pages/ReturnRequest/rerurnSuccess/rerurnSuccess.wxml-->
+<view class='pay_success'>
+    <view class='succ_img'>
+      <image src='/img/paysuccess.png'></image>
+    </view>
+    <view class='succ_txt font_34'>
+      支付成功
+    </view>
+    <view class='get_pro t_c color_999 font_26'>预计<text class='get_timer color_red'>20:00-20:30</text>送达</view>
+    <view class='get_wyb t_c color_999 font_24'>获得物业币 <text class='pay_get'>120</text>个，现有物业币 <text class='alredy_get'> 10 </text>个 </view>
+    <view class='btn_list flex flex-main-center'>
+      <view class='return_page' bindtap='GoPage'>返回首页</view>
+      <view class='look_order' bindtap='LookOrder'>查看订单</view>
+    </view>
+</view>

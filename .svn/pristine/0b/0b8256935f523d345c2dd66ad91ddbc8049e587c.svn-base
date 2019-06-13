@@ -1,0 +1,62 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/exchangeBox/exchangeBox",
+    "pages/shoppingcart/shoppingcart",
+    "pages/order/order",
+    "pages/owner/owner",
+    "pages/details/details",
+    "pages/list/list",
+    "pages/CommodityList/CommodityList",
+    "pages/wybexplain/wybexplain",
+    "pages/pay/pay",
+    "pages/pay/payAll/payDetail",
+    "pages/bills/bills",
+    "pages/components/model/model",
+    "pages/ReturnRequest/returngood/returngood",
+    "pages/ReturnRequest/rerurnSuccess/rerurnSuccess",
+    "pages/ReturnRequest/wyAgree/wyAgree",
+    "pages/mywy/mywy",
+    "pages/user/message/message",
+    "pages/user/codelogin/codelogin",
+    "pages/user/wxlogin/wxlogin",
+    "pages/user/forget/forget",
+    "pages/user/register/register"
+  ],
+  "tabBar": {
+    "selectedColor": "#fa0000",
+    "list": [
+      {
+        "selectedIconPath": "img/homeicon_red.png",
+        "iconPath": "img/homeicon.png",
+        "pagePath": "pages/index/index",
+        "color": "#fa0000",
+        "text": "首页"
+      },
+      {
+        "selectedIconPath": "img/ordericon_red.png",
+        "iconPath": "img/ordericon.png",
+        "pagePath": "pages/order/order",
+        "text": "订单"
+      },
+      {
+        "selectedIconPath": "img/shopcar_red.png",
+        "iconPath": "img/shopcaricon.png",
+        "pagePath": "pages/shoppingcart/shoppingcart",
+        "text": "购物车"
+      },
+      {
+        "selectedIconPath": "img/myicon_red.png",
+        "iconPath": "img/myicon.png",
+        "pagePath": "pages/owner/owner",
+        "text": "我的"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "permission": {
+      "scope.userLocation": {
+        "desc": "你的位置信息将用于小程序位置接口的效果展示"
+      }
+    }
+}

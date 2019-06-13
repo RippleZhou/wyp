@@ -1,0 +1,41 @@
+/* pages/ReturnRequest/rerurnSuccess/rerurnSuccess.wxss */
+@import '../../../style/flex.wxss';
+@import '../../../style/common.wxss';
+.pay_success{
+    border-top: 1px solid #e6e6e6;
+}
+.succ_img{
+  margin: 0 auto;
+  margin-top:120rpx;
+  margin-bottom:50rpx;
+  height: 122rpx;
+  width:108rpx;
+}
+.succ_img image{
+  height:100%;
+  width:100%;
+}
+.succ_txt{
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom:40rpx;
+  width: 100%;
+}
+.get_wyb{
+  margin-bottom:100rpx;
+}
+.return_page{margin-right:30rpx;}
+.look_order{margin-left:30rpx;}
+.return_page,.look_order{
+  width: 156rpx;
+  height:56rpx;
+  line-height: 56rpx;
+  font-size: 28rpx;
+  border:1px solid #333333;
+  border-radius: 50rpx;
+  text-align: center;
+}
+.return_page:active,.look_order:active{
+  border:1px solid #fa0000;
+  color:#fa0000;
+}

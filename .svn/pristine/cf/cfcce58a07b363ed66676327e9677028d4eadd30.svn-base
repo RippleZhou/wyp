@@ -1,0 +1,47 @@
+<!--pages/bills/bills.wxml-->
+  <view class="font_30 bills">
+    <view class="font_30 mar_0 bill_title"><text>上海上岗物业有限公司</text></view>
+    <view class="font_40 font_700 mar_0 bill_price" >￥<text class="">400.00</text></view>
+    <view  class="mar_0 success bill_status">交易成功</view>
+    <view class="bill_content">
+        <view class="flex_56 flex-main-justify">
+            <text class="col_555 txt_l">缴费方式</text>
+            <text class="txt_r">购物充缴</text>
+        </view>
+        <view class="flex_56 flex-main-justify">
+            <text class="col_555 txt_l">缴费小区</text><text class="txt_r">安林小区(杨新路190弄)</text>
+        </view>
+        <view class="flex_56 flex-main-justify">
+            <text class="col_555 txt_l">缴费户名</text>
+            <text class="txt_r">10982937843</text>
+        </view>
+        <view class="flex_56 flex-main-justify">
+            <text class="col_555 txt_l">户名</text>
+            <text class="txt_r ">*林</text>
+        </view>
+        <view class="flex_56 flex-main-justify">
+            <text class="col_555 txt_l">住址信息</text>
+            <text class="txt_r">杨新路190弄*****601室</text>
+        </view>
+    </view>
+    <view class="bor_dash">
+        <view class="flex_70 flex-main-justify">
+            <text class="col_555 txt_l" >缴费金额</text>
+            <text class="txt_r" >￥400.00</text>
+        </view>
+        <view class="flex_70 flex-main-justify">
+            <text class="col_555 txt_l " >物业币抵扣</text>
+            <text class="txt_r " >￥400.00</text>
+        </view>
+    </view>
+    <view class="pad_24_0">
+        <view class="flex_70 flex-main-justify">
+            <text class="col_555 " >缴费时间</text>
+            <text class="" >2019-02-09 18：20：22</text>
+        </view>
+        <view class="flex_70 flex-main-justify">
+            <text class="col_555 " >购物订单号</text>
+            <text class="" >129829740973207</text>
+        </view>
+    </view>
+  </view>

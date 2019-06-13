@@ -1,0 +1,132 @@
+/* pages/mywy/mywy.wxss */
+@import '../../style/flex.wxss';
+@import '../../style/common.wxss';
+page{
+  background: #f6f6f6;
+}
+.my_wy{
+  margin-top: 10rpx;
+  padding: 0 24rpx;
+}
+.pad_24_0{
+  padding:24rpx 0;
+  border-bottom:1px solid #f6f6f6;
+}
+.wy_img{
+  margin-left:30rpx;
+  padding: 8rpx 0;
+}
+.wy_img image{
+  height: 36rpx;
+  width: 36rpx;
+}
+.w_206{
+  display: inline-block;
+  width: 206rpx;
+}
+.h46{
+  height: 46rpx;
+  line-height: 46rpx;
+}
+.w_428{
+  width: 428rpx;
+  border-right: 1px solid #e6e6e6;
+}
+.h_186{
+  height: 186rpx;
+}
+.footer{
+  background: #f6f6f6;
+  /* width: 156rpx; */
+  height: 24rpx;
+  margin:0 auto;
+  position: absolute;
+  bottom:100rpx;
+  left: 0;
+  right:0;
+}
+.reset_wy{
+  font-size: 30rpx;
+   position: absolute;
+   top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+border-radius: 0;
+
+  color:#e61817;
+  border-bottom:1px solid #e61817;
+}
+.reset_wy::after{
+  border:0;
+}
+.btn_hover{
+  color:blue;
+}
+.mask{
+ position: absolute;
+ left: 0;
+ right: 0;
+ top: 0;
+ bottom: 0;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background-color: rgba(0,0,0,0.4);
+ z-index: 9999;
+}
+ .modal-title{
+   font-weight:700;
+  font-size:34rpx;
+  padding:40rpx;
+  margin:0 auto;
+  margin-top:10rpx;
+ }
+.modal-content{
+  font-size: 30rpx;
+  margin:0 auto;
+ display: flex;
+ flex-direction: column;
+ width: 90%;
+ /* height: 80%; */
+ background-color: #fff;
+ border-radius: 10rpx;
+}
+ .modal-contain{
+  font-size:30rpx;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  width:90%;
+  background-color:#fff;
+  border-radius:10rpx;
+  padding:40rpx 0;
+  margin-bottom:50rpx;
+ }
+.modal-btn-wrapper{
+ display: flex;
+ flex-direction: row;
+ height: 100rpx;
+ line-height: 100rpx;
+ border-top: 2rpx solid rgba(7,17,27,0.1);
+}
+ 
+.cancel-btn, .confirm-btn{
+ flex: 1;
+ height: 100rpx;
+ line-height: 100rpx;
+ text-align: center;
+ font-size: 32rpx;
+}
+.confirm-btn{
+  color:#e61817;
+}
+ 
+.cancel-btn{
+ border-right: 2rpx solid rgba(7,17,27,0.1);
+}
+ 
+.main-content{
+ flex: 1;
+ height: 100%;
+ overflow-y: hidden; 
+}

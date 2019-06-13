@@ -1,0 +1,609 @@
+.flex, .flex > .flex {
+    overflow: hidden;
+}
+
+.flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.flex > view,
+.flex > scroll-view,
+.flex > swiper,
+.flex > movable-view,
+.flex > icon,
+.flex > text,
+.flex > progress,
+.flex > button,
+.flex > checkbox,
+.flex > form,
+.flex > input,
+.flex > label,
+.flex > picker,
+.flex > picker-view,
+.flex > radio,
+.flex > slider,
+.flex > switch,
+.flex > textarea,
+.flex > navigator,
+.flex > audio,
+.flex > image,
+.flex > video,
+.flex > map,
+.flex > canvas,
+.flex > contact-button {
+    display: block;
+    overflow: hidden;
+}
+
+.flex > .flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.flex-dir-left {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+.flex-wrap {
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.flex-dir-right {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+    -webkit-flex-direction: row-reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+    -webkit-box-pack: end;
+}
+
+.flex-dir-top {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.flex-dir-bottom {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+    -webkit-flex-direction: column-reverse;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse;
+    -webkit-box-pack: end;
+}
+
+.flex-main-left {
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+
+.flex-main-right {
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+
+.flex-main-justify {
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.flex-main-center {
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.flex-cross-top {
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    -ms-grid-row-align: flex-start;
+    align-items: flex-start;
+}
+
+.flex-cross-bottom {
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
+    -ms-flex-align: end;
+    -ms-grid-row-align: flex-end;
+    align-items: flex-end;
+}
+
+.flex-cross-center {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    -ms-grid-row-align: center;
+    align-items: center;
+}
+
+.flex-cross-baseline {
+    -webkit-box-align: baseline;
+    -webkit-align-items: baseline;
+    -ms-flex-align: baseline;
+    -ms-grid-row-align: baseline;
+    align-items: baseline;
+}
+
+.flex-cross-stretch {
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    -ms-grid-row-align: stretch;
+    align-items: stretch;
+}
+
+.flex-box-mean > view,
+.flex-box-mean > scroll-view,
+.flex-box-mean > swiper,
+.flex-box-mean > movable-view,
+.flex-box-mean > icon,
+.flex-box-mean > text,
+.flex-box-mean > progress,
+.flex-box-mean > button,
+.flex-box-mean > checkbox,
+.flex-box-mean > form,
+.flex-box-mean > input,
+.flex-box-mean > label,
+.flex-box-mean > picker,
+.flex-box-mean > picker-view,
+.flex-box-mean > radio,
+.flex-box-mean > slider,
+.flex-box-mean > switch,
+.flex-box-mean > textarea,
+.flex-box-mean > navigator,
+.flex-box-mean > audio,
+.flex-box-mean > image,
+.flex-box-mean > video,
+.flex-box-mean > map,
+.flex-box-mean > canvas,
+.flex-box-mean > contact-button,
+.flex-box-first > view,
+.flex-box-first > scroll-view,
+.flex-box-first > swiper,
+.flex-box-first > movable-view,
+.flex-box-first > icon,
+.flex-box-first > text,
+.flex-box-first > progress,
+.flex-box-first > button,
+.flex-box-first > checkbox,
+.flex-box-first > form,
+.flex-box-first > input,
+.flex-box-first > label,
+.flex-box-first > picker,
+.flex-box-first > picker-view,
+.flex-box-first > radio,
+.flex-box-first > slider,
+.flex-box-first > switch,
+.flex-box-first > textarea,
+.flex-box-first > navigator,
+.flex-box-first > audio,
+.flex-box-first > image,
+.flex-box-first > video,
+.flex-box-first > map,
+.flex-box-first > canvas,
+.flex-box-first > contact-button,
+.flex-box-last > view,
+.flex-box-last > scroll-view,
+.flex-box-last > swiper,
+.flex-box-last > movable-view,
+.flex-box-last > icon,
+.flex-box-last > text,
+.flex-box-last > progress,
+.flex-box-last > button,
+.flex-box-last > checkbox,
+.flex-box-last > form,
+.flex-box-last > input,
+.flex-box-last > label,
+.flex-box-last > picker,
+.flex-box-last > picker-view,
+.flex-box-last > radio,
+.flex-box-last > slider,
+.flex-box-last > switch,
+.flex-box-last > textarea,
+.flex-box-last > navigator,
+.flex-box-last > audio,
+.flex-box-last > image,
+.flex-box-last > video,
+.flex-box-last > map,
+.flex-box-last > canvas,
+.flex-box-last > contact-button,
+.flex-box-justify > view,
+.flex-box-justify > scroll-view,
+.flex-box-justify > swiper,
+.flex-box-justify > movable-view,
+.flex-box-justify > icon,
+.flex-box-justify > text,
+.flex-box-justify > progress,
+.flex-box-justify > button,
+.flex-box-justify > checkbox,
+.flex-box-justify > form,
+.flex-box-justify > input,
+.flex-box-justify > label,
+.flex-box-justify > picker,
+.flex-box-justify > picker-view,
+.flex-box-justify > radio,
+.flex-box-justify > slider,
+.flex-box-justify > switch,
+.flex-box-justify > textarea,
+.flex-box-justify > navigator,
+.flex-box-justify > audio,
+.flex-box-justify > image,
+.flex-box-justify > video,
+.flex-box-justify > map,
+.flex-box-justify > canvas,
+.flex-box-justify > contact-button {
+    width: 0;
+    height: auto;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1
+}
+
+.flex-box-first :first-child, .flex-box-last :last-child, .flex-box-justify :first-child, .flex-box-justify :last-child {
+    width: auto;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0
+}
+
+.flex-dir-top.flex-box-mean > view,
+.flex-dir-top.flex-box-mean > scroll-view,
+.flex-dir-top.flex-box-mean > swiper,
+.flex-dir-top.flex-box-mean > movable-view,
+.flex-dir-top.flex-box-mean > icon,
+.flex-dir-top.flex-box-mean > text,
+.flex-dir-top.flex-box-mean > progress,
+.flex-dir-top.flex-box-mean > button,
+.flex-dir-top.flex-box-mean > checkbox,
+.flex-dir-top.flex-box-mean > form,
+.flex-dir-top.flex-box-mean > input,
+.flex-dir-top.flex-box-mean > label,
+.flex-dir-top.flex-box-mean > picker,
+.flex-dir-top.flex-box-mean > picker-view,
+.flex-dir-top.flex-box-mean > radio,
+.flex-dir-top.flex-box-mean > slider,
+.flex-dir-top.flex-box-mean > switch,
+.flex-dir-top.flex-box-mean > textarea,
+.flex-dir-top.flex-box-mean > navigator,
+.flex-dir-top.flex-box-mean > audio,
+.flex-dir-top.flex-box-mean > image,
+.flex-dir-top.flex-box-mean > video,
+.flex-dir-top.flex-box-mean > map,
+.flex-dir-top.flex-box-mean > canvas,
+.flex-dir-top.flex-box-mean > contact-button,
+.flex-dir-top.flex-box-first > view,
+.flex-dir-top.flex-box-first > scroll-view,
+.flex-dir-top.flex-box-first > swiper,
+.flex-dir-top.flex-box-first > movable-view,
+.flex-dir-top.flex-box-first > icon,
+.flex-dir-top.flex-box-first > text,
+.flex-dir-top.flex-box-first > progress,
+.flex-dir-top.flex-box-first > button,
+.flex-dir-top.flex-box-first > checkbox,
+.flex-dir-top.flex-box-first > form,
+.flex-dir-top.flex-box-first > input,
+.flex-dir-top.flex-box-first > label,
+.flex-dir-top.flex-box-first > picker,
+.flex-dir-top.flex-box-first > picker-view,
+.flex-dir-top.flex-box-first > radio,
+.flex-dir-top.flex-box-first > slider,
+.flex-dir-top.flex-box-first > switch,
+.flex-dir-top.flex-box-first > textarea,
+.flex-dir-top.flex-box-first > navigator,
+.flex-dir-top.flex-box-first > audio,
+.flex-dir-top.flex-box-first > image,
+.flex-dir-top.flex-box-first > video,
+.flex-dir-top.flex-box-first > map,
+.flex-dir-top.flex-box-first > canvas,
+.flex-dir-top.flex-box-first > contact-button,
+.flex-dir-top.flex-box-last > view,
+.flex-dir-top.flex-box-last > scroll-view,
+.flex-dir-top.flex-box-last > swiper,
+.flex-dir-top.flex-box-last > movable-view,
+.flex-dir-top.flex-box-last > icon,
+.flex-dir-top.flex-box-last > text,
+.flex-dir-top.flex-box-last > progress,
+.flex-dir-top.flex-box-last > button,
+.flex-dir-top.flex-box-last > checkbox,
+.flex-dir-top.flex-box-last > form,
+.flex-dir-top.flex-box-last > input,
+.flex-dir-top.flex-box-last > label,
+.flex-dir-top.flex-box-last > picker,
+.flex-dir-top.flex-box-last > picker-view,
+.flex-dir-top.flex-box-last > radio,
+.flex-dir-top.flex-box-last > slider,
+.flex-dir-top.flex-box-last > switch,
+.flex-dir-top.flex-box-last > textarea,
+.flex-dir-top.flex-box-last > navigator,
+.flex-dir-top.flex-box-last > audio,
+.flex-dir-top.flex-box-last > image,
+.flex-dir-top.flex-box-last > video,
+.flex-dir-top.flex-box-last > map,
+.flex-dir-top.flex-box-last > canvas,
+.flex-dir-top.flex-box-last > contact-button,
+.flex-dir-top.flex-box-justify > view,
+.flex-dir-top.flex-box-justify > scroll-view,
+.flex-dir-top.flex-box-justify > swiper,
+.flex-dir-top.flex-box-justify > movable-view,
+.flex-dir-top.flex-box-justify > icon,
+.flex-dir-top.flex-box-justify > text,
+.flex-dir-top.flex-box-justify > progress,
+.flex-dir-top.flex-box-justify > button,
+.flex-dir-top.flex-box-justify > checkbox,
+.flex-dir-top.flex-box-justify > form,
+.flex-dir-top.flex-box-justify > input,
+.flex-dir-top.flex-box-justify > label,
+.flex-dir-top.flex-box-justify > picker,
+.flex-dir-top.flex-box-justify > picker-view,
+.flex-dir-top.flex-box-justify > radio,
+.flex-dir-top.flex-box-justify > slider,
+.flex-dir-top.flex-box-justify > switch,
+.flex-dir-top.flex-box-justify > textarea,
+.flex-dir-top.flex-box-justify > navigator,
+.flex-dir-top.flex-box-justify > audio,
+.flex-dir-top.flex-box-justify > image,
+.flex-dir-top.flex-box-justify > video,
+.flex-dir-top.flex-box-justify > map,
+.flex-dir-top.flex-box-justify > canvas,
+.flex-dir-top.flex-box-justify > contact-button,
+.flex-dir-bottom.flex-box-mean > view,
+.flex-dir-bottom.flex-box-mean > scroll-view,
+.flex-dir-bottom.flex-box-mean > swiper,
+.flex-dir-bottom.flex-box-mean > movable-view,
+.flex-dir-bottom.flex-box-mean > icon,
+.flex-dir-bottom.flex-box-mean > text,
+.flex-dir-bottom.flex-box-mean > progress,
+.flex-dir-bottom.flex-box-mean > button,
+.flex-dir-bottom.flex-box-mean > checkbox,
+.flex-dir-bottom.flex-box-mean > form,
+.flex-dir-bottom.flex-box-mean > input,
+.flex-dir-bottom.flex-box-mean > label,
+.flex-dir-bottom.flex-box-mean > picker,
+.flex-dir-bottom.flex-box-mean > picker-view,
+.flex-dir-bottom.flex-box-mean > radio,
+.flex-dir-bottom.flex-box-mean > slider,
+.flex-dir-bottom.flex-box-mean > switch,
+.flex-dir-bottom.flex-box-mean > textarea,
+.flex-dir-bottom.flex-box-mean > navigator,
+.flex-dir-bottom.flex-box-mean > audio,
+.flex-dir-bottom.flex-box-mean > image,
+.flex-dir-bottom.flex-box-mean > video,
+.flex-dir-bottom.flex-box-mean > map,
+.flex-dir-bottom.flex-box-mean > canvas,
+.flex-dir-bottom.flex-box-mean > contact-button,
+.flex-dir-bottom.flex-box-first > view,
+.flex-dir-bottom.flex-box-first > scroll-view,
+.flex-dir-bottom.flex-box-first > swiper,
+.flex-dir-bottom.flex-box-first > movable-view,
+.flex-dir-bottom.flex-box-first > icon,
+.flex-dir-bottom.flex-box-first > text,
+.flex-dir-bottom.flex-box-first > progress,
+.flex-dir-bottom.flex-box-first > button,
+.flex-dir-bottom.flex-box-first > checkbox,
+.flex-dir-bottom.flex-box-first > form,
+.flex-dir-bottom.flex-box-first > input,
+.flex-dir-bottom.flex-box-first > label,
+.flex-dir-bottom.flex-box-first > picker,
+.flex-dir-bottom.flex-box-first > picker-view,
+.flex-dir-bottom.flex-box-first > radio,
+.flex-dir-bottom.flex-box-first > slider,
+.flex-dir-bottom.flex-box-first > switch,
+.flex-dir-bottom.flex-box-first > textarea,
+.flex-dir-bottom.flex-box-first > navigator,
+.flex-dir-bottom.flex-box-first > audio,
+.flex-dir-bottom.flex-box-first > image,
+.flex-dir-bottom.flex-box-first > video,
+.flex-dir-bottom.flex-box-first > map,
+.flex-dir-bottom.flex-box-first > canvas,
+.flex-dir-bottom.flex-box-first > contact-button,
+.flex-dir-bottom.flex-box-last > view,
+.flex-dir-bottom.flex-box-last > scroll-view,
+.flex-dir-bottom.flex-box-last > swiper,
+.flex-dir-bottom.flex-box-last > movable-view,
+.flex-dir-bottom.flex-box-last > icon,
+.flex-dir-bottom.flex-box-last > text,
+.flex-dir-bottom.flex-box-last > progress,
+.flex-dir-bottom.flex-box-last > button,
+.flex-dir-bottom.flex-box-last > checkbox,
+.flex-dir-bottom.flex-box-last > form,
+.flex-dir-bottom.flex-box-last > input,
+.flex-dir-bottom.flex-box-last > label,
+.flex-dir-bottom.flex-box-last > picker,
+.flex-dir-bottom.flex-box-last > picker-view,
+.flex-dir-bottom.flex-box-last > radio,
+.flex-dir-bottom.flex-box-last > slider,
+.flex-dir-bottom.flex-box-last > switch,
+.flex-dir-bottom.flex-box-last > textarea,
+.flex-dir-bottom.flex-box-last > navigator,
+.flex-dir-bottom.flex-box-last > audio,
+.flex-dir-bottom.flex-box-last > image,
+.flex-dir-bottom.flex-box-last > video,
+.flex-dir-bottom.flex-box-last > map,
+.flex-dir-bottom.flex-box-last > canvas,
+.flex-dir-bottom.flex-box-last > contact-button,
+.flex-dir-bottom.flex-box-justify > view,
+.flex-dir-bottom.flex-box-justify > scroll-view,
+.flex-dir-bottom.flex-box-justify > swiper,
+.flex-dir-bottom.flex-box-justify > movable-view,
+.flex-dir-bottom.flex-box-justify > icon,
+.flex-dir-bottom.flex-box-justify > text,
+.flex-dir-bottom.flex-box-justify > progress,
+.flex-dir-bottom.flex-box-justify > button,
+.flex-dir-bottom.flex-box-justify > checkbox,
+.flex-dir-bottom.flex-box-justify > form,
+.flex-dir-bottom.flex-box-justify > input,
+.flex-dir-bottom.flex-box-justify > label,
+.flex-dir-bottom.flex-box-justify > picker,
+.flex-dir-bottom.flex-box-justify > picker-view,
+.flex-dir-bottom.flex-box-justify > radio,
+.flex-dir-bottom.flex-box-justify > slider,
+.flex-dir-bottom.flex-box-justify > switch,
+.flex-dir-bottom.flex-box-justify > textarea,
+.flex-dir-bottom.flex-box-justify > navigator,
+.flex-dir-bottom.flex-box-justify > audio,
+.flex-dir-bottom.flex-box-justify > image,
+.flex-dir-bottom.flex-box-justify > video,
+.flex-dir-bottom.flex-box-justify > map,
+.flex-dir-bottom.flex-box-justify > canvas,
+.flex-dir-bottom.flex-box-justify > contact-button {
+    width: auto;
+    height: 0;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1
+}
+
+.flex-dir-top.flex-box-first :first-child, .flex-dir-top.flex-box-last :last-child, .flex-dir-top.flex-box-justify :first-child, .flex-dir-top.flex-box-justify :last-child, .flex-dir-bottom.flex-box-first :first-child, .flex-dir-bottom.flex-box-last :last-child, .flex-dir-bottom.flex-box-justify :first-child .flex-dir-bottom.flex-box-justify :last-child {
+    height: auto;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0
+}
+
+.flexbox-0 {
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0
+}
+
+.flexbox-1 {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1
+}
+
+.flexbox-2 {
+    -webkit-box-flex: 2;
+    -webkit-flex-grow: 2;
+    -ms-flex-positive: 2;
+    flex-grow: 2;
+    -webkit-flex-shrink: 2;
+    -ms-flex-negative: 2;
+    flex-shrink: 2
+}
+
+.flexbox-3 {
+    -webkit-box-flex: 3;
+    -webkit-flex-grow: 3;
+    -ms-flex-positive: 3;
+    flex-grow: 3;
+    -webkit-flex-shrink: 3;
+    -ms-flex-negative: 3;
+    flex-shrink: 3
+}
+
+.flexbox-4 {
+    -webkit-box-flex: 4;
+    -webkit-flex-grow: 4;
+    -ms-flex-positive: 4;
+    flex-grow: 4;
+    -webkit-flex-shrink: 4;
+    -ms-flex-negative: 4;
+    flex-shrink: 4
+}
+
+.flexbox-5 {
+    -webkit-box-flex: 5;
+    -webkit-flex-grow: 5;
+    -ms-flex-positive: 5;
+    flex-grow: 5;
+    -webkit-flex-shrink: 5;
+    -ms-flex-negative: 5;
+    flex-shrink: 5
+}
+
+.flexbox-6 {
+    -webkit-box-flex: 6;
+    -webkit-flex-grow: 6;
+    -ms-flex-positive: 6;
+    flex-grow: 6;
+    -webkit-flex-shrink: 6;
+    -ms-flex-negative: 6;
+    flex-shrink: 6
+}
+
+.flexbox-7 {
+    -webkit-box-flex: 7;
+    -webkit-flex-grow: 7;
+    -ms-flex-positive: 7;
+    flex-grow: 7;
+    -webkit-flex-shrink: 7;
+    -ms-flex-negative: 7;
+    flex-shrink: 7
+}
+
+.flexbox-8 {
+    -webkit-box-flex: 8;
+    -webkit-flex-grow: 8;
+    -ms-flex-positive: 8;
+    flex-grow: 8;
+    -webkit-flex-shrink: 8;
+    -ms-flex-negative: 8;
+    flex-shrink: 8
+}
+
+.flexbox-9 {
+    -webkit-box-flex: 9;
+    -webkit-flex-grow: 9;
+    -ms-flex-positive: 9;
+    flex-grow: 9;
+    -webkit-flex-shrink: 9;
+    -ms-flex-negative: 9;
+    flex-shrink: 9
+}
+
+.flexbox-10 {
+    -webkit-box-flex: 10;
+    -webkit-flex-grow: 10;
+    -ms-flex-positive: 10;
+    flex-grow: 10;
+    -webkit-flex-shrink: 10;
+    -ms-flex-negative: 10;
+    flex-shrink: 10
+}

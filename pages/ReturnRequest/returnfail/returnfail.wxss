@@ -1,0 +1,38 @@
+/* pages/ReturnRequest/returnfail/returnfail.wxss */
+@import '../../../style/flex.wxss';
+@import '../../../style/common.wxss';
+.pay_fail{
+    border-top: 1px solid #e6e6e6;
+}
+.pay_fail{
+  margin: 0 auto;
+  margin-top:120rpx;
+  margin-bottom:50rpx;
+  height: 122rpx;
+  width:108rpx;
+}
+.pay_fail image{
+  height:100%;
+  width:100%;
+}
+.fail_txt{
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom:80rpx;
+  width: 100%;
+}
+.re_pay{margin-right:30rpx;}
+.look_order{margin-left:30rpx;}
+.re_pay,.look_order{
+  width: 156rpx;
+  height:56rpx;
+  line-height: 56rpx;
+  font-size: 28rpx;
+  border:1px solid #333333;
+  border-radius: 50rpx;
+  text-align: center;
+}
+.re_pay:active,.look_order:active{
+  border:1px solid #fa0000;
+  color:#fa0000;
+}

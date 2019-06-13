@@ -1,0 +1,24 @@
+<view class="cart">
+  <view class="item" wx:for="{{cartList}}" wx:key="{{items.shopid}}" wx:for-item="items">
+    <view class="commodity" wx:for="{{items.commodity}}" wx:key="{{item.id}}">
+      <cart-item commodity="{{item}}" bind:handleselect="handleSelect" />
+    </view>
+  </view>
+    <view class="count">
+        <view class="selectAll" bindtap="handleSelectAll">
+            <view class="noSelected" wx:if="{{!isSelectedAll}}"></view>
+            <image class="selectedImg" wx:else src="/images/selected.png"></image>
+            <text class="selectAllText font_26">全选</text>
+        </view>
+        <view class="countPrice font_30 flex flex-wrap">
+          <view><text>合计:</text>
+            <text class='color_red'>￥{{countPrice}}</text>
+          </view>
+          <view class='wyb_account font_24'> <text class='color_red'>可获得物业币{{countPrice}}个</text> </view>
+        </view>
+        <view class="account" bindtap='GoPay'>
+          <text class='font_34' >去结算</text>
+          <text>({{countSelectedNum}})</text>
+        </view>
+    </view>
+</view>
