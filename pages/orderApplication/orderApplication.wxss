@@ -1,0 +1,75 @@
+/* pages/orderApplication/orderApplication.wxss */
+page{
+  width:100%;overflow-x: hidden;
+}
+.mt_20{margin-top:20rpx;}
+.fon_24{font-size: 24rpx; color:#999999;}
+.bor_btm{border-bottom:1px solid #e6e6e6;}
+.line-wrap_24{height:80rpx;line-height:80rpx;}
+.message_reason{padding:6rpx 24rpx;}
+.message_info{background: #fff;padding: 24rpx; margin-top:20rpx;}
+.message_title{font-size: 30rpx;font-weight: 700;margin-bottom:28rpx;}
+.mes_con{height: 154rpx;margin-bottom:20rpx;}
+.message_img{height: 154rpx;width:154rpx;border-radius: 20rpx; float:left;margin-right: 20rpx;}
+.message_top{height: 48rpx;line-height: 48rpx;}
+.message_middle,message_bottom{height: 34rpx;line-height: 34rpx;}
+/* .message_contain{display:inline-block;} */
+.pro_content{float: left;font-size: 26rpx;width:60%;white-space:nowrap;text-overflow:ellipsis;overflow: hidden;}
+.total_price{font-size: 28rpx;float: right;}
+.col_0{color:#000000}
+.color_red{color:#e61817;}
+.clo_9{color:#999999;}
+.wait-order-wrap{background: #e61817;color: #fff;}
+.cart-icon{width: 40rpx;height:33rpx;position:relative;
+top:6rpx;
+}
+.w_font{font-size: 30rpx;font-weight: 700;}
+.w_font image{
+  width:40rpx !important;height: 40rpx !important;vertical-align: middle;
+}
+.w_time{font-size: 24rpx;margin-top: 14rpx;}
+.wait-order-wrap{padding:24rpx 40rpx;}
+
+.message-wrap{font-size: 28rpx;padding: 16rpx 24rpx;background: #fff;margin-top: 20rpx;}
+.phone-icon{width: 35rpx;height:35rpx;}
+.line-wrap{overflow: hidden;padding:8rpx 0;}
+.m_left{float:left;color: #999999;}
+.m_right{float: right;}
+.title{padding: 8rpx 0;font-weight: 700;}
+.phone-icon{margin-left: 20rpx;}
+.item-number{float: right;}
+page{background: #f6f6f6;}
+.product-item{display: flex;padding:20rpx 40rpx;border-bottom:2rpx solid #e6e6e6;
+}
+.product-list{padding: 20rpx 0 0 0;background:#fff;margin-top: 20rpx;}
+.p-img{width:180rpx;height:180rpx;}
+.p_title{font-weight: 700;font-size: 28rpx;}
+.item-right{font-size: 26rpx;overflow: hidden;padding: 6rpx 0;position:relative; }
+.item-bottom{font-size: 24rpx;color: #b2b2b2;padding: 6rpx 0;}
+.p-img{float: left;margin-right: 20rpx;}
+.item-title{float:left;width: 80%;}
+.item-price{position: absolute;right: 0;top: 6rpx;}
+.p_title{padding-left: 40rpx;}
+.item-line{height: 2rpx ;background: #e61817;}
+.item-right-wrap{flex:1;}
+.line-column{color: #999;}
+.red{color: #e61817;}
+
+.cancel-btn-wrap{width: 100%;height: 80rpx;background: #fff;margin-top: 20rpx;overflow: hidden;padding-top: 10rpx;padding-right: 20rpx;box-sizing: border-box;-webkit-box-sizing: border-box;position:fixed;bottom:0;left:0;z-index:100;}
+.cancel-btn,.Refund,.application,.pay-btn,.again_buy{font-size: 28rpx;border: 2rpx solid #ebebeb;border-radius: 60rpx;float: right;padding:10rpx  20rpx;padding-top: 10rpx;margin-right: 20rpx;}
+.plain-hover{border: 2rpx solid #e61817;color:#e61817;}
+
+.message-wrap2{
+  padding:0rpx 24rpx;background: #fff;margin-top: 20rpx;
+}
+.message_w_list,.message_w_list2{
+  display:flex;display:-webkit-flex;display: -ms-flexbox;
+  border-bottom:1px solid #ebebeb;line-height:80rpx;
+}
+.message_w_list label,.message_w_list2 label{
+  width:50%;text-align:left;font-size: 30rpx;color:#333;
+}
+.message_w_list text,.message_w_list2 text{
+  text-align:right;width:50%;font-size: 30rpx;color:#e61817;
+}
+.message_w_list2 text{color:#333;}

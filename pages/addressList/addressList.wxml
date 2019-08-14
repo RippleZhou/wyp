@@ -1,0 +1,17 @@
+<!--pages/addressList/addressList.wxml-->
+<view class='ad_cons'>
+  <view class="items">
+      <view wx:for="{{list}}" wx:key="{{index}}" class="item">
+          <view bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" data-index="{{index}}" style="{{item.txtStyle}}" class="inner txt">
+            <view class='it_phone' bindtap='goOrder'><text>{{item.contactName}}</text>{{item.contactCellPhone}}</view>
+            <view class='it_ads' bindtap='goOrder'><text wx:if="{{item.isDefault==1}}">默认</text>{{item.address}}</view>
+            <view data-ids="{{item.id}}" data-isdef="{{item.isDefault}}" class='it_edits' bindtap='goEditads'>修改</view>
+          </view>
+          <view data-ids="{{item.id}}" bindtap= "delItem" class="inner del">删除</view>
+      </view>
+  </view>
+</view>
+
+<view class='ad_fots' bindtap='goAddads'>
+    新建收货地址
+</view>

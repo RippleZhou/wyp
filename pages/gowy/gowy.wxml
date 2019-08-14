@@ -1,0 +1,5 @@
+<!--pages/gowy/gowy.wxml-->
+
+  <view class='footer'>
+    <button class='reset_wy' bindtap='resetWy' hover-class="btn_hover"> 去绑定物业</button>
+  </view>

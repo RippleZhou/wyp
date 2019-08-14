@@ -1,0 +1,14 @@
+<view class='searchbox'>
+  <view class='input_box'>
+    <image class='search' src='/img/search.png' bindtap='search_city'></image>
+    <input placeholder='请输入城市名称' bindinput="seacrch_city" value='{{seacrch_city}}'></input>
+    <view class='close' bindtap='cancel_city' hidden='{{!address_show}}'>×</view>
+  </view>
+</view>
+<view id='address'>
+  <view class='current_city li_style'>已开通以下城市</view>
+  <view class='noData' hidden="{{emptyHidden}}">暂无数据</view>
+  <view class="selection" wx:for="{{cityList}}" wx:key="{{item.initial}}" data-cid="{{item.cityId}}" bindtap="gotoHousing">
+    <view class="city-area">{{item.cityName}}</view>
+  </view>
+</view>

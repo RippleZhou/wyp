@@ -1,335 +1,416 @@
 /* pages/order/exchangeBox.wxss */
+
 page {
-   background: #f6f6f6;
+  background: #f6f6f6;
 }
-.Boxs
-{
+
+.Boxs {
   width: 100%;
   height: 100%;
-
-}
-.w_car_Head
-{
-height: 85rpx;
-text-align: center;
-width: 100%;
-line-height: 75rpx;
-margin-right: 20rpx;
-top:0rpx;
-position:inherit;
-background: #fff;
-z-index: 100;
-display: flex;
-border-top: 1rpx solid #ebebeb;
-}
-.w_car_Headfx
-{
-height: 75rpx;
-text-align: center;
-width: 100%;
-line-height: 75rpx;
-margin-right: 20rpx;
-top:0rpx;
-position:fixed;
-background: #fff;
-z-index: 100;
-display: flex;
-border-top: 1rpx solid #ebebeb;
 }
 
-.w_car_Head_txt
-{
-  height:75rpx;
+.w_car_Head {
+  height: 75rpx;
+  line-height: 75rpx;
+  position: inherit;
+  z-index: 100;
+  border-top: 1rpx solid #ebebeb;
+}
+
+.w_car_Headfx {
+  height: 75rpx;
+  line-height: 75rpx;
+  /* margin-right: 20rpx; */
+  top: 0rpx;background: #f6f6f6;
+  position: fixed;text-align:right;
+  z-index: 100;width:100%;
+  border-top: 1rpx solid #ebebeb;
+  right: 20rpx;
+  font-size: 32rpx;
+}
+
+.w_car_Head_txt {
+  height: 75rpx;
   text-align: right;
   width: 60%;
   float: left;
   font-weight: 400;
 }
-.w_car_Head_scanCode
-{
-  height:75rpx;
+
+.w_car_Head_scanCode {
+  height: 75rpx;
   text-align: center;
   font-weight: bold;
   width: 20%;
   float: left;
 }
 
-.w_car_Head_scanCode::before
-{
-  height:75rpx;
+.w_car_Head_scanCode::before {
+  height: 75rpx;
   text-align: center;
   font-weight: 500;
   width: 20%;
   float: right;
-  font-family: nwscfonts!important; 
+  font-family: nwscfonts !important;
   font-style: normal;
   content: "\E033";
   font-size: 60rpx;
 }
 
-.w_car_right
-{
-  height: 75rpx;
-  float:right;
+/* 没有商品时 */
+
+.eb_noPros {
   text-align: center;
+  padding: 150rpx 50rpx 50rpx 50rpx;
+  display: none;
+}
+
+.eb_noShows {
+  display: block;
+}
+
+.eb_noImgs {
+  width: 100%;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.eb_noImgs image {
+  width: 40%;
+  margin: 0 auto;
+}
+
+.eb_noTxts {
+  text-align: center;
+  font-size: 32rpx;
+  color: #666;
+}
+
+.w_car_right {
+  height: 75rpx;
+  float: right;
+  text-align: right;
   width: 20%;
   font-size: 28rpx;
 }
-.marBoxs
-{
-   border: 1px solid #ebebeb;
-   margin: 10rpx 20rpx;
-   background: #ffffff;
-  border-bottom-right-radius: 20rpx;
-  border-bottom-left-radius: 20rpx;
+
+.marBoxs {
+  margin: 10rpx 20rpx;
   height: 50%;
-  margin-bottom:280rpx;background:#fff;position:relative;overflow:hidden;
+  background: #f2f2f2;
+  margin-bottom: 280rpx;
+  position: relative;
+  overflow: hidden;
 }
 
-.eb-lCons{width:838rpx;position:relative;height:232rpx;overflow:hidden;float: left;border-bottom: 1rpx solid #ebebeb }
-.ebItems-del{-webkit-animation: mdel .2s  1;animation: mdel .2s  1;left: -136rpx;}
-.wx_swiper
-{
-  width: 732rpx;
+.mar_conLis {
+  border-radius: 20rpx;
+  background: #fff;
+  width: 100%;
+}
+
+.line_20s {
+  height: 20rpx;
+  width: 100%;
+  clear: both;
+}
+
+.eb-lCons {
+  width: 838rpx;
+  position: relative;
   height: 232rpx;
-  border-bottom: 1px solid #ffffff;
+  overflow: hidden;
+  float: left;
+  border-bottom: 1rpx solid #ebebeb;
+  background: #fff;
+}
+
+.ebItems-del {
+  -webkit-animation: mdel 0.2s 1;
+  animation: mdel 0.2s 1;
+  left: -136rpx;
+}
+
+.wx_swiper {
+  width: 732rpx;
+  height: 212rpx;
+  border-bottom: 1px solid #fff;
   display: flex;
-  float:  left;
+  float: left;
   padding-top: 20rpx;
 }
-.w_isVal_pops
-{
-    background: rgba(255,255,255,.59);
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 705rpx;
-    height: 232rpx;
-    z-index: 50;
-}
-.w_isVal_tips
-{
-    width:120rpx;
-    height: 40rpx;
-    border-radius: 40rpx;
-    position: absolute;
-    background: #000000;
-    color: #fff;
-    font-size: 24rpx;
-    text-align: center;
-    line-height: 40rpx;
-    left: 0;
-    top: 0;
-    margin-left: 128rpx;
-    margin-top: 100rpx;
+
+.w_isVal_pops {
+  background: rgba(255, 255, 255, 0.59);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 705rpx;
+  height: 232rpx;
+  z-index: 50;
 }
 
-.w_car_del
-{
+.w_isVal_tips {
+  width: 120rpx;
+  height: 40rpx;
+  border-radius: 40rpx;
+  position: absolute;
+  background: #000;
+  color: #fff;
+  font-size: 24rpx;
+  text-align: center;
+  line-height: 40rpx;
+  left: 0;
+  top: 0;
+  margin-left: 128rpx;
+  margin-top: 100rpx;
+}
+
+.w_car_del {
   widows: 100rpx;
   height: 232rpx;
 }
 
-.wx_swiper_left
-{
+.wx_swiper_left {
   margin-right: 20rpx;
   width: 60rpx;
   height: 100%;
   padding-left: 20rpx;
 }
 
-.checkSels{
-    margin-top: 80rpx;
-    width: 46rpx;
-    height: 46rpx;
-    border-radius: 46rpx;
-}
-
-.checkselsel::before
-{
-    font-family: nwscfonts!important; 
-    font-style: normal;
-    content: "\E062";
-    color: #fff;
-    font-size: 60rpx;
-    vertical-align: middle;
-}
-
-.checkselsel
-{
+.checkSels {
+  margin-top: 80rpx;
   width: 46rpx;
-  height:46rpx;
+  height: 46rpx;
+  border-radius: 46rpx;
+}
+
+.checkselsel::before {
+  font-family: iconfont !important;
+  font-style: normal;
+  content: "\e70a";
+  color: #fff;
+  font-size: 40rpx;
+  vertical-align: middle;
+}
+
+.checkselsel {
+  width: 46rpx;
+  height: 46rpx;
   background: #e61817;
   background-color: #e61817;
   display: block;
   border-radius: 46rpx;
   text-align: center;
-  font-size: 46rpx!important;
-  line-height: 30rpx;
+  font-size: 46rpx !important;
+  line-height: 33rpx;
 }
 
-.checknosel
-{
+.checknosel {
   width: 46rpx;
-  height:46rpx;
+  height: 46rpx;
   border: 1px solid #e61817;
   border-radius: 46rpx;
 }
 
-image
-{
-  width:184rpx;
+image {
+  width: 184rpx;
   height: 184rpx;
   border-radius: 20rpx;
   margin-right: 22rpx;
-  background: #d8d8d8;
+  /* background: #d8d8d8; */
 }
-.w_exLi_info
-{
+
+.w_exLi_info {
   width: 380rpx;
   height: 100%;
   font-size: 26rpx;
 }
 
-.w_pop_selBtns
-{
-  padding-top: 50rpx;
-  height: 120rpx;
+.w_pop_selBtns {
+  display: flex;
+  padding-top: 64rpx;
 }
-.subBtn::before
-{
-  font-family: nwscfonts!important;
-  content: "\E150";
+
+.w_pop_price {
+  flex-grow: 1;
+  font-weight: 900;
+  font-size: 26rpx;
+  color: #e61817;
+}
+
+.red_price {
+  font-size: 32rpx;
+}
+
+.pro_title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.subBtn, .addBtn {
+  margin: auto;
+}
+
+.subBtn::before {
+  font-family: iconfont !important;
+  content: "\e612";
   line-height: 30rpx;
   float: left;
   display: block;
-  font-size: 100rpx;
+  font-size: 50rpx;
 }
 
-.inputnum
-{
+.inputnum {
   width: 75rpx;
   float: left;
   text-align: center;
 }
-.w_Btns
-{
-  width: 170rpx;
-  height: 48rpx;
-  float: right;
+
+.w_Btns {
+  width: 176rpx;
+  display: flex;
 }
 
-.addBtn::before
-{
-  font-family: nwscfonts!important;
-  content: "\E198";
+.addBtn::before {
+  font-family: iconfont !important;
+  content: "\e634";
   line-height: 30rpx;
   float: left;
   display: block;
-  font-size: 100rpx;
-}
-.exLists
-{
-      border: 1px solid #ebebeb;
+  font-size: 50rpx;
+  margin: auto;
 }
 
-.car_footers
-{
+.exLists {
+  border: 1px solid #ebebeb;
+}
+
+.car_footers {
   position: fixed;
-    width: 100%;
-    left: 0;
-    bottom: 100rpx;
-    background: #fff;
-    height: 120rpx;
-    padding-top: 10rpx;
-    z-index: 100;
-    display: flex;
+  width: 100%;
+  left: 0;
+  bottom: 0rpx;
+  background: #fff;
+  height: 120rpx;
+  padding-top: 10rpx;
+  z-index: 100;
+  display: flex;
 }
 
-.car_footer
-{
+.car_footer {
   position: fixed;
-    width: 100%;
-    left: 0;
-    background: #fff;
-    height: 100rpx;
-    z-index: 100;
-    display: flex;
-    bottom: 0rpx;
-    border-top: 1rpx solid #ebebeb;
+  width: 100%;
+  left: 0;
+  background: #fff;
+  height: 100rpx;
+  z-index: 100;
+  display: flex;
+  bottom: 0rpx;
+  border-top: 1rpx solid #ebebeb;
 }
 
-.w_car_sels
-{
-    display: flex;
-    width: 25%;
-    padding-left: 45rpx;
-    font-size: 26rpx;
-    color: #666;
-    line-height: 110rpx;
-    font-weight:bold;
+.w_car_sels {
+  display: flex;
+  width: 25%;
+  padding-left: 45rpx;
+  font-size: 26rpx;
+  color: #666;
+  line-height: 110rpx;
+  font-weight: bold;
 }
 
-
-
-.w_car_sels .checkSels
-{
-    margin-top: 26rpx;
-    width: 40%;
-    height: 46rpx;
-    color: #333333;
+.w_car_sels .checkSels {
+  margin-top: 26rpx;
+  width: 40%;
+  height: 46rpx;
+  color: #333;
 }
 
-.w_car_price
-{
-    width: 45%;
-    text-align: left;
-    line-height: 50rpx;
-    font-size: .9375rem;
-    color: #333;
+.w_car_price {
+  width: 45%;
+  text-align: left;
+  line-height: 50rpx;
+  font-size: 0.9375rem;
+  color: #333;
 }
 
- .w_pricetxt
-{
-     height: 50rpx;
-     width: 80rpx;
+.w_pricetxt {
+  height: 50rpx;
+  width: 80rpx;
 }
-.w_price
-{
-  font-weight:900;
-   color: #e61817;
-   font-size: 30rpx;
-}
-.w_car_txt
-{
+
+.w_price {
+  font-weight: 900;
   color: #e61817;
-   font-size: 26rpx;
-   height: 50rpx;
-   font-weight:900;
+  font-size: 30rpx;
 }
 
-.w_a_nav
-{
+.w_car_txt {
+  color: #e61817;
+  font-size: 26rpx;
+  height: 50rpx;
+  font-weight: 900;
+}
+
+.w_a_nav {
   width: 30%;
   height: 100rpx;
   padding-right: 20rpx;
   background: #e61817;
   background-color: #e61817;
-   border: 1px solid #ebebeb;
-   border-radius: 100rpx;
-   text-decoration: none;
-   text-align: center;
-   line-height: 100rpx;
-   color: #fff;
-   margin-right: 20rpx;
+  border: 1px solid #ebebeb;
+  border-radius: 100rpx;
+  text-decoration: none;
+  text-align: center;
+  line-height: 100rpx;
+  color: #fff;
+  margin-right: 20rpx;
 }
 
-.wx_car_del
-{
-    height: 100%;
-    text-align: center;
-    color: #fff;
-    border: none;
-    width:106rpx;background-color: #ff4800;float:right;font-size:32rpx;line-height:232rpx;
+.wx_car_del {
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  border: none;
+  width: 106rpx;
+  background-color: #ff4800;
+  float: right;
+  font-size: 32rpx;
+  line-height: 232rpx;
 }
 
+.top_tits {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 80rpx;
+  padding: 0 24rpx;
+  display: -webkit-box;
+  background: #fff;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.top_tits text {
+  width: 30%;
+  text-align: left;
+}
+
+.top_tits view {
+  font-size: 24rpx;
+  width: 70%;
+  text-align: right;
+}
+
+.top_tits view image {
+  width: 30rpx;
+  height: 30rpx !important;
+  vertical-align: middle;
+  margin: 0;
+  border-radius: 0;
+  margin-right: 6rpx;
+}

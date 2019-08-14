@@ -4,17 +4,19 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
-		"autoAudits": false
+		"autoAudits": false,
+		"uglifyFileName": true,
+		"checkInvalidKey": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.7.0",
-	"appid": "wxe4871b79cca89034",
-	"projectname": "wyb",
+	"libVersion": "2.5.0",
+	"appid": "wx94de7e64b908fdb8",
+	"projectname": "wyb2.0",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
@@ -39,7 +41,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 15,
 			"list": [
 				{
 					"id": 0,
@@ -53,6 +55,103 @@
 					"name": "订单详情",
 					"pathName": "pages/order-detail/order-detail",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "密码登录",
+					"pathName": "pages/user/codelogin/codelogin",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "注册",
+					"pathName": "pages/user/register/register",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "忘记密码",
+					"pathName": "pages/user/forget/forget",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "验证码登录",
+					"pathName": "pages/user/message/message",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "失败",
+					"pathName": "pages/ReturnRequest/returnfail/returnfail",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "owner",
+					"pathName": "pages/owner/owner",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "物业币详情",
+					"pathName": "pages/bills/bills",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "城市搜索",
+					"pathName": "pages/city/city",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "商城",
+					"pathName": "pages/store/store",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 11,
+					"name": "缴物业费",
+					"pathName": "pages/wyb-payment/wyb-payment",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "物业币首页",
+					"pathName": "pages/mywyb/mywyb",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/application/application",
+					"pathName": "pages/application/application",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
 					"scene": null
 				}
 			]

@@ -1,0 +1,270 @@
+/* pages/fillOrder/fillOrder.wxss */
+@import '../../style/flex.wxss';
+@import '../../style/common.wxss';
+
+page {
+  background: #e6e6e6;
+}
+.picker {
+  font-weight: 700;
+  color: red;
+}
+
+.page {
+  position: relative;
+  background: #fff;
+}
+
+.bg_f {
+  height: 40rpx;
+  background: #fff;
+}
+
+.mode {
+  padding: 0 24rpx;
+  font-size: 30rpx;
+}
+
+.order_detail {
+  font-size: 30rpx;
+  height: 154rpx;
+  position: relative;
+  padding: 0 24rpx;
+  align-items: center;
+}
+
+.location_img {
+  /* position: absolute;
+  top: 38rpx;
+  left: 24rpx; */
+  margin-right:10rpx;
+  height: 60rpx;
+  width: 60rpx;
+}
+
+.wy_company {
+  font-weight: 700;
+}
+
+.address_info {
+  flex:5;
+  /* position: absolute;
+  left: 108rpx;
+  top: 32rpx; */
+}
+
+.order_address {
+  color: #666;
+  max-width: 500rpx;
+}
+
+.picker {
+  font-weight: 700;
+  color: red;
+}
+
+.detail_ {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  font-size: 40rpx;
+  transform: translate(-50%, -50%);
+}
+
+.phone_img {
+  height: 37rpx;
+  width: 37rpx;
+  position: absolute;
+  right: 0;
+  top: 40%;
+  transform: translate(-50%, -50%);
+}
+
+.icon {
+  font-size: 30rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  margin: 0 24rpx;
+  border-bottom: 1px dashed #e6e6e6;
+}
+
+.wen {
+  color: blue;
+}
+
+.icon_list, .icon_mode {
+  position: relative;
+}
+
+.icon_list {
+  margin-right: 60rpx;
+}
+
+.icon_img {
+  position: absolute;
+  width: 34rpx;
+  height: 34rpx;
+  top: 30%;
+}
+
+.icon_img image {
+  width: 100%;
+  height: 100%；;
+}
+
+.icon text {
+  margin-left: 40rpx;
+}
+
+.line_img {
+  display: block;
+  height: 6rpx;
+  width: 100%;
+}
+
+.border_20 {
+  height: 20rpx;
+  width: 100%;
+  background: #e6e6e6;
+}
+
+.list_total {
+  padding: 24rpx;padding-bottom: 10rpx;
+  font-size: 24rpx;
+}
+
+.list_compensation {
+  padding: 20rpx 0 24rpx;
+}
+
+.time_compensation {
+  display: inline-block;
+  text-align: center;
+  width: 110rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  color: #d43429;
+  border: 1px solid #d43429;
+  background: #fff3f1;
+  margin-right: 10rpx;
+}
+.products_posis{
+  position:relative;
+}
+.list_img {
+  width: 140rpx;
+  height: 140rpx;
+  margin-right: 10rpx;
+  border-radius: 10rpx;
+  border: 1px solid #e6e6e6;
+}
+
+.list_cen {
+  position: absolute;
+  top:35%;
+  right: 24rpx;
+}
+.list_r {
+  font-size: 30rpx;
+  margin-right: 12rpx;
+}
+
+.total {
+  padding: 0 24rpx;
+  margin-top: 10rpx;
+  position: relative;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 30rpx;text-align:right;color:#000;
+}
+.total text:first-child{color:#999;padding-right:10rpx;}
+
+.yunfei {
+  padding: 0 24rpx;
+  position: relative;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 30rpx;
+}
+
+.address {
+  bottom: 96rpx;
+  left: 0;
+  position: fixed;
+  padding: 10rpx 24rpx;
+  background: #ffecec;
+}
+
+.font_700 {
+  font-weight: 700;
+}
+
+/* 底部操作 */
+
+.count {
+  position: fixed;
+  padding-left: 30rpx;
+  bottom:0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  color: #232323;
+  background: #fff;
+  padding: 20rpx 24rpx;
+}
+.fix-iphonex-button{
+ padding-bottom:28rpx;
+}
+/* 包邮信息 */
+.discount {
+  padding-left: 30rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 20rpx;
+  color: #666;
+  box-sizing: border-box;
+}
+.count_price {
+  float: left;
+}
+.countPrice view {
+  height: 40rpx;
+  line-height: 40rpx;
+}
+.countPrice text {
+  margin-right: 15rpx;
+}
+.account {
+  float: right;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 222rpx;
+  text-align: center;
+  box-sizing: border-box;
+  color: #fff;
+  background: #e61817;
+  border-radius: 50rpx;
+}
+.wyb_account {
+  height: 40rpx;
+  line-height: 40rpx;
+}
+.dis_ {
+  display: inline-block;
+}
+.mar_ {
+  margin-left: 20rpx;
+  margin-right: 10rpx;
+}
+.get_wyb {
+  margin-left: 98rpx;
+}
+.ntit_tips{
+  font-size: 24rpx;color:#333;
+
+}
+.ntit_tips label{color:#ea1817;}
+
+.n_mbs{
+padding-bottom: 100rpx;
+}

@@ -1,5 +1,8 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+      "basic": "plugin://captcha/basic",
+      "oneclick": "plugin://captcha/oneclick"
+  },
   "navigationBarTitleText": "找回密码",
   "navigationBarBackgroundColor": "#fff",
   "navigationBarTextStyle": "black"

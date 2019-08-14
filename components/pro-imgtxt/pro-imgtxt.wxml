@@ -1,0 +1,29 @@
+<!--components/ pro-imgtxt/ pro-imgtxt.wxml-->
+<view class="w_proImgTxt">
+  <view class="w_proImgTxt_luls">
+    <view class="w_proImgTxt_list"
+      wx:for="{{list}}" wx:key="{{index}}"
+      bindtap="goto" data-id="{{item.productId}}">
+      <image class='w_proImgTxt_list_img' 
+        mode='widthFix' src="{{item.imgUrl || errorImg}}"></image>
+      <view class="w_proImgTxt_l_txt">
+        <view class="w_proImgTxt_l_txt_h2">{{item.productTitle}}</view>
+        <view class="w_proImgTxt_links">
+          <view class='w_proImgTxt_links_a' wx:if="{{item.sourceType==1}}">用豆直兑</view>
+          <view class='w_proImgTxt_links_a w_yelTxts' wx:if="{{item.sourceType==1 || item.sourceType==2}}">
+            红包直抵
+          </view>
+          <view class='w_proImgTxt_links_a w_orangeTxts' wx:if="{{item.sourceType==3}}">金豆直兑</view>
+        </view>
+        <view>
+          ￥<text>{{item.priceCurrentPrice}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{lastFlag}}" class='loading-layer'>
+  <view>没有更多数据</view>
+</view>
+

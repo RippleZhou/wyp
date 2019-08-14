@@ -1,7 +1,25 @@
 /* pages/order-detail/order-detail.wxss */
-
-
-.wait-order-wrap{background: red;color: #fff;}
+page{
+  width:100%;overflow-x: hidden;
+}
+.mt_20{margin-top:20rpx;}
+.fon_24{font-size: 24rpx; color:#999999;}
+.bor_btm{border-bottom:1px solid #e6e6e6;}
+.line-wrap_24{height:80rpx;line-height:80rpx;}
+.message_reason{padding:6rpx 24rpx;}
+.message_info{background: #fff;padding: 24rpx;}
+.message_title{font-size: 30rpx;font-weight: 700;margin-bottom:28rpx;}
+.mes_con{height: 154rpx;}
+.message_img{height: 154rpx;width:154rpx;border-radius: 20rpx; float:left;}
+.message_top{height: 48rpx;line-height: 48rpx;}
+.message_middle,message_bottom{height: 34rpx;line-height: 34rpx;}
+/* .message_contain{display:inline-block;} */
+.pro_content{float: left;font-size: 26rpx;}
+.total_price{font-size: 28rpx;float: right;}
+.col_0{color:#000000}
+.color_red{color:#e61817;}
+.clo_9{color:#999999;}
+.wait-order-wrap{background: #e61817;color: #fff;}
 .cart-icon{width: 40rpx;height:33rpx;position:relative;
 top:6rpx;
 }
@@ -29,10 +47,95 @@ page{background: #f6f6f6;}
 .item-title{float:left;width: 80%;}
 .item-price{position: absolute;right: 0;top: 6rpx;}
 .p_title{padding-left: 40rpx;}
-.item-line{height: 2rpx ;background: red;}
+.item-line{height: 2rpx ;background: #e61817;}
 .item-right-wrap{flex:1;}
 .line-column{color: #999;}
-.red{color: red;}
+.red{color: #e61817;}
 
-.cancel-btn-wrap{width: 100%;height: 80rpx;background: #fff;margin-top: 20rpx;overflow: hidden;padding-top: 20rpx;padding-right: 20rpx;}
-.cancel-btn{font-size: 28rpx;border: 2rpx solid #ebebeb;border-radius: 60rpx;float: right;padding:10rpx  20rpx;padding-top: 10rpx;margin-right: 20rpx;}
+.cancel-btn-wrap{width: 100%;height: 80rpx;background: #fff;margin-top: 20rpx;overflow: hidden;padding-top: 10rpx;padding-right: 20rpx;box-sizing: border-box;-webkit-box-sizing: border-box;
+position: fixed;left:0;bottom:0;
+}
+.cancel-btn,.Refund,.application,.pay-btn,.again_buy{font-size: 28rpx;border: 2rpx solid #ebebeb;border-radius: 60rpx;float: right;padding:10rpx  20rpx;padding-top: 10rpx;margin-right: 20rpx;}
+.plain-hover{border: 2rpx solid #e61817;color:#e61817;}
+
+.message-wrap2{
+  padding-bottom: 80rpx;
+}
+
+/* 模态框 */
+.mask{
+ position: fixed;width:100%;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background-color: rgba(0,0,0,0.4);
+ z-index: 100;
+}
+ 
+.modal-content{
+  position:absolute;
+  left:0;
+  bottom:0;
+ display: flex;
+ flex-direction: column;
+ width: 100%;box-sizing: border-box;-webkit-box-sizing: border-box;
+ /* height: 80%; */
+ background-color: #fff;
+ border-radius: 10rpx;
+}
+.modal-btn-wrapper{
+ height: 500rpx;
+ border-top: 2rpx solid rgba(7,17,27,0.1);
+}
+
+ 
+.cancel-btn2, .confirm-btn2{
+ height: 80rpx;
+ width: 100%;
+ line-height: 80rpx;
+ text-align: center;
+ font-size: 32rpx;
+ position: relative;z-index: 105
+}
+
+ /* cancel-img{
+
+ } */
+ .cancel-btn2 image{
+     position: absolute;
+      top: 24rpx;
+      right: 24rpx;
+   width: 28rpx;
+   height: 28rpx;
+ }
+
+.main-content{
+ flex: 1;
+ height: 100%;
+ overflow-y: hidden; 
+}
+
+.radio-group{
+  border-top: 1rpx solid #e6e6e6;width:100%;box-sizing: border-box;-webkit-box-sizing: border-box;
+  padding: 0 24rpx;height:340rpx;overflow: hidden;overflow-y: auto;
+}
+.radio{
+  display: block;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 100%;
+  border-top: 1rpx solid #e6e6e6;
+}
+.confirm-btn2{
+  background: #d43429;
+  color: #ffffff;
+  margin: 0 24rpx;
+  border-radius: 50rpx;
+}
+
+.item_btns{
+  font-size: 28rpx;border: 2rpx solid #ebebeb;border-radius: 60rpx;float: right;padding:10rpx  30rpx;margin-left: 20rpx;text-align:center;margin-top:30rpx;
+}

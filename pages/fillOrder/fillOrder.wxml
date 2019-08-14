@@ -1,0 +1,112 @@
+<!--pages/fillOrder/fillOrder.wxml-->
+<view class='page'>
+  <view class='bg_f'></view>
+  <view class='mode'>
+    配送方式
+  </view>
+  <view class='icon flex flex-main-left'>
+    <view wx:for="{{delivery_methods}}" data-name='{{item.name}}' bindtap='swith' class='icon_list'>
+      <image class='icon_img' src='{{item.status.src}}'></image>
+      <text>{{item.name=='自提'?'自提物业':item.name }}</text>
+    </view>
+  </view>
+    <!-- 送货上门 -->
+  <view bindtap='select_address' wx:if="{{current_method_name == '送货上门'}}" class='order_detail flex flex-main-left'>
+    <image class='location_img' src='/img/address.png'></image>
+    <view class='address_info'>
+      <view class='wy_company'>
+        <text class='user_name'>{{address2.contactName||'请填写收货人信息'}} </text>
+        <text class='user_phone'>{{address2.contactCellPhone||''}}</text>
+      </view>
+      <view class='order_address'>{{address2.addressDetail}}</view>
+    </view>
+    <view>></view>
+  </view>
+  <!-- 自提 -->
+  <view wx:if="{{current_method_name == '自提'}}" class='order_detail flex flex-main-left'>
+    <image class='location_img' src='/img/address.png'></image>
+    <view class='address_info'>
+      <view class='wy_company'>小区名称：
+        <text>{{address.storeName}}</text> </view>
+      <view class='order_address'>自提地点:  {{address.storeAddress}} </view>
+    </view>
+    <image data-phone="{{store.cellPhone}}" bindtap='phone' class='phone_img' src='/img/phone.png'></image>
+  </view>
+
+  <image class='line_img' src='/img/selfline.jpg'></image>
+  <view class='border_20'></view>
+  <view class='n_mbs'>
+  <block wx:if="{{itemsHj&&itemsHj.length>0}}">
+  <view class='list_total'>
+    <view wx:if="{{current_method_name == '送货上门'}}" class='list_title flex flex-main-justify'>
+      <view>物业货架</view>
+      <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{selector.multiIndex}}" range="{{selector.multiArray}}" range-key="{{'key'}}">
+        <view class="picker">
+          {{selector.multiArray[0][selector.multiIndex[0]].pre}} {{selector.multiArray[1][selector.multiIndex[1]].key}}
+        </view>
+      </picker>
+    </view>
+    <view class='list_title flex flex-main-justify' style="margin-bottom:20rpx;" wx:else>
+      <view>物业货架</view><view class='ntit_tips'>自提时间：<label>08:00-18:00</label></view>
+    </view>
+    <view wx:if="{{current_method_name == '送货上门'}}" class='list_compensation'>
+      <text class='time_compensation'>超时补偿</text>
+      <text class='color_999'>超时将补偿物业币</text>
+    </view>
+  <view class='products_posis'>
+      <image data-list='{{itemsHj}}' bindtap='products_list' wx:for="{{itemsHj}}" class='list_img' src='{{item.imageUrl}}'></image>
+    <view data-list='{{itemsHj}}' bindtap='products_list' class='list_cen'>共{{products_number}}件 ></view>
+  </view>
+  </view>
+ 
+ <view wx:if="{{current_method_name == '送货上门'}}" class='yunfei flex flex-main-justify'>
+    <text class='font_700'> 配送费</text>
+    <text class='font_700'>¥{{deliveryFee.userTransferAmount}}</text>
+  </view>
+  <view class='total'>
+    <text class='font_700'>共{{products_number}}件</text>
+    <text class='font_700'>小计：¥{{total_price}}</text>
+  </view>
+ 
+  </block>
+   <view class='border_20'></view>
+  <block wx:if="{{itemsXs&&itemsXs.length>0}}">
+  <view class='list_total'>
+    <view class='list_title flex flex-main-justify' style="margin-bottom:20rpx;">
+      <view>线上商城</view><view wx:if="{{current_method_name != '送货上门'}}" class='ntit_tips'>自提时间：<label>请以收到短信通知为准</label></view>
+    </view>
+  <view class='products_posis'>
+      <image data-list='{{itemsXs}}' bindtap='products_list' wx:for="{{itemsXs}}" class='list_img' src='{{item.imageUrl}}'></image>
+    <view data-list='{{itemsXs}}' bindtap='products_list' class='list_cen'>共{{products_number2}}件 ></view>
+  </view>
+  </view>
+  
+  <view wx:if="{{current_method_name == '送货上门'}}" class='yunfei flex flex-main-justify'>
+    <text class='font_700'> 配送费</text>
+    <text class='font_700'>¥{{deliveryFee2.userTransferShoppingAmount}}</text>
+  </view>
+  <view class='total'>
+    <text class='font_700'>共{{products_number2}}件</text>
+    <text class='font_700'>小计：¥{{total_price2}}</text>
+  </view>
+  
+  </block>
+  </view>
+  <view class='border_20'></view>
+  <!-- <view class='address'></view> -->
+  <view class="count {{isIpx?'fix-iphonex-button':''}}">
+    <view class="count_price">
+      <view class=' font_30'>
+        <text class='font_34 font_700 mar_r'>合计:</text>
+        <text class='color_red mar_'>￥{{total_price_with_shipping}}</text>
+        <text class='color_999'>{{shipping}}</text>
+      </view>
+      <view class='font_24 color_red get_wyb'>可获得物业币
+        <text class=''>{{property_currency}}</text></view>
+    </view>
+    <view class="account submit" bindtap='submit'>
+      <text class='font_34'>去支付</text>
+      <!-- <text>({{total_price_with_shipping}})</text> -->
+    </view>
+  </view>
+</view>

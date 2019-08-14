@@ -3,7 +3,13 @@
 page{
   background: #f6f6f6;
 }
-.delete,.comments,.about,.logOut{
+.cor_9{
+  color:#999999;
+}
+.cor_red{
+  color: #e61817;
+}
+.set,.Modify,.forget,.about,.logOut{
   font-size: 30rpx;
   background: #fff;
   height: 90rpx;
@@ -11,16 +17,15 @@ page{
   margin:0 auto;
   padding: 0 24rpx;
 }
-.cor_9{
-  color:#999999;
+.set{
+  margin-top: 10rpx;
 }
-.cor_red{
-  color: #e61817;
+.set,.Modify{
+  border-bottom: 1px solid #e6e6e6;
 }
-.delete,.comments{
-  border:1px solid #e6e6e6;
+.about{
+  margin-bottom: 20rpx;
 }
 .logOut{
-  margin-top:20rpx;
   text-align: center;
 }

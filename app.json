@@ -1,34 +1,49 @@
 {
-  "pages": [
-    "pages/index/index",
-    "pages/exchangeBox/exchangeBox",
-    "pages/shoppingcar/shoppingcar",
-    "pages/order/order",
+  "pages": [        
+    "pages/isLogin/isLogin",
+    "pages/home/home",
+    "pages/components/pro-imgtxt/pro-imgtxt",
+    "pages/product/search/search",
+    "pages/product/search_list/search_list",
+    "pages/store/store",
+    "pages/addressList/addressList",
+    "pages/editorAddress/editorAddress",
+    "pages/ shippingAddress/shippingAddress",
+    "pages/agreement/agreement",
+    "pages/city/city",
+    "pages/fillOrder/fillOrder",
+    "pages/housing/housing",
     "pages/owner/owner",
-    "pages/details/details",
-    "pages/list/list",
+    "pages/gowy/gowy",
+    "pages/mywy/mywy",
+    "pages/bindAddress/bindAddress",
+    "pages/suggest/suggest",
+    "pages/user/codelogin/codelogin",
+    "pages/index/index",
     "pages/CommodityList/CommodityList",
+    "pages/details/details",
+    "pages/exchangeBox/exchangeBox",
+    "pages/order/order",
     "pages/wybexplain/wybexplain",
-    "pages/pay/pay",
-    "pages/pay/payAll/payDetail",
     "pages/bills/bills",
+    "pages/application/application",
     "pages/wyb-detail/wyb-detail",
     "pages/order-detail/order-detail",
-    "pages/components/model/model",
     "pages/ReturnRequest/returnfail/returnfail",
     "pages/ReturnRequest/rerurnSuccess/rerurnSuccess",
-    "pages/mywy/mywy",
     "pages/user/message/message",
-    "pages/user/codelogin/codelogin",
     "pages/user/wxlogin/wxlogin",
     "pages/user/forget/forget",
     "pages/user/register/register",
     "pages/mywyb/mywyb",
-    "pages/bindAddress/bindAddress",
     "pages/about/about",
     "pages/Setting/Setting",
-    "pages/suggest/suggest",
-    "pages/application /application"
+    "pages/help/help",
+    "pages/orderApplication/orderApplication",
+    "pages/wyb-payment/wyb-payment",
+    "pages/store-detail/store-detail",
+    "pages/paymentPassword/set",
+    "pages/paymentPassword/modify"
   ],
   "tabBar": {
     "selectedColor": "#fa0000",
@@ -41,6 +56,12 @@
         "text": "首页"
       },
       {
+        "selectedIconPath": "img/store_red.png",
+        "iconPath": "img/store.png",
+        "pagePath": "pages/store/store",
+        "text": "商城"
+      },
+      {
         "selectedIconPath": "img/ordericon_red.png",
         "iconPath": "img/ordericon.png",
         "pagePath": "pages/order/order",
@@ -49,7 +70,7 @@
       {
         "selectedIconPath": "img/shopcar_red.png",
         "iconPath": "img/shopcaricon.png",
-        "pagePath": "pages/shoppingcar/shoppingcar",
+        "pagePath": "pages/exchangeBox/exchangeBox",
         "text": "购物车"
       },
       {
@@ -65,5 +86,11 @@
     "scope.userLocation": {
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
     }
+  },
+  "plugins": {
+  "captcha": {
+  "version": "1.0.0",
+  "provider":"wxbf8483dfc5ac6817"
+  }
   }
 }

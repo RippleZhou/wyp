@@ -1,0 +1,20 @@
+/* pages/agreement/agreement.wxss */
+page{
+  font-size: 34rpx;
+}
+.main-title{
+  margin:0 auto;
+  text-align: center;
+  font-weight: 700;
+  font-size: 40rpx;
+}
+.txt_indent{
+  text-indent: 2em;
+}
+.font_700{
+  font-weight: 700;
+}
+.txt_700{
+    text-indent: 2em;
+    font-weight: 700;
+}

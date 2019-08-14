@@ -1,0 +1,85 @@
+<!--components/index/index-recommend/index-recommend.wxml-->
+<swiper class="swiper-wrap-banner width-100" autoplay="{{true}}" interval="{{3500}}"           circular="{{true}}">
+  <block wx:for="{{swiperList}}" wx:key="index">
+    <swiper-item class="swiper-item-banner" 
+      bindtap="jumpBanner" data-typeid="{{item.jumpId}}" data-types="{{item.jumpType}}" 
+      data-typeids="{{item.jumpIds}}">
+      <image class='width-100'mode="widthFix"
+        src="{{item.imgUrl || errorImgban}}"
+        data-typeid="{{item.jumpId}}"
+        data-types="{{item.jumpType}}"
+      ></image>
+    </swiper-item>
+  </block>
+</swiper>
+
+<!-- 首页推荐 -->
+<swiper class="grid-wrap" wx:if="{{gridList.length>0}}">
+    <swiper-item class="width-100">
+      <view class='w_grid_swiper flex-wrp'>
+        <view class="grid" wx:for="{{gridList}}" wx:key="index" 
+          bindtap='chooseDireact' data-index="{{index}}" data-url="{{item.directUrl}}">
+          <image class='w_grid_s_link_img' mode='widthFix'
+            src="{{item.imgUrl}}"></image>
+
+          <view>{{item.title}}</view>
+          <image class='w_grid_gifImg' mode='widthFix' wx:if="{{index == 0 || index == 1}}"   src="http://zhkj.oss-cn-shanghai.aliyuncs.com/wximg/w_n_c_01.gif"></image>
+        </view>
+      </view>
+    </swiper-item>
+</swiper>
+
+<!-- 广告位 -->
+<view wx:if='{{newPosition}}' class="w_nIns_Imgs_wrp" >
+  <view bindtap="gotoAdvertising" data-url="{{item.directUrl}}">
+    <image class='w_nIns_img' 
+      mode="widthFix" src="{{newPosition.imgUrl || errorImgban}}" ></image>
+  </view>
+</view>
+
+<view class="w_pinpais" wx:if="{{ppList.length>0}}">
+  <view class='w_pinpais_h2'>品牌钜惠</view>
+  <view class="w_pp_list">
+    <view class='pp_list' wx:for="{{ppList}}" wx:key="index" bindtap="goto" data-share="2" data-index="{{index}}">
+      <image class='width-100' mode='widthFix' src="{{item.imgUrl}}" ></image>
+    </view>
+  </view>
+</view>
+
+<!-- //二折区 ： 新品推荐 -->
+<view class="new-product-component" wx:if="{{newproductList.length>0}}">
+  <view class="new-product">
+    <text class="np-title">新品推荐</text>
+  </view>
+
+  <scroll-view scroll-x="true" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll">
+    <view class="scroll-x">
+      <view class="item-wrap">
+        <view wx:for-items="{{newproductList}}" wx:key="indx" class="image-wrap" data-pid="{{item.productId}}" bindtap="gotoDetail">
+          <view>
+            <view class="content-wrap">
+            <view style="text-align:center;">
+              <image src="{{item.imgUrl}}" mode="widthFix" style="width:80%;"></image>
+            </view>
+             
+              <view class="title">{{item.brandName}}  {{item.productPromotionTitle}}</view>
+              <view class="money">
+                <text>￥</text>
+                <text class="money1">{{item.priceCurrentPrice}}</text>
+                <text class="money2">{{item.priceBasicPrice}}元</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+
+
+<index-floor 
+floor-list="{{floorList}}" 
+showJiedouButtons="{{showJiedouButtons}}"
+bind:indexFloor="indexFloor"
+>
+</index-floor>

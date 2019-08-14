@@ -1,0 +1,32 @@
+/* pages/gowy/gowy.wxss */
+
+.footer {
+  background: #f6f6f6;
+  /* width: 156rpx; */
+
+  margin: 0 auto;
+  position: absolute;
+  bottom: 100rpx;
+  left: 0;
+  right: 0;
+}
+
+.reset_wy {
+  background: #fff;
+  font-size: 30rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 0;
+  color: #e61817;
+  border-bottom: 1px solid #e61817;
+}
+
+.reset_wy::after {
+  border: 0;
+}
+
+.btn_hover {
+  color: blue;
+}

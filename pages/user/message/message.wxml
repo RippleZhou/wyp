@@ -2,16 +2,16 @@
 <view class='reg_v font_30'>
   <view class='reg_cons'>
     <view class='reg_inputLis'>
-      <input type='text' class='input' placeholder='请输入手机号'></input>
+      <input type='number' class='input' maxlength="11" placeholder='请输入手机号' bindinput="cellphoneInput"></input>
     </view>
     <view class='reg_inputLis reg_inputLis2'>
-      <input type='text' class='input _input2' placeholder='请输入验证码'></input>
-      <label class='verify'>获取验证码</label>
+      <input type='number' class='input _input2' placeholder='请输入验证码' bindinput="authCodeInput"></input>
+      <label class='verify' bindtap="getCode">{{codeTxt}}</label>
     </view>
     <view class='reg_cons_btns'>
-      <button class='reg_bTxts'>登录</button>
+      <button class='{{canLogin ? "reg_bTxts":"reg_bTxts gray"}}' bindtap="loginCode" >登录</button>
     </view>
-    <view class='message_forget'>
+    <!-- <view class='message_forget'>
       <view class='message_login' bindtap='GoCode'>账号密码登录</view>
     </view> 
     <view class='other_login '>
@@ -25,9 +25,11 @@
     </view>
     <view class='footer'>
       <view class='footer_content'>
-        注册/登录即代表已经同意 <text>《物业帮用户使用协议》</text> 
+        注册/登录即代表已经同意 <text bindtap='GoAgreement'>《物业拼拼用户使用协议》</text> 
       </view>
-    </view>
+    </view> -->
   </view>
 </view>
+
+<basic bindsuccess='captchaSuccess' bindhide='captchaHide' captchaReload='{{captchaReload}}' captchaShow='{{captchaShow}}' options='{{options}}' />
 

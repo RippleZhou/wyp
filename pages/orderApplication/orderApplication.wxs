@@ -1,0 +1,27 @@
+function getStateTxt(states) //状态
+{
+  var name = ''
+  if (states == 8) {
+    name = "平台同意退货"
+  } else if (states == 9) {
+    name = "退款成功"
+  } else if (states == 10 || states == 12) {
+    name = "待平台同意退货"
+  } else if (states == 13) {
+    name = "退换货失效"
+  } else if (states == 18) {
+    name = "审核未通过"
+  } else if (states == 19) {
+    name = "已撤销退货"
+  } else if (states == 20 || states == 21 || states == 22) {
+    name = "已退货待退款"//已退货待退款
+  } else {
+    name = "退货成功"
+  }
+  return name
+}
+// 订单状态：0待付款；1待接单；2已接单；3已到店；4已取货；5已取消；6已送达；7支付失败；8待退货；9已退货；10退货审核中(平台); 12退货审核中(物业)13退换货失效；14待提货; 15已提货;
+
+module.exports = {
+  getStateTxt: getStateTxt
+}

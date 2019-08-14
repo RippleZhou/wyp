@@ -1,0 +1,129 @@
+<!--pages/store-deatail/store-detail.wxml-->
+<wxs module="util" src="./store-detail.wxs"></wxs>
+<!--轮播图-->
+<swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{activeColor}}" circular='{ true }' bindchange="bindchange" style="height:{{imgheights[current]}}rpx;">
+  <block wx:for="{{masterPicture}}" wx:key="unique">
+    <swiper-item>
+      <image class="slide-image" src="{{ item ||errorImg}}" data-id='{{index}}' data-index="{{index}}" binderror="errImg" bindload="imageLoad" />
+    </swiper-item>
+  </block>
+</swiper>
+<!-- details introduce -->
+<view class='details_introduce'>
+  <view class='font_30 detail_title font_333'>
+    {{proInfor.productTitle}}
+  </view>
+  <view>
+    <text class='detail_getwyb price-rmb'>可获得物业币{{proInfor.housingCoin}}</text>
+  </view>
+  <view class='detail_price mar_24'>
+    <text class='price-rmb detail_price pricetxt'>￥</text>
+    <text class='pricetxt detail_price font_36'>{{proInfor.priceCurrentPrice}}</text>
+    <text class='bsc_price'>￥{{proInfor.priceBasicPrice}}</text>
+  </view>
+  <view class='detail_specifications pad_20 flex flex-main-justify' bindtap='toggleSpecs'>
+    <view class='font_999 font_30'>
+      <text>规格</text>
+      <text wx:if="{{skuList[skuSelected].attr_name_ext||skuList[skuSelected].attr_name}}">
+      {{util.selnameExt(skuList[skuSelected].attr_name_ext,skuList[skuSelected].attr_name)}}
+      </text>
+      <text wx:else class='mar_left_10 font_333 font_30'>请选择规格</text>
+    </view>
+    <view bindtap='toggleSpecs'>
+      <text class='font_999'>></text>
+    </view>
+  </view>
+</view>
+<view class='details_content'>
+  <view class='details_content_banner'>
+    <image mode='widthFix' class='product-imgs' wx:for="{{productImgs}}" wx:key="{{index}}" src="{{ item || errorImg}}"></image>
+  </view>
+</view>
+<view class='saler_list'>
+  <view class='personal_saler font_30'>
+    <text>小区</text>
+    <text class='list_buyer'>100+人已买</text>
+  </view>
+  <scroll-view class='scroll_detail' scroll-y="false">
+    <block wx:for="{{buyList}}" wx:key="unique">
+      <view class='flex flex-main-justify buyer_'>
+        <view class='buyer_info flexbox-1'>
+          <image class='utximg' src='{{item.imageUrl}}'></image>
+        </view>
+        <view class='buyer_phone flexbox-2 font_30 font_333'>{{ item.cellPhone }}</view>
+        <view class='buyer_time flexbox-1 font_24 font_999'>{{ item.payDate }}</view>
+      </view>
+    </block>
+  </scroll-view>
+</view>
+<view class="footer flex flex-main-center {{isIpx?'fix-iphonex-button':''}}" wx:if="{{proInfor.stockNum>0}}">
+  <view class='go_index' bindtap='go_index'>
+    <view class='go_img'>
+      <image src="/img/store.png"></image>
+    </view>
+    <view class='go_text'>首页</view>
+  </view>
+  <view class='go_cars' bindtap='go_car'>
+    <view class='go_img'>
+      <image src="/img/shopcaricon.png"></image>
+    </view>
+    <view class='go_text'>购物车</view>
+  </view>
+  <view class='left'>
+    <text class='text' bindtap="addcart">加入购物车</text>
+  </view>
+  <view class='right'>
+    <text class='text' bindtap="goPay">立即购买</text>
+  </view>
+</view>
+<view class='footer flex flex-main-center' hidden="{{ buttonHidden }}">
+  <view class='go_index' bindtap='go_index'>
+    <view class='go_img'>
+      <image src="/img/store.png"></image>
+    </view>
+    <view class='go_text'>首页</view>
+  </view>
+  <view class='lr_txt'>
+    抢光了
+  </view>
+</view>
+<!-- sku -->
+<view class='popup-wrap' wx:if="{{popupShow}}">
+  <view class='popup-content'>
+    <text class="w_popColsed" bindtap="closePopup"></text>
+    <view class="w_pop_proImg">
+      <image class='popup-product-img' mode='widthFix' src="{{skuList[skuSelected].images}}"></image>
+      <view class="w_pop_riPric">
+        <view class=''>
+          <text class='w_pop_riPric_h2'>¥ {{proInfor.priceCurrentPrice}}</text>
+          <text class='bsc_price'>¥ {{proInfor.priceBasicPrice}}</text> </view>
+        <view wx:if="{{skuList.length>0}}" class="w_pop_pric_span">
+          已选：
+          <text>{{util.selnameExt(skuList[skuSelected].attr_name_ext,skuList[skuSelected].attr_name)}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{skuList.length>0}}" class="w_pop_specs">
+      <block wx:for="{{skuList}}" wx:key="{{index}}">
+        <text class="sku-item {{skuSelected==index ? 'w_tabSpanCur': ''}}" data-index="{{index}}" bindtap="productChange" wx:if="{{skuList[index].attr_name_ext||skuList[index].attr_name}}">{{util.selnameExt(skuList[index].attr_name_ext,skuList[index].attr_name)}}</text>
+      </block>
+    </view>
+    <view class="w_pop_selNums">
+      <view class='pop_label'>购买数量</view>
+      <view class="w_pop_selBtns flex-wrp">
+        <view id="sub" bindtap='changeNum' class="icon-sub {{amount <= 0 ? 'prevent-icon': ''}}"></view>
+        <input class="input-num" placeholder="0" type="number" id="input" value="{{amount}}" bindinput='changeNum' />
+        <view class="icon-add" mode="widthFix" id="add" bindtap='changeNum'></view>
+      </view>
+    </view>
+    <view class="w_popBtnfot {{isIpx?'fix-iphonex-button':''}}">
+      <block wx:if="{{proInfor.stockNum>0}}">
+        <text class='w_popBtnfot_span' bindtap="addcart">加入购物车</text>
+        <text class="w_popBtnfot_span w_popBtnReds" bindtap="goPay">立即购买</text>
+      </block>
+      <block wx:else>
+        <text class='w_popBtnfot_span2'>抢光了</text>
+      </block>
+    </view>
+  </view>
+</view>

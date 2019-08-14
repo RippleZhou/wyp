@@ -1,0 +1,47 @@
+<!--pages/application /application.wxml-->
+<view class='content'>
+    <text class='reason_txt'>退货原因：</text>
+    <view class='reason_choice' bindtap='cancelShows'><text wx:if="{{!hidden}}">请选择退货原因</text><text wx:else="{{hidden}}">{{cancelReason}}</text><text>></text></view>
+</view>
+<view wx:if="{{IsHidden}}">
+      <textarea class='text_class' bindinput="textarea" placeholder=" 请具体描述一下退货原因"/>
+</view>
+<view class='pic-content'>
+    <view class='upload_txt'>上传凭证</view>
+    <view class='picList'>
+      <view class="camera" bindtap='uploadImg'>
+          <image src="/img/camera.png" class="img">
+          </image>
+          <text class='upload'>上传照片</text>
+          <text class='more'>(最多6张)</text>
+      </view>
+      <block wx:for="{{pics}}" wx:for-item="pic"  wx:key="unique">
+          <image class="each-img" src='{{pic}}' bindtap='listenerButtonPreviewImage' data-index="{{index}}">
+                <icon class='delete-icon' type="clear" size="40rpx" color="#999999" bindtap='delete_this' data-src="{{pic}}"/>
+          </image>
+     </block>
+    </view>
+</view>
+
+<view class='sub'>
+    <button bindtap="submit">提交</button>
+</view>
+
+<!-- //模态框 -->
+<view class='mask font_30' wx:if='{{cancelShow}}'>
+ <view class='modal-content'>
+  <view class='modal-btn-wrapper flex flex-wrap '>
+    <view class='cancel-btn2'>
+      <text>退货原因</text>
+      <image  bindtap='cancel' class='cancel-img' src='/img/quxiao.png'></image>
+    </view>
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio" wx:for="{{cancelList}}" wx:key="unique">
+        {{item.text}}<radio class='fr' value="{{item.text}}" color='#d43429' checked="{{item.checked}}"/>
+      </label>
+    </radio-group>
+    <view class='confirm-btn2'  bindtap='cancelConfirm'>确认</view>
+  </view>
+ </view>
+</view> 
+

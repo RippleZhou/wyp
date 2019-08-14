@@ -1,0 +1,146 @@
+/* pages/wyb-payment/wyb-payment.wxss */
+
+.payment {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.border-gap {
+  border-top: 20rpx solid#f6f6f6;
+}
+
+.panel-header {
+  padding: 30rpx 20rpx 0;
+  font-size: 30rpx;
+  line-height: 36rpx;
+  color: #333333;
+}
+
+.panel-body {
+  padding: 30rpx 20rpx;
+  font-size: 28rpx;
+  line-height: 2;
+  color: #333333;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  font-size: 30rpx;
+  line-height: 36rpx;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #f6f6f6;
+}
+
+.cell__bd {
+  flex: 1;
+  padding-right: 20rpx;
+}
+
+.balance {
+  font-size: 26rpx;
+  line-height: 36rpx;
+  padding: 20rpx;
+  color: #999999;
+}
+
+.text-link {
+  margin-left: 10rpx;
+  color: #0066ff;
+}
+
+.button-wrap{
+  position: absolute;
+  bottom: 110rpx;
+  left: 0;
+  right:0;
+  padding:0 10vw;
+}
+
+.button-block {
+  font-size: 34rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  background-color: #e61817;
+  border-radius: 40rpx;
+  color: #fff;
+}
+
+.render-wrap {
+  display: flex;
+  flex-direction: row;
+}
+.render-input {
+  width: 100rpx;
+  height: 100rpx;
+  border-top: 1rpx solid #ebebeb;
+  border-bottom: 1rpx solid #ebebeb;
+  border-right: 1rpx solid #ebebeb;
+  box-sizing: border-box;
+  text-align: center;
+}
+.render-input:first-child {
+  border-left: 1rpx solid #ebebeb;
+}
+.hidden-input {
+  width: 0;
+  height: 0;
+}
+.charge-modal-wrap {
+  z-index:999;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom:100rpx;
+}
+
+.charge-modal {
+  margin: 0 30rpx;
+  text-align: center;
+  position: relative;
+  background:#fff;
+  border-radius: 20rpx;z-index:1000;
+}
+
+.charge__hd {
+  padding: 30rpx 20rpx;
+  border-bottom:1px solid #f9f9f9;
+  background:#fff;
+  border-radius:20rpx;position: relative;z-index: 1001;
+}
+
+.charge__bd {
+  padding: 30rpx 20rpx;
+  background:#fff;
+  border-radius:20rpx;
+}
+
+.charge-title {
+  font-size: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.charge-value {
+  font-size: 28rpx;
+  margin-bottom: 30rpx;
+}
+
+.charge-cancel{
+  position:absolute;
+  right:20rpx;
+  top:15rpx;
+  z-index: 9999;
+  /* padding:20rpx; */
+}
+
+.charge-button{
+  margin:30rpx 0;
+}

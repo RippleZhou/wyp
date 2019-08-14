@@ -1,0 +1,30 @@
+<!-- pages/product/search_list/search_list.wxml -->
+<view class="head_index head_searchsList">
+  <view class="head_i_cens">
+    <form class='search_form'>
+      <input class='search_input' type="search" placeholder="请输入要搜索产品" value="{{searchText}}" bindinput="setDefaultValue" confirm-type="搜索" bindconfirm="search"></input>
+    </form>
+  </view>
+</view>
+<view class="w_head_rightTxt" bindtap="goSearch"></view>
+<scroll-view class='product-list' scroll-y bindscrolltolower="scrolltolower">
+  <view class='mall_box' wx:if="{{items.length}}">
+    <view bindtap="navigate" data-productId="{{ex.productId}}" class='mall_list' wx:for="{{items}}" wx:key="unique" wx:for-item="ex">
+      <view class='mall_t_img'>
+        <image src='{{ex.imageUrl}}' mode="widthFix"></image>
+      </view>
+      <view class='mall_t_tit mall_pd'>{{ex.productTitle}}</view>
+      <text class='mall_t_tip mall_pd'>可获物业币{{ex.housingCoin}}</text>
+      <view class='mall_t_pirce mall_pd'>
+        ¥
+        <text>{{ex.priceCurrentPrice}}</text>
+        <label>¥{{ex.priceBasicPrice}}</label>
+      </view>
+      <view class='mall_t_nums mall_pd'>已售1万+件</view>
+    </view>
+  </view>
+  <view wx:else>
+    <image src="https://zhkj.oss-cn-shanghai.aliyuncs.com/nHelp/nw_blank_02.png" v-if="imgIsShow" class="no_blankIms" mode='widthFix'></image>
+    <view class='nodata-text'>没有相关搜索</view>
+  </view>
+</scroll-view>

@@ -1,0 +1,41 @@
+<!-- pages/wyb-payment/wyb-payment.wxml -->
+<view class="payment">
+    <view class="panel border-gap">
+        <view class="panel-header">物业费</view>
+        <view class="panel-body">
+            <view>小区名称：{{storeName}}</view>
+            <view>住址信息：{{address}}</view>
+        </view>
+    </view>
+    <view class="cell border-gap">
+        <view class="cell__hd">￥</view>
+        <view class="cell__bd">
+            <input placeholder="请输入充缴金额" disabled="{{showChargePwd}}" value="{{chargewyb}}" bindinput="handleInput" class="form-input" type='digit'/>
+        </view>
+    </view>
+    <view class="balance">
+        物业币余额共{{userwyb}}
+        <text class="text-link" bindtap="chargeAll">全部充缴</text>
+    </view>
+    <view class="button-wrap">
+        <view class="button button-block" bindtap="charge">充缴物业费</view>
+    </view>
+    <!-- 密码输入框 -->
+    <view class="charge-modal-wrap" wx:if="{{showChargePwd}}">
+        <view class="charge-modal">
+            <view class="charge-cancel"><icon type="cancel" size="30" color="#666" bindtap="cancel"/></view>
+            <view class="charge__hd">请输入支付密码</view>
+            <view class="charge__bd">
+                <view class="charge-title">充缴物业费</view>
+                <view class="charge-value">{{chargewyb}}元</view>
+                <view class='render-wrap'>
+                    <block wx:for='{{dataSource}}' wx:key='this'>
+                        <input type='number' class='render-input' bindtap='onTapFocus' type='{{showType}}' disabled value='{{item.initValue}}'></input>
+                    </block>
+                    <input type='number' maxlength='6' focus='{{isFocus}}' class='hidden-input' bindinput='mobileInput'></input>
+                </view>
+                <view class="button button-block charge-button" bindtap="chargeSubmit">确认充缴</view>
+            </view>
+        </view>
+    </view>
+</view>

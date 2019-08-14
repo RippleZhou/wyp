@@ -1,0 +1,24 @@
+<!--pages/paymentPassword/set.wxml-->
+<view>
+  <view class='reg_cons'>
+    <!-- 手机号 -->
+    <view class='reg_inputLis'>
+      <input type='number' class='input' placeholder='请输入手机号' bindinput="phoneInput" maxlength="11"></input>
+    </view>
+    <!-- 验证码 -->
+    <view class='reg_inputLis reg_inputLis2'>
+      <input type='number' class='input _input2' placeholder='请输入验证码' bindinput="codeInput"></input>
+      <label class='verify' bindtap="getCode">{{codeTxt}}</label>
+    </view>
+    <!-- 密码 -->
+    <view class='reg_inputLis'>
+      <input type='password' maxlength="6" class='input' placeholder='请输入支付密码(6位数字)' bindinput="pwdInput"></input>
+    </view>
+    <!-- 确认 -->
+    <view class='reg_cons_btns'>
+      <button class='reg_bTxts' bindtap="handleSubmit">设置支付密码</button>
+    </view>
+  </view>
+</view>
+
+<basic bindsuccess='captchaSuccess' bindhide='captchaHide' captchaReload='{{captchaReload}}' captchaShow='{{captchaShow}}' options='{{options}}' />

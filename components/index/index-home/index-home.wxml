@@ -1,0 +1,20 @@
+<!--components/index/index-home/index-home.wxml-->
+  <view class="w_proImgTxtTabs">
+    <view class="w_proImgTxtTab_list" wx:for="{{headList}}" wx:key="{{index}}">
+      <view bindtap="getRecommendList" data-id="{{item.id}}">
+        <image src="{{item.imgUrl || errorImg}}" 
+          mode='widthFix' class='w_proImgTxtTab_list_img'></image>
+        <view class='w_proImgTxtTab_list_h2'>{{item.name}}</view>
+      </view>
+    </view>
+     <view wx:if="{{headList.length>=9}}" class="w_proImgTxtTab_list w_proImgTxtTab_list2">
+      <view bindtap="getRecommendList" data-id="{{headList[0].id}}">
+        <!-- <img /> -->
+        <view class='w_proImgTxtTab_list_h2'>显示全部</view>
+      </view>
+    </view>
+  </view>
+
+  <pro-imgtxt list="{{proList}}" last-flag="{{lastFlag}}">
+  </pro-imgtxt>
+

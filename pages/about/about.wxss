@@ -25,6 +25,7 @@ page{
   margin-top:20rpx;
 }
 .xieyi{
+  font-size: 34rpx;
   background: #fff;
   padding:0 24rpx;
   margin-top: 20rpx;

@@ -4,9 +4,19 @@
 page{
   background: #f6f6f6;
 }
+.my_address{
+	white-space: nowrap;
+	overflow: hidden; 
+	text-overflow:ellipsis;
+}
 .my_wy{
   margin-top: 10rpx;
   padding: 0 24rpx;
+}
+.w_228{
+  width: 228rpx;
+  font-size: 26rpx;
+  display: inline-block;
 }
 .pad_24_0{
   padding:24rpx 0;
@@ -22,15 +32,17 @@ page{
 }
 .w_206{
   display: inline-block;
-  width: 206rpx;
+  width: 210rpx;
 }
 .h46{
   height: 46rpx;
   line-height: 46rpx;
 }
 .w_428{
-  width: 428rpx;
-  border-right: 1px solid #e6e6e6;
+  /* width: 428rpx; */
+  white-space: nowrap;
+	overflow: hidden; 
+	text-overflow:ellipsis;
 }
 .h_186{
   height: 186rpx;

@@ -1,0 +1,63 @@
+<!--pages/orderApplication/orderApplication.wxml-->
+<wxs module="util" src="./orderApplication.wxs"></wxs>
+<!-- 订单退货页面 -->
+<view class="wait-order-wrap">
+  <!-- <image src="../../img/cart.png" class="cart-icon"></image> -->
+  <view class="w_font">
+  <image src='../../img/order_01.png'  mode="widthFix" wx:if="{{orderInfor.returnState==8||orderInfor.returnState==9}}"></image>
+  <image src='../../img/order_02.png'  mode="widthFix" wx:if="{{orderInfor.returnState==10}}"></image>
+  {{util.getStateTxt(orderInfor.returnState)}}</view>
+  <view class="w_time" wx:if="{{orderInfor.returnState==8}}">请在24小时内将商品送回物业，超时将被取消</view>
+  <view class="w_time" wx:if="{{orderInfor.returnState==9}}">{{orderInfor.refundDate||''}}</view>
+  <view class="w_time" wx:if="{{orderInfor.returnState==10}}">{{orderInfor.applicationRefundDate||''}}</view>
+</view>
+<view class="message-wrap2" wx:if="{{orderInfor.returnState==9}}">
+  <view class='message_w_list'>
+    <label>退款总金额</label><text>￥{{orderInfor.refundAmount}}</text>
+  </view>
+  <view class='message_w_list2'>
+    <label>退回微信</label><text>￥{{orderInfor.refundAmount}}</text>
+  </view>
+</view>
+ <view class="message-wrap" wx:if="{{orderInfor.returnState==8}}">
+  <view class="title">请尽快将商品送至以下物业公司</view>
+  <view class="line-wrap">
+      {{orderInfor.storeAddress}}
+  </view>
+  <view class="line-wrap">
+    <text class="m_left">{{orderInfor.storeName}}</text>
+    <image src="../../img/phone.png" class="phone-icon m_right"  bindtap='getTel' data-phone="{{orderInfor.storeCellPhone}}"></image>
+    <text class="m_right"  bindtap='getTel' data-phone="{{orderInfor.storeCellPhone}}">{{orderInfor.storeCellPhone}}</text>
+  </view>
+</view>
+
+<view class='message_info'>
+    <view class='message_title'>退款信息</view>
+    <view class='mes_con' wx:for="{{proList}}" wx:key="unique" wx:for-item="ex" bindtap='getDtail' data-productid="{{ex.productId}}" data-storeid="{{orderInfor.storeId}}" data-soutype="{{orderInfor.orderSourceType}}">
+      <image class='message_img' src="{{ex.imageUrl}}"></image>
+      <view class='message_contain'>
+        <view class='message_top'>
+          <text class='pro_content'>{{ex.productTitle}}</text>
+          <text class='total_price'>￥{{ex.paymentAmount}}</text>
+        </view>
+        <view class='message_middle'>
+          <text class='m_left fon_24'>单价：￥{{ex.productPrice}}</text>
+          <text class='m_right fon_24'>X{{ex.productNum}}</text>
+        </view>
+        <text class='message_bottom fon_24'>系列：{{ex.productMode}}</text>
+      </view>
+    </view>
+</view>
+<view class='message-wrap'>
+  <view class='line-wrap clo_9'>退货原因：<text>{{orderInfor.refundReason}}</text> </view>
+  <view class='line-wrap clo_9'>退款金额：<text>¥{{orderInfor.refundAmount}}</text> </view>
+  <view class='line-wrap clo_9'>申请时间：<text>{{orderInfor.applicationRefundDate||''}}</text> </view>
+   <view class='line-wrap clo_9' wx:if="{{orderInfor.returnState==9}}">审核时间：<text>{{orderInfor.refundVerifyDate||''}}</text> </view>
+   <view class='line-wrap clo_9' wx:if="{{orderInfor.returnState==9}}">确认时间：<text>{{orderInfor.returnConfirmDate||''}}</text> </view>
+</view>
+
+<view class="cancel-btn-wrap" wx:if="{{orderInfor.returnState==10}}">
+  <view class='Refund' bindtap='cancelReturn'>
+    撤销退款
+  </view>
+</view>

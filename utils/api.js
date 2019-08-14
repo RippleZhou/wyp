@@ -1,233 +1,109 @@
 // let cUrl = 'https://vue.3721zh.com/api/'  //测服
-
 // let cUrl = 'https://v.3721zh.com/api/'
 // var cUrl='https://jpaytest.3721zh.com/'
-var cUrl = 'https://testapi.3721zh.com/'  //本地
+ //var cUrl = 'https://xqapitest.3721zh.com/'  //本地 + 测服 +有商品
 // var cUrl='https://small.3721zh.com'
-
-
+//var cUrl = 'https://wypapi.3721zh.com/'  //线上
+var cUrl ='https://xqhjuatapi.3721zh.com/' //测服
 const api = {
+  common: {
+    getmsAuthCode: `${cUrl}common/getmsAuthCode`
+  },
+  user: {
+    decryptPhone: `${cUrl}customerWeChat/decryptPhone`,
+    getOpenId: `${cUrl}customerWeChat/getOpenId`,
+    wXLogin: `${cUrl}customerHousing/wXLogin`,
+    login: `${cUrl}customerHousing/login`,
+    loginCode: `${cUrl}customerHousing/loginCode`,
+    register: `${cUrl}customerHousing/register`,
+    resetPassword: `${cUrl}customerHousing/resetPassword`,
+    wxBindCellPhone: `${cUrl}customerWeChat/wxBindCellPhone`,
+    // wxBindCellPhone: `${cUrl}customerHousing/wxBindCellPhone`,
+    // getOpenId: `${cUrl}customerHousing/getOpenId`,
+    checkCellPhoneExist: `${cUrl}customerHousing/checkCellPhoneExist` 
+  },
   index: {
-    query: cUrl + 'index/query', //首页
-    advertise: cUrl + 'index/advertise'
+    takeTurnsNotice: cUrl + 'takeTurns/takeTurnsNotice' //首页轮播提示
   },
-  list: {
-    SearchList: cUrl + 'proProduct/searchProductList',
-    proList: cUrl + 'proProduct/productDetailsView',
-    orderList: cUrl + 'sopOrder/myOrder',
-    getMyOrders: cUrl + 'order/getMyOrders'
-  },
-  product: {
-    purchaseHistoryNew: cUrl + 'product/purchaseHistoryNew',
-    category: cUrl + 'category/queryFirstTypeTree',
-    detail: cUrl + 'product/detail',
-    lunbo: cUrl + 'product/productMasterPicture',
-    queryCart: cUrl + 'shoppingCart/queryCart',
-    modifyCartItemAmount: cUrl + 'shoppingCart/modifyCartItemAmount', //修改购物车当前款商品的数量并选中
-    modifyCartItemSelected: cUrl + 'shoppingCart/modifyCartItemSelected', //修改购物车商品明细的选中状态
-    removeCartItems: cUrl + 'shoppingCart/removeCartItems', //删除购物车中的商品
-    purchaseHistory: cUrl + 'product/purchaseHistory', //产品购买历史
-    queryLike: cUrl + 'product/queryLike', //猜你喜欢
-    queryProSeckill: cUrl + 'product/queryProSeckill', //秒杀
-    getShareByKey: cUrl + 'product/getShareByKey',
-    getShareUrl: cUrl + 'product/getShareUrl'
-  },
-  shoppingCart: {
-    addCart: cUrl + '/shoppingCart/addCart', //加入购物车
-    queryCart: cUrl + '/shoppingCart/queryCart'
-  },
-  customer: {
-    login: cUrl + 'customer/login',
-    CustomerloginCode: cUrl + 'customer/loginCode',
-    CustomercheckToken: cUrl + 'customer/checkToken',
-    CustomerLogin: cUrl + 'customer/login',
-    GetmsAuthCode: cUrl + 'customer/getmsAuthCode',
-    customerlogOut: cUrl + 'customer/logOut',
-    checkIsLogin: cUrl + 'customer/checkIsLogin',
-    AuthCode: cUrl + 'customer/checkAuthCode',
-    wXRegister: cUrl + 'customer/wXRegister',
-    addressData: cUrl + 'customerAddress/getArea',
-    checkToken: cUrl + 'customer/checkToken',
-    getOpenId: cUrl + 'customer/getOpenId',
-    checkWxIsLogin: cUrl + 'customer/checkWxIsLogin',
-    setPassWord: cUrl + 'customer/setPassWord',
-    getUserCenter: cUrl + 'customer/getUserCenter',
-    EditPayPassWord: cUrl + 'customer/editPayPassWord',
-    checkPayPassWord: cUrl + 'customer/checkPayPassWord',
-    checkPassWord: cUrl + 'customer/checkPassWord',
-    setUserInfo: cUrl + 'customer/setUserInfo',
-    changeCellPhone: cUrl + 'customer/changeCellPhone',
-    getWxSign: cUrl + 'customer/getWxSign',
-    addAddress: cUrl + 'customerAddress/addAddress',
-    getAddressList: cUrl + 'customerAddress/getAddressList',
-    editAddress: cUrl + 'customerAddress/editAddress',
-    bindWxOpenid: cUrl + 'customer/bindWxOpenid',
-    cusConverBeanItem: cUrl + 'cusConverBeanItem/getConverBeanItemList',
-    getEnvelopList: cUrl + 'cusConverBeanItem/getEnvelopList',
-    transferBean: cUrl + 'cusConverBeanItem/transferBean',
-    createEnvelop: cUrl + 'cusEnvelope/createEnvelop',
-    wxRechargeConverBean: cUrl + 'cusConverBeanItem/wxRechargeConverBean',
-    getCityByLngAndLat: cUrl + 'customerAddress/getCityByLngAndLat', //根据经纬度获取热门城市
-    checkCellPhoneExist: cUrl + 'customer/checkCellPhoneExist',//检测手机是否注册过
-    getRechargeRate: cUrl + 'customer/getRechargeRate',
-    getRechargeList: cUrl + 'cusConverBeanItem/getRechargeList',
-    deleteAddress: cUrl + 'customerAddress/deleteAddress',
-    selectWithBeansList: cUrl + 'cusConverBeanItem/selectWithBeansList',
-    getTransferBean: cUrl + 'cusConverBeanItem/getTransferBean',
-    getUserInfoByCellPhone: cUrl + 'customer/getUserInfoByCellPhone ',
-    addIdCardNoCustomerId: cUrl + 'customer/addIdCardNoCustomerId',//根据收货人id添加收货人身份证号
-    updateIdCardNoByCustomerId: cUrl + 'customer/updateIdCardNoByCustomerId',//根据收货人id修改收货人身份证号
-    checkAuthCodeInfo: cUrl + 'customer/checkAuthCodeInfo',
-  },
-  types: {
-    citys: cUrl + 'customerAddress/queryAllCity',
-    clickType: cUrl + 'types/clickType',
-    search: cUrl + 'types/search',
-    clickSType: cUrl + 'types/clickSType',
-    clickFType: cUrl + 'types/clickFType',
-    categorySear: cUrl + 'category/search'
-  },
-
-  find: {
-    currencySubmitOrder: cUrl + '/virOrderCurrency/submitOrder',//查询通用券提交订单页详情,
-    virProductCurrencyDetailForOrder: cUrl + '/vir/productCurrency/virProductCurrencyDetailForOrder',//查询通用券提交订单页详情
-    virProductCurrencyDetail: cUrl + '/vir/productCurrency/virProductCurrencyDetail',
-    virProductsCurrency: cUrl + 'vir/productCurrency/virProductsCurrency',
-    queryBannerList: cUrl + 'banner/queryBannerList', //发现--获取霸王餐、折扣店轮播图
-    queryPromotion: cUrl + 'promotion/queryPromotion', //发现--获取霸王餐、折扣店信息
-    queryStore: cUrl + 'store/queryStore', //发现-获取商户详情
-    addComment: cUrl + 'comment/addComment', //添加商户评论(base64传文件)
-    addCommentEx: cUrl + 'comment/addCommentEx', //添加商户评论(file传文件)
-    queryComment: cUrl + 'comment/queryComment', //查看商户评论
-    virProducts: cUrl + 'vir/product/virProducts',//砍价列表
-    virProductsOfVendor: cUrl + 'vir/product/virProductsOfVendor', //查询商户的砍价列表
-    virProductDetail: cUrl + 'vir/product/virProductDetail', //查询砍价详情
-    bargain: cUrl + 'vir/bargain/bargain',//帮好友坎价
-    virBrowse: cUrl + 'vir/product/browse', //记录浏览次数
-    todayBargainList: cUrl + 'vir/bargain/todayBargainList',//砍价－今日砍价人数
-    shareCovers: cUrl + 'vir/product/shareCovers', //分享封面
-    submitOrder: cUrl + 'virOrder/submitOrder',//优惠券－提交订单
-    virProductDetailForOrder: cUrl + 'vir/product/virProductDetailForOrder',//提交订单-商户信息
-    delOrder: cUrl + 'virOrder/delOrder',//优惠券－删除订单
-    cancelOrder: cUrl + 'virOrder/cancelOrder',//优惠券－取消订单
-    continuePay: cUrl + 'virOrder/continuePay',////优惠券－继续支付
-    getVirOrders: cUrl + 'virOrder/getVirOrders',//虚拟订单
-    getVirOrderDetail: cUrl + 'virOrder/getVirOrderDetail',////订单详情
-    getBeans: cUrl + 'vir/product/getBeans',//获取赠豆数
-    getLimitNum: cUrl + 'virOrder/getLimitNum',//获取产品限购数量
-    getRefudInfo: cUrl + 'virOrder/getRefudInfo',//申请退款页面
-    refundOrder: cUrl + 'virOrder/refundOrder',//申请退款
-    recommendList: cUrl + 'vir/product/recommendList',//分享页面－推荐列表
-    getVirOrderRefundProcess: cUrl + 'virOrder/getVirOrderRefundProcess',//退款进度
-    getVirOrderRefundDetail: cUrl + 'virOrder/getVirOrderRefundDetail',//退款详情
-    getVirOrderCode: cUrl + 'virOrder/getVirOrderCode',//查看消费码
-    getReundNum: cUrl + 'virOrder/getReundNum',//查询用户退款次数，及退款比率
-    dictsbargain: cUrl + 'common/dicts/tip_bargain',//列表说明
-    dictsbargaindetail: cUrl + 'common/dicts/tip_bargain_detail',//详情说明
+  //线上商城
+  mall:{
+    organBannerList: cUrl + 'organhousingbanner/organBannerList',//商城首页轮播
+    search:cUrl + 'ProductHousingMall/search' ,//商品搜索
+    detail: cUrl + 'ProductHousingMall/detail',//产品详情
+    queryFirstTypeTree: cUrl + 'ProductHousingMall/queryFirstTypeTree', //查询一级分类
+    categoryProduct: cUrl + 'ProductHousingMall/categoryProduct',//查询分类下面的商品
+    activityTypeTree: cUrl +'ProductHousingMall/activityTypeTree',//查分类列表（新）
+    activityTypeProduct: cUrl +'ProductHousingMall/activityTypeProduct',//查分类下产品（新）
   },
   order: {
-    confirmOrder: cUrl + 'order/getSettlementOrder', //获取订单信息
-    computeCost: cUrl + 'order/getPaymentCost', //获取修改抵用转换豆数额后的支付信息
-    submitOrder: cUrl + 'order/submitOrder', //提交订单
-    orderDetail: cUrl + 'order/getOrderDetail', //订单详情
-    cancelOrder: cUrl + 'order/cancelOrder',
-    orderpay: cUrl + 'order/pay',
-    hideOrder: cUrl + 'order/hideOrder',
-    receiveGoods: cUrl + 'order/receiveGoods',
-    getExpressInfo: cUrl + 'order/getExpressInfo',
-    getReasons: cUrl + 'order/getReasonsForCancel',
-    getReasonsForReturn: cUrl + 'order/getReasonsForReturn',
-    returnedGoodsApply: cUrl + 'order/returnedGoodsApply',
-    getReturnType: cUrl + 'order/getReturnType',
-    returnedGoods: cUrl + 'order/returnedGoods',
-    uploadImg: cUrl + 'order/uploadImg',
-    getReturnedGoods: cUrl + 'order/getReturnedGoods',
-    getReturnedDetail: cUrl + 'order/getReturnedDetail',
-    cancelReturnedGoods: cUrl + 'order/cancelReturnedGoods',
-    fillInExpress: cUrl + 'order/fillInExpress',
-    getExpressCompanys: cUrl + 'order/getExpressCompanys',
-    getOrderItems: cUrl + 'order/getOrderItems',
-    fillInExpressSubmit: cUrl + 'order/fillInExpressSubmit',
-    editReturnedGoods: cUrl + 'order/editReturnedGoods',
-    getStoreOrderList: cUrl + 'order/getStoreOrderList',
-    getOrderGroupList: cUrl + 'order/getOrderGroupList',
-    uploadFile: cUrl + 'comment/uploadFile',
-    getDeductionCost: cUrl + 'order/getDeductionCost',
-    queryAllinpayOrder: cUrl + 'order/queryAllinpayOrder',
-    querySuspendSendgoods: cUrl + 'order/querySuspendSendgoods'
+    getMyOrders: cUrl + 'sopHousingOrder/getMyOrders',//获取我的订单列表(用户)
+    getReasonsForReturn: cUrl + 'sopHousingOrder/getReasonsForReturn',//获取退换原因
+    cancelOrder: cUrl + 'sopHousingOrder/cancelOrder',//取消订单
+    pay: cUrl + 'sopHousingOrder/pay',//立即支付
+    orderDetail: cUrl + '/sopHousingOrder/queryOrderDetailByOrderId',//订单详情
+    detai: cUrl + 'productHousing/detail',//产品详情
+    detaiOL: cUrl + 'ProductHousingMall/detail',//线上产品详情
+    getOrderCustomer: cUrl + 'takeTurns/getOrderCustomer',
+    getSettlementOrder: cUrl + 'sopHousingOrder/getSettlementOrder',
+    uploadImg: cUrl + 'sopHousingOrder/uploadImg',//图片上传
+    returndOrderSubmit: cUrl + 'sopHousingOrder/returndOrderSubmit',//退换货提交
+    submitOrder: cUrl + '/sopHousingOrder/submitOrder',//提交订单
+    getReturnOrderList: cUrl + 'sopHousingOrder/getReturnOrderList',//提交订单-退款
+    returndCancel:cUrl+"sopHousingOrder/returndCancel",//撤销退换货
+    getReturnOrderDetail: cUrl +'sopHousingOrder/getReturnOrderDetail',//退换货详情
   },
-  signin: {
-    getSignInfo: cUrl + 'signin/getSignInfo',
-    userSignIn: cUrl + 'signin/userSignIn',
-    signIn: cUrl + 'signin/signIn'
+  address: {
+    getAddressByLngAndLat: cUrl + 'CusHousingAddress/getAddressByLngAndLat',//根据经纬度获取所在城市
+    getHousingListByCityId: cUrl + 'CusHousingAddress/getHousingListByCityId',//根据城市id获取物业列表
+    getOpendCityList: cUrl + 'CusHousingAddress/getOpendCityList',//查询已开通城市
+    getAddressList: cUrl + 'CusHousingAddress/getAddressList', 
+    editAddress: cUrl + 'CusHousingAddress/editAddress',
+    addAddress: cUrl + 'CusHousingAddress/addAddress',
+    customerHousing: cUrl + 'customerHousing/matchCusAddress' //模糊匹配城市
   },
-  borrow: {
-    getBorrowBeanList: cUrl + 'cusConverBeanItem/getBorrowBeanList',//借豆列表
-    queryBwProductInfo: cUrl + 'product/queryBwProductInfo',//借豆产品详情
-    purchaseHistory: cUrl + 'product/purchaseHistory',//历史借豆
-    bwConverBean: cUrl + 'borrow/bwConverBean',//用户借豆
-    bwConvertBean: cUrl + 'borrow/bwConvertBean',//用户借豆+签名
-    queryBWConfig: cUrl + 'borrow/queryBWConfig',//配置信息
-    queryBWRecordList: cUrl + 'borrow/queryBWRecordList',//查看借豆列表
+  car: { 
+    addCart: cUrl + 'shoppingCart/addCart',//添加购物车
+    addCartByBatch: cUrl + 'shoppingCart/addCartByBatch',//批量添加购物车
+    queryCart: cUrl + 'shoppingCart/queryCart', //查看购物车
+    removeCartItems: cUrl + 'shoppingCart/removeCartItems',
+    modifyCartItemSelected: cUrl + 'shoppingCart/modifyCartItemSelected',
+    modifyCartItemAmount: cUrl + 'shoppingCart/modifyCartItemAmount',
   },
-  message: {
-    getPromotionList: cUrl + 'messageNotify/getPromotionList', //获取优惠大促消息
-    getAccountNotifyList: cUrl + 'messageNotify/getAccountNotifyList', //获取账户消息
-    getDealList: cUrl + 'messageNotify/getDealList', //获取交易消息列表
-    getExpresInfoList: cUrl + 'messageNotify/getExpresInfoList', //获取物流消息列表
-    getAccountMessage: cUrl + 'messageNotify/getAccountMessage', //获取用户消息
-    getMessageReadState: cUrl + 'messageNotify/updateMessageReadState', //获取用户消息状态
-    getInviteInfo: cUrl + 'customer/getInviteInfo' //邀请好友信息
+  housing: {
+    nearestStore: cUrl + 'customerWeChat/nearestStore',//获取最近小区
+    bindingProperty: cUrl + 'customerHousing/bindingProperty',//绑定小区物业
+    myHousing: cUrl + '/customerHousing/myHousing',//我绑定的物业
+    mySuggest: cUrl + '/customerHousing/opinion',//意见反馈
+    myCusHousingCoin: cUrl + 'cusHousingCoin/details',//用户物业币缴费账单详情
+    myCusHousing: cUrl + '/customerHousing/unbinding',//用户解绑清空物业币
+    charge:cUrl+'/cusHousingCoin/charge',
+    list: `${cUrl}cusHousingCoin/list`,
+    verify: `${cUrl}cusHousingCoin/verify`,
+    getUser: `${cUrl}customerHousing/getUserInfoByCellPhone`,
+    customerHousing: cUrl + 'customerHousing/matchCusAddress', //模糊匹配城市
+    getCusPayPw:`${cUrl}customerHousing/getCusPayPw`,
+    saveCusPayPw:`${cUrl}customerHousing/saveCusPayPw`,
+    modifyWithdrawPassword:`${cUrl}customerHousing/modifyPayPassword`,
+    getAddressList: `${cUrl}CusHousingAddress/getAddressList`,//地址列表
+    deleteAddress: `${cUrl}CusHousingAddress/deleteAddress`,//删除地址
+    getShareInfo: `${cUrl}productShare/getShareInfo`,//产品分享
   },
-  userEnvelope: {
-    checkCollarBag: cUrl + 'userEnvelope/checkCollarBag',
-    tenClockCollarBag: cUrl + 'userEnvelope/tenClockCollarBag',
-    receiveTimingConvertEnvelope: cUrl + 'userEnvelope/receiveTimingConvertEnvelope',
-    queryCollarBagDetail: cUrl + 'userEnvelope/queryCollarBagDetail',
-    queryTimingConvertEnvelopeDetail: cUrl + 'userEnvelope/queryTimingConvertEnvelopeDetail',
-    checkUserDayEnv: cUrl + 'cusEnvelope/checkUserDayEnv',
-    takeIndexEnv: cUrl + 'cusEnvelope/takeIndexEnv'
-  },
-  shops: {
-    getShopInfo: cUrl + 'shop/shopInfo',//查询店铺信息
-    getShopProducts: cUrl + 'shop/shopProducts', //查询店铺商品
-    getShopHistoryProducts: cUrl + 'shop/shopHistoryProducts', //查询店铺历史商品
-    getUserShop: cUrl + 'shop/getUserShop' //查询用户是否开店
-  },
-  cusEnvelope:
+  productHousing:
   {
-    snatchEnvelope: cUrl + 'cusEnvelope/snatchEnvelope',
-    getBeanEnvList: cUrl + 'cusEnvelope/getBeanEnvList',
-    getEnvData: cUrl + 'cusEnvelope/getEnvData'
+    index: cUrl + 'productHousing/index',
+    housingInfo: cUrl + 'productHousing/housingInfo'
   },
-  newCustomer:
+  customerAddress:
   {
-    newgetmsAuthCode: cUrl + 'newCustomer/getmsAuthCode',
-    loginCode: cUrl + 'newCustomer/loginCode',
-    wXRegiste: cUrl + 'newCustomer/wXRegister',
-    checkAuthCodeInfo: cUrl + 'newCustomer/checkAuthCodeInfo',
-    changeCellPhone: cUrl + 'newCustomer/changeCellPhone',
-    getUserCenter: cUrl + 'newCustomer/getUserCenter'
-
+    getAddressByLngAndLat: cUrl + 'CusHousingAddress/getAddressByLngAndLat'
   },
-  newBorrow: {
-    queryCustomerCode: cUrl + 'newCustomer/queryCustomerCode',
-    queryBWRecordListNew: cUrl + 'borrow/queryBWRecordListNew',
-    getUserCenterNew: cUrl + 'newCustomer/getUserCenterNew',
-    bwConvertBeanNew: cUrl + 'borrow/bwConverBeanNew',
-    purchaseHistoryNew: cUrl + 'product/purchaseHistoryNew',
-    queryBwProductInfoNew: cUrl + 'product/queryBwProductInfoNew',
-    getShareByKeyNew: cUrl + 'product/getShareByKeyNew'
+  housingbanner:
+  {
+    queryBannerList: cUrl + 'housingbanner/queryBannerList'
   },
-  sendBean: `${cUrl}cusEnvelope/createEnvelop`,
-  indexQuery: `${cUrl}index/query`,
-  clickFType: `${cUrl}types/clickFType`,
-  queryActivity: `${cUrl}activity/queryActivity`,
-  queryItem: `${cUrl}activity/queryItem`,
-  queryActivityNew: `${cUrl}activity/queryActivityNew`,
-  citys: cUrl + 'customerAddress/queryAllCity',
-  getCityByLngAndLat: cUrl + 'customerAddress/getCityByLngAndLat',
-  getAddressByLngAndLat: cUrl + 'customerAddress/getAddressByLngAndLat',
-  // getBorrowBeanList: cUrl + 'cusConverBeanItem/getBorrowBeanList',
+  takeTurns:
+  {
+    takeTurnsNotice: cUrl + 'takeTurns/takeTurnsNotice'
+  }
 }
 module.exports = api 

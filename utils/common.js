@@ -2,6 +2,11 @@ var md5 = require("md5/js-md5")
 var md5Sign = require("md5/sign")
 var Api = require("api")
 const app = getApp()
+let {
+  regeneratorRuntime
+} = global
+
+
 
 var common = {
   appkey: "3721zhkj",
@@ -30,9 +35,141 @@ common.getRoute = function () {
   console.log('currPage.route:', currPage.route)
   return currPage.route || null
 }
+common.nearHousing=function() {
+  let that = this
+  // console.log(that.data)
+  let latitude = common.getStorage('latitude').toString()
+  let longitude = common.getStorage('longitude').toString()
+  let url = Api.housing.nearestStore
+  let params = {
+    longitude,
+    latitude
+  }
+  let MD5sign = common.md5sign(params);
+  params.sign = MD5sign;
+  common.request.post(url, params, function (data) {
+    if (data.status == "OK") {
+      let user=common.getStorage('user')
+      console.log('****user==--==', user)
+      console.log(data);
+      let dwaddress = data.message.address
+      let storeId = data.message.storeId
+      let wyname = data.message.storeName
+      common.setStorage('user', Object.assign(user, { wyname: wyname }))
+      common.setStorage('user', Object.assign(user, { storeId: storeId }))
+      common.setStorage('user', Object.assign(user, { dwaddress: dwaddress }))
+      common.saveUser(user)
+      common.gotoIndex()
+      console.log('--==--==user==--==', user)
+    }
+  })
+}
+common.gotoStore=function(){
+  wx.switchTab({
+    url: '/pages/store/store',
+  })
+}
+common.getMyHousing=function(){
+  let that = this
+  var url = Api.housing.myHousing
+  let user = common.getUser() || common.getStorage('user');
+  console.log('user==', user)
+  let userCode = user.userCode
+  var parm = {
+    userCode
+  }
+  let MD5signStr = common.md5sign(parm);
+  parm.sign = MD5signStr
+  common.request.post(Api.housing.myHousing, parm, function (data) {
+    if (data.status == 'OK') {
+      // console.log(data)
+      let MyHousing = data.message
+      let isBingHouse = MyHousing.isBinDing
+      let address = MyHousing.address // 用户详细地址
+      let cellPhone = MyHousing.cellPhone //物业电话
+      let housingCode = MyHousing.housingCode //缴费户号
+      let storeAddress = MyHousing.storeAddress //小区地址
+      let storeName = MyHousing.storeName    //物业名称
+      let customerName = MyHousing.customerName //用户名称
+      let housingAddress = storeName + ' (' + storeAddress + ')' //拼接的 物业+小区地址
+      let myAddress = storeAddress + '(' + address + ')'// 用户详细地址
+      // let residualFee = MyHousing.residualFee //欠费金额
+      let isBinDing = MyHousing.isBinDing //1已绑定 0是未绑定
+      let storeId = MyHousing.storeId
+      that.setData({
+        address,
+        storeName,
+        storeAddress,
+        storeId,
+        cellPhone,
+        housingCode,
+        housingAddress,
+        customerName,
+        myAddress,
+        isBinDing
+      })
+    }
+  })
+}
+common.GoWechat=function(nickName, imageUrl) {
+  let that = this
+  console.log(nickName, imageUrl)
+  let targetUrl = common.getStorage('targetUrl')
+  let targetUrl1 = common.getStorage('targetUrl1')
+  wx.login({
+    success(res) {
+      if (res.code) {
+        let params = {
+          jsCode: res.code,
+        }
+        let MD5signStr = common.md5sign(params);
+        let reqParams = {
+          sign: MD5signStr,
+          ...params
+        }
+        //发起网络请求
+        wx.request({
+          url: Api.user.wXLogin,
+          method: 'post',
+          data: reqParams,
+          success(res) {
+            console.log(res)
+            let user= res.data.message
+            if (user.wxBindStatus){
+                if(user.isBinding){
+                  common.setStorage('user', user);
+                }else{
+                  common.nearHousing();
+                }
+              common.gotoIndex()
+            }else{
+              common.gotoLogin()
+            }
+            common.setWxOpenId(res.data.message.wxOpenId)
+          },
+          fail(err) {
+            wx.showToast({
+              title: err,
+              icon: 'none'
+            })
+          }
+        })
+      } else {
+        console.log('登录失败！' + res.errMsg)
+      }
+    },
+    fail(err) {
+      wx.showToast({
+        title: err,
+        icon: 'none'
+      })
+    }
+  })
+},
 common.biz.loggedIn = function (redirectUrl) {
   console.log('redirectUrl:', redirectUrl)
-  let user = app.globalData.userInfo
+  // let user = app.globalData.userInfo
+ let user =  common.getUser()
   console.log('index:user', user)
   if (
     user == '' ||
@@ -44,12 +181,12 @@ common.biz.loggedIn = function (redirectUrl) {
     if (redirectUrl) {
       if (redirectUrl == "currentPage") {
         wx.navigateTo({
-          url: '/pages/user/login/login?jumpUrl=' + encodeURIComponent(common.getFullPath()),
+          url: '/pages/home/home?jumpUrl=' + encodeURIComponent(common.getFullPath()),
         })
       } else {
         console.log('不是当前页面')
         wx.navigateTo({
-          url: '/pages/user/login/login?jumpUrl=' + encodeURIComponent(redirectUrl),
+          url: '/pages/home/home?jumpUrl=' + encodeURIComponent(redirectUrl),
         })
       }
 
@@ -105,6 +242,8 @@ common.miscellaneous.getSign = params => {
 common.miscellaneous.signedParams = params => {
   console.log('signedParams')
   var sign = common.miscellaneous.getSign(params)
+  console.log(params)
+  console.log(sign)
   return Object.assign(params, { sign: sign })
 }
 common.getparam = function (data) {
@@ -112,7 +251,7 @@ common.getparam = function (data) {
   for (let item in data) {
     param[item] = data[item];
   }
-  // param['sign'] = common.miscellaneous.getSign(data);
+  param['sign'] = common.md5sign(data);
   return param;
 },
   common.md5sign = function (data) {
@@ -221,55 +360,6 @@ common.getparam = function (data) {
       }
     })
   }
-
-// 原来的登陆
-// common.request.localLogin = function (data, callback, errorcallback) {
-//   let url = Api.customer.CustomerLogin
-//   let newdata = { cellPhone: data.cellPhone, passWord: data.passWord }
-//   newdata = common.miscellaneous.signedParams(newdata)
-//   wx.request({
-//     url: url,
-//     method: "GET",
-//     data: newdata,
-//     success: function (res) {
-//       if (res.data.status === "OK") {
-//         var user = res.data.message
-//         var name = user.userName
-//         var tokenStr = encodeURIComponent(JSON.stringify(user))
-//         var token = "token=" + tokenStr + "; name=" + name
-//         wx.setStorage({//保存cookie 到storage
-//           key: "token",
-//           data: token
-//         })
-//         wx.setStorage({//保存cookie 到storage
-//           key: "user",
-//           data: user
-//         })
-
-//         app.globalData.token = token
-//         app.globalData.userInfo = user
-//         console.log('app.globalData.token:', app.globalData.token)
-//         console.log('app.globalData.userInfo:', app.globalData.userInfo)
-
-//         if (callback) {
-//           callback(res.data.message)
-//         } else {
-//           wx.switchTab({
-//             url: "../index/index"
-//           })
-//         }
-//       } else {
-//         console.log('aaaaaaa')
-//         wx.showToast({
-//           title: res.data.message,
-//           icon: 'none',
-//           duration: 2000
-//         })
-//       }
-//       return;
-//     }
-//   })
-// }
 
 common.request.get = function (url, params, callback, errorcallback) {
   wx.showLoading()
@@ -406,6 +496,183 @@ common.ajax.post = function (url, params) {
   })
 
 }
+
+//密码登录
+common.pwdLogin = function ({ cellphone, password }) {
+  let url = Api.user.login
+  let params = { cellPhone: cellphone, passWord: password }
+  let MD5signStr = this.md5sign(params);
+  let reqParams = { sign: MD5signStr, ...params }
+  try {
+    return this.ajax.post(url, reqParams)
+  } catch (err) {
+    this.showToast(err.message)
+  }
+}
+common.showToast = function (message) {
+  wx.showToast({
+    title: message,
+    icon: 'none'
+  })
+}
+common.goback = () => {
+  wx.navigateBack({
+    delta: 1
+  })
+}
+common.gotoCustom = function (jumpurl) {
+  let isTabBar = this.isTabBar(jumpurl)
+  if (isTabBar) {
+    wx.switchTab({
+      url: jumpurl
+    })
+  } else {
+    wx.navigateTo({
+      url: jumpurl
+    })
+  }
+
+}
+common.isTabBar=function(jumpurl) {
+  // /pages/owner / owner
+  let urlarr = jumpurl.split('/')
+  let pageName = urlarr[urlarr.length - 1]
+  if (pageName == 'index' || pageName == 'owner' || pageName == 'order' || pageName == 'exchangeBox' || pageName == 'store') {
+    return true
+  } else {
+    return false;
+  }
+}
+
+common.showStorageError = () => {
+  wx.showToast({
+    title: '设置错误',
+    icon: 'none'
+  })
+}
+common.setStorage = function (key, value) {
+  try {
+    wx.setStorageSync(key, value)
+  } catch (e) {
+    this.showStorageError()
+  }
+}
+common.getStorage = function (key) {
+  try {
+    var value = wx.getStorageSync(key)
+    if (value) {
+     return value
+    } else{
+      return ''
+    }
+  } catch (e) {
+    this.showStorageError()
+  }
+}
+
+common.removeStorage=function(key){
+  try {
+    wx.removeStorageSync(key)
+  } catch (e) {
+    wx.showModal({
+      title: '删除userCode失败',
+      showCancel: false
+    })
+  }
+}
+common.clearStorage=function(){
+  try {
+    wx.clearStorageSync()
+  } catch (e) {
+    wx.showModal({
+      title: '清理缓存失败',
+      showCancel: false
+    })
+  }
+}
+
+common.isLogin = function () {
+  return this.getStorage('islogin')
+}
+common.saveLogin = function () {
+  this.setStorage('islogin', 1)
+}
+common.removeLogin=function(){
+  this.setStorage('islogin', 0)
+}
+common.saveUser = function (user) {
+  this.setStorage('user', user)
+}
+common.gotoLogin = function () {
+  wx.navigateTo({
+    url: '/pages/user/codelogin/codelogin'
+  })
+}
+common.gotoHome = function () {
+  wx.navigateTo({
+    url: '/pages/home/home'
+  })
+}
+common.gotoBind=function() {
+  wx.navigateTo({
+    url: '/pages/bindAddress/bindAddress'
+  })
+}
+common.gotoIsLogin = function(){
+  wx.redirectTo({
+    url: '/pages/isLogin/isLogin',
+  })
+}
+common.gotoIndex = function () {
+  wx.switchTab({
+    url: '/pages/index/index'
+  })
+}
+common.gotoOwner = function () {
+  wx.switchTab({
+    url: '/pages/owner/owner'
+  })
+}
+common.getUserFromApi=async function(userCode){
+  console.log("userCode:", userCode)
+  let url = Api.housing.getUser
+  let params = {
+    userCode
+  }
+  let MD5signStr = this.md5sign(params);
+  let reqParams = { sign: MD5signStr, ...params }
+  console.log("reqParams:", reqParams)
+  return this.ajax.post(url, reqParams)
+},
+
+common.getUser = function () {
+  return this.getStorage('user')
+}
+common.getStoreId = function () {
+  return this.getStorage('storeId')
+}
+common.getWxOpenId = function () {
+  return this.getStorage('openid')
+}
+common.getUserCode = function () {
+  return this.getStorage('userCode')
+}
+
+common.setWxOpenId = function (openid) {
+  this.setStorage('openid', openid)
+}
+common.setUserCode=function(value){
+  this.setStorage('userCode',value)
+}
+common.validPassword=function(password) {
+  // let reg = /^[A-Za-z0-9]{6,}|[A-Za-z0-9~!@#$^&*()=|{}]{6,}$/
+  let reg = /(?=.*[a-zA-Z])(?=.*[\d])[\w\W]{6,20}|(?=.*[a-zA-Z])(?=.*[\d])[\w\W]{6,20}[A-Za-z0-9~!@#$^&*()=|{}]{6,}/
+  return reg.test(password)
+},
+
+
+//-----------------------------//
+
 
 common.response.check = function (res) {
   if (res.status === 200) {
@@ -562,7 +829,7 @@ common.NewAuthCode = function (datas) {
 }
 //倒计时
 common.codeTime = function (_this) {
-  let TIME_COUNT = 60
+  let TIME_COUNT = 61
   if (!_this.timer) {
     console.log('TIME_COUNT', TIME_COUNT)
     _this.count = TIME_COUNT;
@@ -576,7 +843,7 @@ common.codeTime = function (_this) {
       } else {
         clearInterval(_this.timer);
         _this.setData({
-          codeTxt: '发送验证码',
+          codeTxt: '重新获取',
           btnDisabled: false,
           captchaReload: true
         })
@@ -595,16 +862,13 @@ common.cityData = function (callback) {
     }
   })
 }
-common.errImgFun = function (e, that) {//
-  var _errImg = e.target.dataset.errImg;
-  console.log(e.detail.errMsg + "----" + "----" + _errImg);
-  that.setData({
-    errorImg: 'https://zhkj.oss-cn-shanghai.aliyuncs.com/nHelp/w_newLogo.png'
-  });
+common.errImgFun = function (e, that) {
+  var _errImg = e.target.dataset.img;
+  var _errObj = {};
+  _errObj[_errImg] = "https://zhkj.oss-cn-shanghai.aliyuncs.com/nHelp/w_newLogo.png";
+  that.setData(_errObj);
 }
-
-common.callPay = function (params, type) {//支付
-  return new Promise(function (resolve, reject) {
+common.callPay = function (params, type, orderId) { //支付
     wx.requestPayment({
       timeStamp: params.timeStamp, // 时间戳，自1970年以来的秒数
       nonceStr: params.nonceStr, // 随机串
@@ -612,31 +876,95 @@ common.callPay = function (params, type) {//支付
       signType: params.signType, // 微信签名方式：
       paySign: params.paySign, // 微信签名
       success(res) {
-        resolve({})
-        if (res.err_msg == 'get_brand_wcpay_request:ok') {
-          //用户支付成功
-          wx.navigateTo({
-            url: `pages/payFail/payFail?isPayOk=true&fromType=${type}`,
-          })
-        } else {
-          wx.navigateTo({
-            url: `pages/payFail/payFail?isPayOk=false&fromType=${type}`,
-          })
-        }
+        wx.redirectTo({
+          url: `/pages/ReturnRequest/rerurnSuccess/rerurnSuccess?orderId=${orderId}`
+        })
       },
       fail(res) {
-        console.log(params, '****')
+        wx.redirectTo({
+          url: `/pages/ReturnRequest/returnfail/returnfail?orderId=${orderId}`
+        })
       }
     })
-  })
 }
 
+common.setTabBar = function (that)
+{
+  let Num = 0;
+  if (!wx.getStorageSync('cartItemsNum'))
+  {
+    let userCode = common.getUser().userCode || common.getStorage('userCode');
+    let storeId = common.getUser().storeId || common.storeId2();
+    common.request.get(Api.car.queryCart, { userCode: userCode, storeId: storeId},
+      function (data) {
+        if (data.status == "OK") {
+          let exboxList = [];
+          let proList = data.message.sellingItems || [];
+          var checkAllFlag = true;
+          for (let i = 0; i < proList.length; i++) {
+            Num += proList[i].amount;
+            exboxList.push({
+              productId: proList[i].productid,
+              title: proList[i].sku.productName,
+              image: proList[i].sku.imageUrl,
+              price: proList[i].sku.price,
+              value: proList[i].amount
+            })
+          }
+          let invalidList = data.message.haltSellItems || [];
+          for (let i = 0; i < invalidList.length; i++) {
+            console.log('---invalidList[i].amount', invalidList[i].amount)
+            Num += invalidList[i].amount;
+            console.log('===Num', Num)
+            exboxList.push({
+              productId: invalidList[i].productid,
+              title: invalidList[i].sku.productName,
+              image: invalidList[i].sku.imageUrl,
+              price: invalidList[i].sku.price,
+              value: invalidList[i].amount
+            })
+          }
+            //更新缓存数据
+          wx.setStorageSync("cartItemsNum", Num)
+          wx.setStorageSync("cartItems", exboxList)
 
+          if (Num <= 0) {
+            wx.removeTabBarBadge({
+              index: 3,
+            });
+          } else {
+            wx.setTabBarBadge({
+              index: 3,
+              text: new Number(Num).toString(),
+            })
+          }
+        }
+      })
+  }else
+  {
+    Num = wx.getStorageSync('cartItemsNum')
+    console.log("Num----", Num)
+    if (Num <= 0) {
+      wx.removeTabBarBadge({
+        index: 3,
+      });
+    } else {
+      wx.setTabBarBadge({
+        index: 3,
+        text: new Number(Num).toString(),
+      })
+    }
+  }
+}
 
 common.getTels = function () {//客服
   wx.makePhoneCall({
     phoneNumber: '400-720-0000'
   })
 },
-
+common.storeId2=function(){
+  // this.setStorage('storeId', 36614)
+  return '36614'
+}
   module.exports = common
+

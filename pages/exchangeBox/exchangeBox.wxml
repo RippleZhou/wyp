@@ -1,65 +1,131 @@
 <!--pages/order/exchangeBox.wxml-->
 <view class='Boxs'>
   <view class='w_car_Head'>
-  <view class='w_car_Headfx'>
-  <view class='w_car_Head_txt'>购物车</view>
-  <view class='w_car_Head_scanCode' bindtap='scan'></view>
-  <view class='w_car_right' bindtap='del'>删除</view>
+    <text class='w_car_Headfx' bindtap='del'> 删除</text>
   </view>
-  </view>
-  <view class='marBoxs'>
-    <view wx:for="{{carts}}" wx:for-index="i" wx:for-item="Items" bindtouchstart="removestart" bindtouchmove="removeload" bindtouchend="removeend" data-id="{{Items.delIndex}}" class="eb-lCons {{(Items.delIndex==ebtId)?'ebItems-del':''}}">
-      <view class='wx_swiper' wx:if="{{Items.isPutaway==0}}">
-        <view class='wx_swiper_left'>
-          <view  class='w_isVal_pops'></view>
-          <label class='w_isVal_tips'>抢光了~</label>
-        </view>
-        <image></image>
-        <view class='w_exLi_info'>
-          <text>盼盼法式小面包1.5kg软面包面包 面包面包面包</text>
-          <view></view>
-          <view class="w_pop_selBtns">
-            <label>¥{{Items.price}}</label>
-            <view class='w_Btns'>
-              <view class="subBtn {{Items.num<=0?'subBtnNos':''}}" catchtap="sub" id="info{{Items.eIndex}}"></view>
-              <input type="number" value="{{Items.num}}" class='inputnum' />
-              <view class="addBtn" catchtap="add" id="info{{Items.eIndex}}"></view>
-            </view>
-          </view>
-        </view>
-
+      <view class="eb_noPros {{carts.length > 0?'':'eb_noShows'}}" wx:if="{{carts.length==0}}">
+      <view class="eb_noImgs">
+        <image src="{{noMores}}" mode="widthFix"></image>
       </view>
-      <view class='wx_swiper' wx:else>
-        <view class='wx_swiper_left'>
-          <view  class='checkSels' catchtap='bindSelect' id='info{{Items.eIndex}}'>
-            <view wx:if="{{Items.checked}}" class='checkselsel' ></view>
-            <view wx:else class='checknosel'></view>
-          </view>
-        </view>
-        <image></image>
-        <view class='w_exLi_info'>
-          <text>盼盼法式小面包1.5kg软面包面包 面包面包面包</text>
-          <view></view>
-          <view class="w_pop_selBtns">
-            <label>¥{{Items.price}}</label>
-            <view class='w_Btns'>
-              <view class="subBtn {{Items.num<=0?'subBtnNos':''}}" catchtap="sub" id="info{{Items.eIndex}}"></view>
-              <input type="number" value="{{Items.num}}" class='inputnum' />
-              <view class="addBtn" catchtap="add" id="info{{Items.eIndex}}"></view>
-            </view>
-          </view>
-        </view>
-
-      </view>
-      <view class="wx_car_del" data-id="{{Items.eIndex}}" catchtap="delcart" catchtap="delcart">
-        删除
-      </view>
+      <view class="eb_noTxts">购物车空空如也</view>
     </view>
+  <view class='marBoxs' wx:else>
+     <view class='mar_conLis' wx:if="{{carts2.length>0}}">
+        <view class='top_tits' bindtap='goMall'>
+          <text>线上商城</text>
+          <view wx:if="{{isFree2==0}}"><image src='/img/tan_01.png' mode="widthFix"></image>已包邮</view>
+          <view wx:else><image src='/img/tan_01.png' mode="widthFix"></image>还差{{isFree2}}元包邮</view>
+        </view>
+
+        <view wx:for="{{carts2}}" wx:for-index="i" wx:for-item="Items" bindtouchstart="removestart" bindtouchmove="removeload" bindtouchend="removeend" data-id="{{Items.proId}}" class="eb-lCons {{(Items.proId==ebtId)?'ebItems-del':''}}">
+          <view class='wx_swiper' wx:if="{{Items.stock<=0}}" catchtap='choosedetail2' data-listdata='{{Items}}'>
+            <view class='wx_swiper_left'>
+              <view class='w_isVal_pops'></view>
+              <text class='w_isVal_tips'>抢光了~</text>
+            </view>
+            <view class='list_img'>
+              <image src='{{Items.imgUrl}}'></image>
+            </view>
+            <view class='w_exLi_info'>
+              <text class='pro_title'>{{Items.proTit}}</text>
+              <view class="w_pop_selBtns">
+                <text class="w_pop_price">¥{{Items.proPrice}}</text>
+                <view class='w_Btns'>
+                  <view class="subBtn {{Items.proNums<=0?'subBtnNos':''}}" catchtap="sub" id="info{{i}}"></view>
+                  <input type="number" placeholder="0" value="{{Items.proNums}}" class='inputnum' id="input" data-proid="{{Items.proId}}" data-proNums="{{Items.proNums}}" data-index="{{i}}" dadta-type="input" onchange="changeNums" oninput="changeNums"  data-stars='2'/>
+                  <view class="addBtn" catchtap="add" id="info{{i}}"></view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class='wx_swiper' wx:else>
+            <view class='wx_swiper_left'>
+              <view class='checkSels' catchtap="bindSelect" id='info{{i}}' data-stars='2'>
+                <view wx:if="{{Items.checked}}" class='checkselsel'></view>
+                <view wx:else class='checknosel'></view>
+              </view>
+            </view>
+
+            <image src='{{Items.imgUrl}}' catchtap='choosedetail2' data-listdata='{{Items}}'></image>
+            <view class='w_exLi_info'>
+              <text class='pro_title'>{{Items.proTit}}</text>
+              <!-- <view></view> -->
+              <view class="w_pop_selBtns">
+                <text class='w_pop_price'>¥<text class='red_price'>{{Items.proPrice}}</text> </text>
+                <view class='w_Btns'>
+                  <view class="subBtn {{Items.proNums<=0?'subBtnNos':''}}" catchtap="{{Items.proNums<=0?'':'sub'}}" id="info{{i}}" data-stars='2'></view>
+                  <input type="number" value="{{Items.proNums}}" class='inputnum' id="input" data-proid="{{Items.proId}}" data-proNums="{{Items.proNums}}" data-index="{{i}}" dadta-type="input" onchange="changeNums" oninput="changeNums" data-stars='2'/>
+                  <view class="addBtn" catchtap="add" id="info{{i}}" data-stars='2'></view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="wx_car_del" id="info{{Items.proId}}" catchtap="delcart" data-stars='2'>
+            删除
+          </view>
+        </view>
+     </view>
+       <view class='line_20s'></view>
+       <view class='mar_conLis' wx:if="{{carts1.length>0}}">
+        <view class='top_tits' bindtap='goIndex'>
+          <text>物业货架</text>
+          <view wx:if="{{isFree1==0}}"><image src='/img/tan_01.png' mode="widthFix"></image>已包邮</view>
+          <view wx:else><image src='/img/tan_01.png' mode="widthFix"></image>还差{{isFree1}}元包邮</view>
+        </view>
+
+        <view wx:for="{{carts1}}" wx:for-index="i" wx:for-item="Items" bindtouchstart="removestart" bindtouchmove="removeload" bindtouchend="removeend" data-id="{{Items.proId}}" class="eb-lCons {{(Items.proId==ebtId)?'ebItems-del':''}}">
+          <view class='wx_swiper' wx:if="{{Items.stock<=0}}" catchtap='choosedetail' data-listdata='{{Items}}'>
+            <view class='wx_swiper_left'>
+              <view class='w_isVal_pops'></view>
+              <text class='w_isVal_tips'>抢光了~</text>
+            </view>
+            <view class='list_img'>
+              <image src='{{Items.imgUrl}}'></image>
+            </view>
+            <view class='w_exLi_info'>
+              <text class='pro_title'>{{Items.proTit}}</text>
+              <view class="w_pop_selBtns">
+                <text class="w_pop_price">¥{{Items.proPrice}}</text>
+                <view class='w_Btns'>
+                  <view class="subBtn {{Items.proNums<=0?'subBtnNos':''}}" catchtap="sub" id="info{{i}}"></view>
+                  <input type="number" placeholder="0" value="{{Items.proNums}}" class='inputnum' id="input" data-proid="{{Items.proId}}" data-proNums="{{Items.proNums}}" data-index="{{i}}" dadta-type="input" onchange="changeNums" oninput="changeNums"  data-stars='1'/>
+                  <view class="addBtn" catchtap="add" id="info{{i}}"></view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class='wx_swiper' wx:else>
+            <view class='wx_swiper_left'>
+              <view class='checkSels' catchtap="bindSelect" id='info{{i}}' data-stars='1'>
+                <view wx:if="{{Items.checked}}" class='checkselsel'></view>
+                <view wx:else class='checknosel'></view>
+              </view>
+            </view>
+
+            <image src='{{Items.imgUrl}}' catchtap='choosedetail' data-listdata='{{Items}}'></image>
+            <view class='w_exLi_info'>
+              <text class='pro_title'>{{Items.proTit}}</text>
+              <!-- <view></view> -->
+              <view class="w_pop_selBtns">
+                <text class='w_pop_price'>¥<text class='red_price'>{{Items.proPrice}}</text> </text>
+                <view class='w_Btns'>
+                  <view class="subBtn {{Items.proNums<=0?'subBtnNos':''}}" catchtap="{{Items.proNums<=0?'':'sub'}}" id="info{{i}}" data-stars='1'></view>
+                  <input type="number" value="{{Items.proNums}}" class='inputnum' id="input" data-proid="{{Items.proId}}" data-proNums="{{Items.proNums}}" data-index="{{i}}" dadta-type="input" onchange="changeNums" oninput="changeNums" data-stars='1'/>
+                  <view class="addBtn" catchtap="add" id="info{{i}}" data-stars='1'></view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="wx_car_del" id="info{{Items.proId}}" catchtap="delcart" data-stars='1'>
+            删除
+          </view>
+        </view>
+       </view>
   </view>
   <view class='car_footers'>
     <view class='w_car_sels'>
       <view class='checkSels' bindtap='bindSelectAll'>
-        <view wx:if="{{selectedAllStatus}}" class='checkselsel' ></view>
+        <view wx:if="{{selectedAllStatus}}" class='checkselsel'></view>
         <view wx:else class='checknosel'></view>
       </view>
       全选
@@ -68,13 +134,11 @@
       <label class='w_pricetxt'>
         合计：
       </label>
-      <label class='w_price'> ¥{{count}}</label>
+      <text class='w_price'> ¥{{allMoney}}</text>
       <text class='w_car_txt'>
-        可获物业币{{propertycurrency}}个
+        可获物业币{{propertycurrency}}
         </text>
     </view>
-    <navigator class='w_a_nav'>去结算</navigator>
-  </view>
-  <view class='car_footer'>
+    <view class='w_a_nav' bindtap='GoPay'>去结算</view>
   </view>
 </view>

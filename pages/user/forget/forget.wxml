@@ -2,17 +2,19 @@
 <view class='reg_v font_30'>
   <view class='reg_cons'>
     <view class='reg_inputLis'>
-      <input type='text' class='input' placeholder='请输入手机号'></input>
+      <input type='number' class='input' maxlength="11" placeholder='请输入手机号' bindinput="cellphoneInput"></input>
     </view>
     <view class='reg_inputLis reg_inputLis2'>
-      <input type='text' class='input _input2' placeholder='请输入验证码'></input>
-      <label class='verify'>获取验证码</label>
+      <input type='number' class='input _input2' placeholder='请输入验证码' bindinput="codeInput"></input>
+      <label class='verify' bindtap="getCode">{{codeTxt}}</label>
     </view>
     <view class='reg_inputLis'>
-      <input type='text' class='input' placeholder='请输入新密码（最少6位数字，数字+字母）'></input>
+      <input type='text' class='input' placeholder='请输入新密码（最少6位字符，数字+字母）' bindinput="pwdInput"></input>
     </view>
     <view class='reg_cons_btns'>
-      <button class='reg_bTxts'>提交</button>
+      <button class='reg_bTxts' bindtap="submit">提交</button>
     </view>
   </view>
 </view>
+
+<basic bindsuccess='captchaSuccess' bindhide='captchaHide' captchaReload='{{captchaReload}}' captchaShow='{{captchaShow}}' options='{{options}}' />

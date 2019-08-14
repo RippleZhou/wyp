@@ -1,0 +1,21 @@
+<!--pages/ shippingAddress/shippingAddress.wxml-->
+<view  class='line'></view>
+<view class='first'>
+  <text class='consignee'>收货人</text>
+  <input class='font_999' placeholder='请输入您的姓名'></input>
+</view>
+<view class='second'>
+  <text class='consignee'>手机号</text>
+  <input class='font_999' placeholder='请输入您的手机号'></input>
+</view>
+<view class='third'>
+  <text class='consignee'>收货地址</text>
+  <text class='housing'>杨新路88号</text>
+  <!-- <input placeholder='请输入您的姓名'></input> -->
+</view>
+<view class='four'>
+  <text class='consignee'>门牌号</text>
+  <text class='address'>8楼302室</text>
+  <!-- <input placeholder='请输入您的姓名'></input> -->
+</view>
+<view class='btn_msg'  bindtap='submit'>保存并使用</view>

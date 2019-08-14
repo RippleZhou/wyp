@@ -1,0 +1,19 @@
+<!--pages/paymentPassword/modify.wxml-->
+<view class='reg_v'>
+    <!-- 旧密码 -->
+    <view class='reg_inputLis'>
+      <input type='password' maxlength="6" class='input' placeholder='请输入旧的支付密码' bindinput="handleOld"></input>
+    </view>
+    <!-- 新密码 -->
+    <view class='reg_inputLis'>
+      <input type='password' maxlength="6" class='input' placeholder='请输入新的支付密码(6位数字)' bindinput="handleNew"></input>
+    </view>
+    <!-- 重复新密码 -->
+    <view class='reg_inputLis'>
+      <input type='password' maxlength="6" class='input' placeholder='请重复新的支付密码' bindinput="handleNewRe"></input>
+    </view>
+    <!-- 确认 -->
+    <view class='reg_cons_btns'>
+      <button class='reg_bTxts' bindtap="handleSubmit">设置支付密码</button>
+    </view>
+</view>

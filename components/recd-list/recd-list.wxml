@@ -1,0 +1,15 @@
+<!--components/recd-list/recd-list.wxml-->
+<view class="w_recd_boxs">
+  <view class="w_recd_tits">为你推荐</view>
+  <view class="w_recd_cons">
+    <view class="w_recd_lists" wx:for="{{recdList}}"
+      wx:key="{{index}}" data-id="{{item.id}}" bindtap="goto">
+      <image class='recd_img' mode="widthFix" src="{{item.url || errorImg}}"></image>
+      <view class='w_recd_lists_h2'>{{item.title}}</view>
+      <view class='w_recd_lists_h3'>
+        ￥<text class='price'>{{item.price}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+

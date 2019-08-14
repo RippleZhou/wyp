@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "cart-item": "/pages/shoppingcart/index"
-  },
-  "navigationBarTitleText": "购物车"
-}

@@ -1,0 +1,50 @@
+/* components/recd-list/recd-list.wxss */
+.w_recd_boxs {
+  width: 100%;
+  background: #fff;
+}
+.w_recd_tits {
+  font-size: 30rpx;
+  color: #333;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-bottom: 1px solid #ebebeb;
+}
+.w_recd_cons {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20rpx 10rpx;
+}
+.w_recd_lists {
+  width: 33.33%;
+  padding: 0 12rpx;
+  padding-bottom: 26rpx;
+  text-align: left;
+}
+.recd_img {
+  margin: 0 auto;
+  display: block;
+  line-height: 0;
+  width: 100%;
+}
+.w_recd_lists_h2 {
+  text-align: left;
+  font-size: 26rpx;
+  color: #333;
+  margin-top: 15rpx;
+  margin-bottom: 15rpx;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+}
+.w_recd_lists_h3 {
+  font-size: 24rpx;
+  color: #e61817;
+}
+.price {
+  display: inline-block;
+  font-size: 30rpx;
+}

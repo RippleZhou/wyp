@@ -1,9 +1,0 @@
-<!--pages/about/about.wxml-->
-<view>
-  <view class='wyb'>
-    <view class='about_img'><image src='/img/tuoyuan.png'></image> </view>
-    <view class='about_txt'>物业帮V1.0.0</view>
-  </view>
-  <view class='xieyi flex flex-main-justify'> <text>用户协议</text> <text class='font_999'>></text> </view>
-</view>
-

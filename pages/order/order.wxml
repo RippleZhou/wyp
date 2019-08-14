@@ -1,79 +1,107 @@
 <!--pages/order/order.wxml-->
-<view class='my_order'>
-  <view class='order_list flex flex-main-center'>
-    <view class="swiper-tab-list all_order " > <text data-current="0" bindtap="swichNav" class="{{currentTab==0 ? 'on' : ''}}">全部</text > </view>
-    <view class="swiper-tab-list be_paid " > <text data-current="1" bindtap="swichNav" class="{{currentTab==1 ? 'on' : ''}}">待支付</text ></view>
-    <view class="swiper-tab-list for_receive " ><text data-current="2" bindtap="swichNav" class="{{currentTab==2 ? 'on' : ''}}">待收货</text ></view>
-  </view> 
-<swiper current="{{currentTab}}" class="swiper-box" duration="300" bindchange="swiperChangeTab">
-  <block wx:for="{{tabs}}" wx:key="index">
-    <swiper-item class="swiper_side" >
-      <scroll-view data-index="{{index}}" style='height:100%;' scroll-y bindscrolltolower="scrolltolower">
-        <view class='mar_10'>
-          <view class='order_list_all'>
-            <view class='order_status flex flex-main-justify'>
-              <view  class='order_list_time'>2019-02-30 13:20:32</view>
-              <view class='order_list_status pricetxt'>待支付</view>
-            </view>
-            <view class='order_list_img flex flex-main-justify' bindtap='GoCommoditylist'>
-                <image src='../../img/pro01.jpg'></image>
-                <image src='../../img/pro01.jpg'></image>
-                <image src='../../img/pro01.jpg'></image>
-            </view>
-            <view class='order_total flex flex-main-right'>
-              <text>共计<text class='order_tatal_list'>2</text>件商品</text>
-              <text class='order_total_pad'>合计：¥ <text class='order_total_price'>36</text></text>
-            </view>
-            <view class='order_choice flex flex-main-right'>
-              <button class='cancel_order' id='cancel_order' bindtap='cancel_order'>取消订单</button>
-              <button class='pay_order' id='pay_order' class='pay_order'>立即支付</button>
-            </view>
-            </view>
-        </view>
-        <view class='mar_10'>
-          <view class='order_list_all'>
-            <view class='order_status flex flex-main-justify'>
-              <view  class='order_list_time'>2019-02-30 13:20:32</view>
-              <view class='order_list_status pricetxt'>待支付</view>
-            </view>
-            <view class='order_list_img flex flex-main-justify' bindtap='GoCommoditylist'>
-                <image src='../../img/pro01.jpg'></image>
-                <image src='../../img/pro01.jpg'></image>
-                <image src='../../img/pro01.jpg'></image>
-            </view>
-            <view class='order_total flex flex-main-right'>
-              <text>共计<text class='order_tatal_list'>2</text>件商品</text>
-              <text class='order_total_pad'>合计：¥ <text class='order_total_price'>36</text></text>
-            </view>
-            <view class='order_choice flex flex-main-right'>
-              <button class='cancel_order' id='cancel_order' bindtap='cancel_order'>取消订单</button>
-              <button class='pay_order' id='pay_order' class='pay_order'>立即支付</button>
-            </view>
-            </view>
-        </view>
-      </scroll-view>
+<wxs module="util" src="./order.wxs"></wxs>
+
+<swiper class="swiper-wrap-tab" display-multiple-items="{{5}}" >
+  <block wx:for="{{orderTab}}" wx:key="unique">
+    <swiper-item class="swiper-item-tab" catchtap="clickTab" data-index="{{index}}">
+      <view class="swiper-item-tab-text {{states == index ? 'active-tab': ''}}">
+        {{item}}
+      </view>
     </swiper-item>
   </block>
 </swiper>
-</view>
 
-<!-- 模态框 -->
-<view class='mask font_30' wx:if='{{show}}' bindtap='clickMask'>
- <view class='modal-content' style='height:{{height}}'>
-  <scroll-view scroll-y class='main-content'>
-   <slot></slot>
-  </scroll-view>
-  <view class='modal-btn-wrapper flex flex-wrap '>
-    <view class='cancel-btn'>
-      <text>取消原因</text>
-      <image  bindtap='cancel' class='cancel-img' src='/img/×.png'></image>
+<swiper class='w_sw_con' current='{{states}}' bindchange="swiperChangeTab">
+
+  <block>
+    <swiper-item class="swiper-slide" wx:for="{{orderTab}}" wx:key="unique">
+      <!--没有数据时显示-->
+      <view class="eb_noPros {{isShows==true?'':'eb_noShows'}}" wx:if="{{isShows==false}}">
+        <view class="eb_noImgs">
+          <image src="{{noMores}}" mode="widthFix"></image>
+        </view>
+        <view class="eb_noTxts">还没有相关订单</view>
+      </view>
+      <scroll-view wx:else data-index="{{index}}" style='height:100%;' scroll-y bindscrolltolower="scrolltolower" lower-threshold="100">
+        <view class='order_conBox'>
+          <view class='orderLists' wx:for="{{list}}" wx:key="unique" wx:for-item="ex">
+            <view class='order_lis_tit' bindtap='getDetial2' data-orderid="{{ex.id}}" wx:if="{{states==4}}">
+              <label>申请时间:{{ex.applicationRefundDate}}
+                <text wx:if="{{ex.orderSourceType==1}}">(货架订单)</text>
+                <text wx:if="{{ex.orderSourceType==2}}">(线上订单)</text>
+              </label>
+              <label class="{{(ex.returnState!=9)?'redTxts':''}}">{{util.getStateTxt(ex.returnState)}}</label>
+            </view>
+            <view class='order_lis_tit' bindtap='getDetial' data-orderid="{{ex.id}}" wx:else>
+              <label>
+                <text wx:if="{{ex.orderState==9||ex.orderState==10||ex.orderState==12||ex.orderState==20}}">申请时间:</text>{{ex.orderDate}}
+                <text wx:if="{{ex.orderSourceType==1}}">(货架订单)</text>
+                <text wx:if="{{ex.orderSourceType==2}}">(线上订单)</text>
+              </label>
+              <label class="{{(ex.orderState==0||ex.orderState==1||ex.orderState==2||ex.orderState==3||ex.orderState==4||ex.orderState==6||ex.orderState==14||ex.orderState==10||ex.orderState==12||ex.orderState==15||ex.orderState==20)?'redTxts':''}}">{{util.getStateTxt(ex.orderState)}}</label>
+            </view>
+            <block wx:if="{{states==4}}">
+              <swiper class='order_list_images' display-multiple-items="{{ex.returnOrderItemList.length>=4?4:ex.returnOrderItemList.length}}" bindtap='getDetial2' data-orderid="{{ex.id}}">
+                <block wx:for="{{ex.returnOrderItemList}}" wx:key="unique" wx:for-item="am">
+                  <swiper-item class="list_itemIms">
+                    <image src="{{am.imageUrl}}" mode="widthFix"></image>
+                  </swiper-item>
+                </block>
+              </swiper>
+            </block>
+            <block wx:else>
+              <swiper class='order_list_images' display-multiple-items="{{ex.orderItemList.length>=4?4:ex.orderItemList.length}}" bindtap='getDetial' data-orderid="{{ex.id}}">
+                <block wx:for="{{ex.orderItemList}}" wx:key="unique" wx:for-item="am">
+                  <swiper-item class="list_itemIms">
+                    <image src="{{am.imageUrl}}" mode="widthFix"></image>
+                  </swiper-item>
+                </block>
+              </swiper>
+            </block>
+
+            <view wx:if="{{states!=4}}" class='order_lis_total' bindtap='getDetial' data-orderid="{{ex.id}}">共计{{ex.productNum}}件商品合计：¥{{ex.orderAmount}}</view>
+            <view class='order_lis_btns'>
+              <text class='red_btns' wx:if="{{ex.orderState==0}}" bindtap='getPay' data-orderid="{{ex.id}}">立即支付</text>
+              <block wx:if="{{ex.orderSourceType==1}}">
+                <text wx:if="{{ex.orderState==0||ex.orderState==1||ex.orderState==14}}" bindtap='cancelShows' data-orderid="{{ex.id}}">取消订单</text>
+              </block>
+              <block wx:if="{{ex.orderSourceType==2}}">
+                <text wx:if="{{ex.orderState==0||ex.orderState==16}}" bindtap='cancelShows' data-orderid="{{ex.id}}">取消订单</text>
+              </block>
+              <text class='' wx:if="{{ex.orderState==6||ex.orderState==10||ex.orderState==13||ex.orderState==15}}" bindtap='goCars' data-orderItem="{{ex.orderItemList}}">再次购买</text>
+              <block wx:if="{{states==3}}">
+                <text wx:if="{{(ex.returnState==10||ex.returnState==12)}}" bindtap='cancelReturn' data-orderid="{{ex.id}}">撤销退货</text>
+              </block>
+
+            </view>
+          </view>
+        </view>
+        <view class="w_loading_box">
+          <block wx:if="{{noPage==1}}">
+            <view class='w_load_tips'>{{tipTxt}}</view>
+          </block>
+        </view>
+      </scroll-view>
+
+    </swiper-item>
+  </block>
+</swiper>
+
+<!-- 模态框-->
+<view class='mask font_30' wx:if='{{cancelShow}}'>
+  <view class='modal-content'>
+    <view class='modal-btn-wrapper flex flex-wrap '>
+      <view class='cancel-btn'>
+        <text>取消原因</text>
+        <image bindtap='cancel' class='cancel-img' src='/img/quxiao.png'></image>
+      </view>
+      <radio-group class="radio-group" bindchange="radioChange">
+        <label class="radio" wx:for="{{cancelList}}" wx:key="unique">
+          {{item.text}}
+          <radio class='fr' value="{{item.value}}" color='#d43429' checked="{{item.checked}}" />
+        </label>
+      </radio-group>
+      <view class='confirm-btn' bindtap='cancelConfirm'>确认</view>
     </view>
-    <radio-group class="radio-group flex flex-wrap" bindchange="radioChange">
-      <label class="radio" wx:for="{{cancelReason}}">
-         {{item.name}}<radio class=' fr' value="{{item.name}}" color='#d43429' checked="{{item.checked}}"/>
-      </label>
-    </radio-group>
-    <view class='confirm-btn'  bindtap='confirm'>确认</view>
   </view>
- </view>
 </view>

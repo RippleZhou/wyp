@@ -2,21 +2,22 @@
 <view class='reg_v font_30'>
   <view class='reg_cons'>
     <view class='wx_info'>
-      <text>您的微信账号</text><text>{{userinfo}} 通过验证</text>
+      <text>您的微信账号</text><open-data type="userNickName"></open-data><text>通过验证</text>
     </view>
     <view class='reg_info color_999'>
-      <text>绑定手机号，可同步第三方账号与手机信息。物业帮不会透露 您的个人信息</text>
+      <text>绑定手机号，可同步第三方账号与手机信息。物业拼拼不会透露 您的个人信息</text>
     </view>
     <view class='reg_inputLis'>
-      <input type='text' class='input' placeholder='请输入手机号'></input>
+      <input type='number' class='input' placeholder='请输入手机号' bindinput="cellphoneInput"></input>
     </view>
     <view class='reg_inputLis reg_inputLis2'>
-      <input type='text' class='input _input2' placeholder='请输入验证码'></input>
-      <label class='verify'>获取验证码</label>
+      <input type='number' class='input _input2' placeholder='请输入验证码' bindinput="codeInput"></input>
+        <label class='verify' bindtap="getCode">{{codeTxt}}</label>
     </view>
     <view class='reg_cons_btns'>
-      <button class='reg_bTxts'>绑定手机号</button>
+      <button class='reg_bTxts' bindtap="wxBindphone">绑定手机号</button>
     </view>
   </view>
 </view>
+<basic bindsuccess='captchaSuccess' bindhide='captchaHide' captchaReload='{{captchaReload}}' captchaShow='{{captchaShow}}' options='{{options}}' />
 

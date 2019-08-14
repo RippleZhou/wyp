@@ -72,3 +72,11 @@
     background: linear-gradient(to right,#f90000,#f61e65);
 
 }
+
+.register-toast{
+  background:#ccc;
+  color: #fff;
+  border-radius: 100rpx;
+  text-align: center;
+  padding: 10rpx 0;
+}

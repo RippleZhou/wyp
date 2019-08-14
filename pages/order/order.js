@@ -5,328 +5,432 @@ var Api = require("../../utils/api");
 const app = getApp();
 
 Page({
-  show: {
-    type: Boolean,
-    value: false
-  },
-  //modal的高度
-  height: {
-    type: String,
-    value: '80%'
-  },
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-    cancelReason: [
-      { name: '操作有误（商品、地址、到达时间选错了）' },
-      { name: '重复下单' },
-      { name: '不想买了'},
-      { name: '其他原因' }, { name: '重复下单' },
-      { name: '不想买了' },
-      { name: '其他原因iii' },
-    ],
     // tab切换
-    tabs: ["全部","待支付","待收货"],
-    currentTab: 0,
+    orderTab: ["全部", "待支付", "待收货","已完成","退货/售后"],
+    states: 0,
     list: [],
-    newproductList: []
-
+    offset: 0,
+    limit: 10,
+    noPage:0,
+    isShows:true,
+    tipTxt:'',
+    errorImg: 'https://zhkj.oss-cn-shanghai.aliyuncs.com/nHelp/w_newLogo.png',
+    noMores: 'https://zhkj.oss-cn-shanghai.aliyuncs.com/nHelp/nw_blank_02.png',
+    cancelShow:false,
+    cancelList: [],//取消列表
+    cancelReason:0,//取消原因
+    orderId:'',
   },
-  bindChange: function( e ) {
-    var that = this;
-    that.setData( { currentTab: e.detail.current });
+  onShareAppMessage: function (res) {
+    return {
+      title: '我的订单',
+      path: 'pages/order/order'
+    }
   },
-  swichNav: function( e ) {
-    var that = this;
-    if( this.data.currentTab === e.target.dataset.current ) {
-      return false;
+  onLoad: function (options) {
+    // let user = Common.getStorage('user') || Common.getUser()
+    // let isBinding = user.isBinding
+    // console.log(isBinding)
+    // if (!isBinding) {
+    //   console.log('未绑定小区')
+    // }else{
+    //   let st = app.globalData.states
+    //   if (!app.globalData.states) {
+    //     st = 0
+    //   } else {
+    //     st = app.globalData.states
+    //   }
+    //   this.setData({
+    //     states: st
+    //   })
+    // }
+    
+  },
+  onShow: function () {
+    Common.setStorage('Isb', 1)
+    let user = Common.getStorage('user') || Common.getUser()
+    let isBinding = user.isBinding
+    console.log(isBinding)
+    if (!isBinding) {
+      console.log('未绑定小区')
     } else {
-      that.setData( {
-        currentTab: e.target.dataset.current
+      let st = app.globalData.states
+      if (!app.globalData.states) {
+        st = 0
+      } else {
+        st = app.globalData.states
+      }
+      this.setData({
+        states: st
+      })
+    }
+
+    this.setData({
+      list: [],
+      offset: 0,
+      noPage: 0,
+      isShows: true,
+    })
+    this.getList(this.data.states)
+    
+    this.getCancelList()
+    Common.setTabBar(this)
+  },
+  //点击时切换
+  clickTab(e) {
+    let _this = this
+    let dataIndex = e.currentTarget.dataset.index
+    if (_this.data.states == dataIndex) { return }
+    _this.setData({
+      states: dataIndex,
+      list: [],
+      offset: 0,
+      noPage: 0,
+      isShows: true,
+    })
+    // _this.getList(_this.data.states)
+  },
+  //滑动时切换
+  swiperChangeTab(e) {
+    console.log('current', e.detail.current)
+    let _this = this
+    _this.setData({
+      states: e.detail.current,
+      list: [],
+      offset: 0,
+      noPage: 0,
+      isShows: true,
+    })
+    _this.getList(e.detail.current)
+  },
+  //是否到底
+  scrolltolower(e) {
+    let _this = this
+    let dataset = e.currentTarget.dataset
+    if (_this.data.offset != 0) {//有数据就继续加载
+      _this.getList(dataset.index)
+      _this.setData({
+        tipTxt: '加载中'
+      })
+      // console.log(_this.data.offset)
+    } else {
+      _this.setData({
+        tipTxt: '没有更多数据了'
       })
     }
   },
-  getTabProList(index) {
-    const self = this
-
-    let tabData = self.data.tabs[index]
-    if (tabData.total <= tabData.offset) return //翻到最后一页 total <= offset
-
-    Common.request.get(
-      Api.types.clickSType,
-      {
-        typeId: tabData.id,
-        parentId: tabData.parentId,
-        offset: tabData.offset,
-        limit: tabData.limit,
-        recommend: 1,
-        sourceType: 1,
-        defaultLimit: 0,
-      },
-      data => {
-        console.log(data)
-        let tabs = self.data.tabs
-        if (data.rows && data.rows.length > 0) {
-          if (tabs[index].proList && tabs[index].proList.length > 0) {
-            tabs[index].proList = tabs[index].proList.concat(data.rows)
-          } else {
-            tabs[index].proList = data.rows
+  //获取订单列表
+  getList(states){
+    //订单状态（空:全部，0:待付款，4待收货，6已送达，待评价）
+    //订单状态（查询全部:字段不传，0:待付款，1,2,3,4,14待收货
+    let _this = this
+    var url = Api.order.getMyOrders
+    let user = Common.getUser()
+    var parm = {}
+    let tas=0
+    //全部订单
+    if (states == 1){
+      tas = 0
+      //待支付
+    } else if (states ==2){
+      //待收货
+      tas ='1,2,3,4,14'
+    } else if (states == 3) {
+      tas = '6,15'
+      //已完成
+    } else if (states == 4){
+      //退货售后
+      url = Api.order.getReturnOrderList
+      tas = 99
+    }else{
+      tas = 88
+    }
+    if(tas==88){
+      parm = {
+        userCode: user.userCode,
+        offset: _this.data.offset,
+        limit: _this.data.limit
+      }
+    } else if (tas == 99){
+      parm = {
+        userCode: user.userCode,
+        orderState: tas,
+        userType:1,
+        offset: _this.data.offset,
+        limit: _this.data.limit
+      }
+    }else{
+      parm = {
+        userCode: user.userCode,
+        orderState: tas,
+        offset: _this.data.offset,
+        limit: _this.data.limit
+      }
+    }
+    var MD5signStr = Common.md5sign(parm);
+    parm.sign = MD5signStr
+    Common.request.post(url, parm, function (data) {
+      if (data.status == 'OK') {
+        console.log("订单列表data", data)
+        var rows = data.rows
+        if (data.total <= 0) {
+          _this.setData({
+            offset: 0, noPage: 0, isShows: false
+          })
+          return
+        }
+        if (rows.length > 0) {
+          var items = _this.data.list
+          for (var i = 0; i < rows.length; i++) {
+            items.push(rows[i])
           }
-          tabs[index].total = data.total
-          tabs[index].offset += tabData.limit
-          if (tabs[index].total <= tabs[index].offset) {
-            tabs[index].lastFlag = true
+          if (items.length < _this.data.limit) {
+            _this.setData({
+              list: items, noPage: 1, offset: 0
+            })
+          }else{
+            _this.setData({
+              list: items, noPage: 0, offset: _this.data.offset + 10
+            })
           }
-          self.setData({
-            tabs: tabs
+          // console.log(items,'//////')
+          // console.log(_this.data.list,'***')
+        } else {
+          _this.setData({
+            offset: 0, noPage: 1, isShows: true
           })
         }
-      }
-    );
-  },
-  getTabHead(index) {
-    const self = this
-    if (self.data.tabs[index].headList && self.data.tabs[index].headList.length > 0) return
-
-    if (index == 0 || self.data.requestLock) return //推荐页面不请求 已经请求的不请求
-
-    self.setData({
-      requestLock: true
-    })
-    // Common.request.get(
-    //   Api.types.clickType, {
-    //     typeId: self.data.tabs[index].id,
-    //     type: 1
-    //   },
-    //   data => {
-    //     // console.log(data)
-    //     let tabs = self.data.tabs
-    //     let headList = data.message.phTypeList || []
-    //     tabs[index].headList = headList.slice(0, 9)
-    //     tabs[index].offset = 0
-    //     tabs[index].limit = 10
-    //     tabs[index].parentId = headList[0].id
-    //     self.getTabProList(index)
-    //     self.setData({
-    //       requestLock: false,
-    //       tabs: tabs
-    //     })
-    //   }
-    // );
-  },
-  // getData() {
-  //   const self = this
-  //   Common.request.get(Api.indexQuery, {
-  //     type: 2
-  //   },
-  //     (data) => {
-  //       let message = data.message
-  //       self.setTabs(message.homeTypes)
-  //       var newFloors = self.getFloors(message.homeFloors);
-  //       message.homeFloors = newFloors
-  //       message.newproductList = this.data.newproductList
-  //       self.setData({
-  //         recommend: message
-  //       })
-  //     }
-  //   );
-  // },
-  getFloors(floors) {
-    const self = this;
-    var arr = [];
-    floors.forEach(item => {
-      arr.push({
-        ad_list: {
-          proid: item.id,
-          url: "",
-          img: item.imgUrl,
-          jumpId: item.jumpId,
-          jumpIds: item.jumpIds,
-          jumpType: item.jumpType
-        },
-        proList: self.getProductList(item.proProductVos)
-      });
-    });
-    return arr;
-  },
-  GoCommoditylist:function(){
-    wx.navigateTo({
-      url: '/pages/CommodityList/CommodityList',
-    })
-  },
-  getProductList(productList) {
-    var arr = [];
-    productList.forEach(item => {
-      var flag = {
-        payByBean: false,
-        payByQuan: false,
-        payByGoldenBean: false
-      };
-      switch (item.sourceType) {
-        case 1:
-          flag.payByBean = true;
-          flag.payByQuan = true;
-          break;
-        case 2:
-          flag.payByQuan = true;
-          break;
-        case 3:
-          flag.payByGoldenBean = true
-          break;
-        case 4:
-          break;
-        case 5:
-          break;
-      }
-      // var pro = {
-      //   proId: item.productId,
-      //   proTit: item.brandName + ' ' + item.productTitle,
-      //   proImg: 'http://test.img.3721zh.com/UploadFiles/Product/' + item.productId + '/AppPic/1Master.jpg', //item.imgUrl,
-      //   proPrice: new Number(item.priceCurrentPrice).toFixed(2),
-      //   pbuyNum: item.requestBuyLimit
-      // };
-      arr.push(Object.assign(pro, flag));
-    });
-    return arr;
-  },
-  // gotoDetail(e) {
-  //   var pid = e.currentTarget.dataset.pid
-  //   wx.navigateTo({
-  //     url: `/pages/product/product-view/product-view?productId=${pid}`
-  //   })
-  //   console.log(pid)
-  //   //跳详情
-  // },
-  swiperChangeTab(event) {
-    var current = event.detail.current
-    const self = this
-    var typeid = 0
-    this.data.recommend.homeTypes.forEach((k, i) => {
-      if (i == current - 1) {
-        console.log(k.id)
-        typeid = k.id
+        
       }
     })
-
-    var params = {
-      typeId: typeid,
-      sourceType: 2,
-      offset: 0,
-      limit: 10
+  },
+  //再次购买
+  goCars(e){
+    // console.log(e)
+    let _this = this
+    let user = Common.getUser()
+    let item = [],newItem=[],parms={}
+    item=e.currentTarget.dataset.orderitem
+    for (var i = 0; i < item.length; i++) {
+      let ind = item[i]
+      newItem.push(sortedObject({ productId: ind.productId, amount: ind.productNum.toString(), immediately: "0", limitAmount:"1"}))
     }
-    // Common.request.get(Api.clickFType, params, data => {
-    //   if (data.status == 'OK') {
-    //     this.setData({
-    //       list: data.rows
-    //     })
-    //   }
-    // })
+    
+    parms['userCode'] = user.userCode
+    parms['items'] = getStrforParamValue(newItem)
+    var MD5signStr = Common.md5sign(parms);
+    parms['sign'] = MD5signStr
+    console.log(parms)
+    parms['items'] = newItem
+    Common.request.post(Api.car.addCartByBatch, parms, function (data) {
+      if (data.status == 'OK') {
+        wx.switchTab({
+          url: '/pages/exchangeBox/exchangeBox',
+        })
+      } else {
+        wx.showModal({
+          content: data.message,
+          showCancel: false,
+          confirmColor: '#E61817'
+        })
+      }
+    })
+    //返回一个按key排序的对象
+    function sortedObject(data) {
+      let ret = [];
+      let obj = {};
+      let sortedObj = {};
+      for (let item in data) {
+        ret.push(item.toLowerCase());
+        obj[item.toLowerCase()] = item;
+      }
+      ret.sort();
+      for (let key in ret) {
+        let _key = obj[ret[key]];
+        let res = data[_key];
+        sortedObj[_key] = res;
+      }
+      return sortedObj;
+    }
+    //参数是数组对象的，获取加密前字符串(参数值是数组，数组的元素是对象的情况才使用此方法)
+    function getStrforParamValue(data) {
+      let obj = '[';
+      for (let item in data) {
+        let str = '';
+        obj += '{';
+        for (let o in data[item]) {
+          if (str == '') {
+            str = o + '=' + data[item][o];
+          } else {
+            str += ',' + o + '=' + data[item][o];
+          }
+        }
+        obj += str + "},";
+      }
+      obj = obj.substring(0, obj.length - 1);
+      obj += ']';
+      return obj;
 
-    self.getTabHead(current)
-    self.setData({
-      currentTab: event.detail.current
+    }
+
+  },
+  //立即支付
+  getPay(e){
+    let user = Common.getUser()
+    var parm = {
+      payMethod: 7,
+      orderId: e.currentTarget.dataset.orderid,
+      openId: Common.getWxOpenId() 
+    }
+    // var user = app.globalData.userInfo
+    var MD5signStr = Common.md5sign(parm);
+    parm.sign = MD5signStr
+
+    Common.request.post(Api.order.pay, parm, function (data) {
+      if (data.status == 'OK') {
+        if (data.message.allinPay.status == 'ERROR') {
+          wx.showToast({
+            title: data.message.allinPay.message.message,
+            icon: 'none'
+          })
+          return;
+        }
+        console.log(data)
+        let obj = JSON.parse(data.message.allinPay.message)
+        let payinfo = JSON.parse(obj.payInfo)
+        let orderId = e.currentTarget.dataset.orderid
+        Common.callPay(payinfo, 1, orderId)
+        
+      } else {
+        wx.showModal({
+          content: data.message,
+          showCancel: false,
+          confirmColor: '#E61817'
+        })
+      }
     })
   },
-  jumpTab(e) {
-    const self = this
-    let dataset = e.currentTarget.dataset
-    self.getTabHead(dataset.index)
-    self.setData({
-      currentTab: dataset.index
+  //取消订单
+  cancelShows(e){
+    let _this =this
+    _this.setData({
+      cancelShow:true
     })
-  },
-  setTabs(homeTypes) {
-    let self = this
-    var arr = [];
-    homeTypes.forEach(item => {
-      arr.push({
-        id: item.id,
-        name: item.name
-      });
-    });
-    arr.unshift({
-      id: -1,
-      name: "全部"
-    });
-    self.setData({
-      tabs: arr
-    })
-  },
-  clickMask() {
-        // this.setData({show: false})
-  },
-
-      cancel() {
-        this.setData({ show: false })
-        this.triggerEvent('cancel')
-      },
-
-      confirm() {
-        this.setData({ show: false })
-        this.triggerEvent('confirm')
-  },
-  cancel_order:function(e){
+    var orderId = e.currentTarget.dataset.orderid
     this.setData({
-      show: {
-        type: Boolean,
-        value: true
-      },
-      //modal的高度
-      height: {
-        type: String,
-        value: '100%'
-      },
+      orderId: orderId,
     })
   },
-  onLoad: function (options) {
-    // this.getData();
-    console.log('Common.getparam([])=', Common.getparam([]))
+  //撤销退货
+  cancelReturn(e){
+    let _this = this
+    console.log("退货Id:", e.currentTarget.dataset.orderid)
+   wx.showModal({
+     title: "确认要撤销退货吗？",
+     showCancel: true,//是否显示取消按钮
+     success:function(res){
+       if (res.confirm) {
+         let parms = { sopOrderReturnId: e.currentTarget.dataset.orderid}
+         Common.request.post(Api.order.returndCancel, parms, function (data) {
+           if (data.status == 'OK') {
+             wx.showToast({
+               title: data.message,
+               icon: 'none'
+             })
+             setTimeout(function () {
+               _this.setData({
+                 states: 3,
+                 list: [],
+                 offset: 0,
+                 noPage: 0,
+                 isShows: true,
+               })
+               _this.getList(_this.data.states)
+             },1000)
+           }
+         })
+       }
+     }
+   })
   },
-  onReady: function () {
-
+  cancel(){
+    this.setData({
+      cancelShow: false
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  //收起取消原因弹层
+  cancelConfirm(){
+    let _this = this
+    let user = Common.getUser()
+    this.setData({
+      cancelShow: false
+    })
+    let parms={
+      orderId: _this.data.orderId,
+      userCode: user.userCode,
+      cancelReason: _this.data.cancelReason
+    }
+    var MD5signStr = Common.md5sign(parms);
+    parms.sign = MD5signStr
+    Common.request.post(Api.order.cancelOrder, parms, function (data) {
+      if (data.status == 'OK') {
+        wx.showModal({
+          content: data.message,
+          confirmColor: '#E61817',
+          success(res) {
+            _this.setData({
+              states:0,
+              list: [],
+              offset: 0,
+              noPage: 0,
+              isShows: true,
+            })
+            _this.getList(_this.data.states)
+          }
+        })
+      } else {
+        wx.showModal({
+          content: data.message,
+          showCancel: false,
+          confirmColor: '#E61817'
+        })
+      }
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  //获取取消原因列表
+  getCancelList() {
+    let _this = this
+    Common.request.get(Api.order.getReasonsForReturn+'?type=1', {}, function (data) {
+      if (data.status == 'OK') {
+        let list = data.message
+        _this.setData({
+          cancelList: list
+        })
+      }
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
+  radioChange(e){
+    this.setData({
+      cancelReason:e.detail.value
+    })
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
+  errImg: function (e) {
+    let _this = this
+    Common.errImgFun(e, _this)
   },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
+  //订单详情
+  getDetial(e){
+    var orderId = e.currentTarget.dataset.orderid
+    wx.navigateTo({
+      url: '/pages/order-detail/order-detail?orderId=' + orderId,
+    })
   },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  //退货详情
+  getDetial2(e) {
+    var orderId = e.currentTarget.dataset.orderid
+    wx.navigateTo({
+      url: '/pages/orderApplication/orderApplication?orderId=' + orderId,
+    })
   }
 })

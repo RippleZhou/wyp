@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+      "basic": "plugin://captcha/basic",
+      "oneclick": "plugin://captcha/oneclick"
+  },
+    "navigationBarTitleText": "验证码登录"
 }

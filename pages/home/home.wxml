@@ -1,0 +1,10 @@
+<!--pages/home/home.wxml-->
+<view class='login_img'  wx:if="{{sign}}">
+  <image src="/img/wypp1.jpg"></image>
+</view>
+<view  class='reg_cons_btns'  wx:if="{{sign}}">
+    <button wx:if="{{canIUse}}" class='reg_bTxts' open-type='getUserInfo' bindgetuserinfo="onGotUserInfo" >
+      微信授权
+    </button>
+    <view wx:else>请升级微信版本</view>
+</view>

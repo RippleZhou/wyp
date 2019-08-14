@@ -1,0 +1,246 @@
+/* pages/application /application.wxss */
+/* pages/suggest/suggest.wxss */
+page{
+  background: #f6f6f6;
+}
+.title {
+    /* margin: 20rpx; */
+    display: flex;
+    position: relative;
+}
+
+.title .title-left {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: rgba(34, 34, 34, 1);
+}
+
+.title .title-right {
+    position: absolute;
+    top: 5rpx;
+    right: 0rpx;
+    font-size: 30rpx;
+    font-weight: bold;
+    color: rgba(34, 34, 34, 1);
+}
+.title .title-right-count {
+    color: rgba(153, 153, 153, 1);
+}
+.submit_btn{
+    position: absolute;
+    top: -17rpx;
+    right: -20rpx;
+    font-size: 30rpx;
+    background: #f6f6f6;
+    color: rgba(34, 34, 34, 1);
+    height:54rpx
+}
+button::after{ border: none; }
+.submit_btn::after{ border: none; }
+.content {
+    margin:20rpx 0;
+    padding:20rpx;
+    background: #fff;display:flex;display:-webkit-flex;display: -ms-flexbox;
+}
+.content{
+  font-size: 30rpx;color:#333;
+}
+.reason_txt{
+  float: left;
+  width: 23%;
+}
+.reason_choice{
+  float: right;
+  width:77%;
+  text-align: right;
+}
+
+.content .text_class {
+    height: 300rpx;
+    line-height:50rpx;
+    font-size: 30rpx;color:#333;
+}
+
+.pic-title {
+    margin: 20rpx;
+    font-size: 30rpx;
+    font-weight: 500;
+    color: rgba(34, 34, 34, 1);
+}
+
+.pic-title .pic-title-content-right {
+    color: #999;
+}
+
+.pic-title .pic-title-content-right-count {
+    color: #fb0000;
+}
+
+.pic-content {
+    margin-left: 10rpx;
+    margin-right: 10rpx;
+    
+    background:#fff;padding:20rpx;
+}
+.picList{
+display: flex;
+    flex-wrap: wrap;margin-top: 20rpx;
+}
+
+.pic-content .camera {
+  border:1px dashed #999;
+    width: 175rpx;
+    height: 175rpx;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 10rpx;
+    position: relative;
+    margin-bottom: 20rpx;
+}
+
+.pic-content .camera .img {
+    width: 74rpx;
+    height: 54rpx;
+    position: absolute;
+    top: 39%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.upload{
+  color: #999;
+  font-size:26rpx;
+  position:absolute;
+  top:58%;
+  width:100%;
+  text-align: center;
+}
+.more{
+  color: #999;
+  font-size:26rpx;
+  position:absolute;
+  bottom:10rpx;
+  width:100%;
+  text-align: center;
+}
+
+.pic-content .each-img {
+    overflow: visible;
+    margin-left: 10rpx;
+    width: 175rpx;
+    height: 175rpx;
+    margin-top: 20rpx;
+    position: relative;
+}
+
+.pic-content .each-img .delete-icon {
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;display: block;
+    right: 5rpx;
+    top: 0rpx;
+    width: 38rpx;
+    height: 38rpx;z-index:100;
+}
+.upload_txt{
+  font-size:30rpx;color:#333;
+}
+.explain {
+    margin: 40rpx 20rpx 20rpx 20rpx;
+    font-size: 24rpx;
+    font-weight: 500;
+    color: rgba(153, 153, 153, 1);
+}
+.explain .service {
+    color: #0265ff;
+}
+
+.sub {
+  padding: 0 24rpx;
+  position: absolute;
+  bottom: 110rpx;
+  width: 100%;box-sizing: border-box;-webkit-box-sizing: border-box;
+}
+
+.sub button {
+    display: block;box-sizing: border-box;-webkit-box-sizing: border-box;
+    padding: 0rpx;
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    background: #e61817;
+    border-radius: 80rpx;
+    color: #fff;font-size: 34rpx;
+}
+
+/* 模态框 */
+.mask{
+ position: fixed;width:100%;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background-color: rgba(0,0,0,0.4);
+ z-index: 100;
+}
+ 
+.modal-content{
+  position:absolute;
+  left:0;
+  bottom:0;
+ display: flex;
+ flex-direction: column;
+ width: 100%;box-sizing: border-box;-webkit-box-sizing: border-box;
+ /* height: 80%; */
+ background-color: #fff;
+ border-radius: 10rpx;
+}
+.modal-btn-wrapper{
+ height: 500rpx;
+ border-top: 2rpx solid rgba(7,17,27,0.1);
+}
+
+ 
+.cancel-btn2, .confirm-btn2{
+ height: 80rpx;
+ width:90%;
+ line-height: 80rpx;
+ text-align: center;
+ font-size: 32rpx;
+ position: relative;z-index: 105
+}
+
+ /* cancel-img{
+
+ } */
+ .cancel-btn2 image{
+     position: absolute;
+      top: 24rpx;
+      right: 24rpx;
+   width: 28rpx;
+   height: 28rpx;
+ }
+
+.main-content{
+ flex: 1;
+ height: 100%;
+ overflow-y: hidden; 
+}
+
+.radio-group{
+  border-top: 1rpx solid #e6e6e6;width:100%;box-sizing: border-box;-webkit-box-sizing: border-box;
+  padding: 0 24rpx;height:340rpx;overflow: hidden;overflow-y: auto;
+}
+.radio{
+  display: block;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 100%;
+  border-top: 1rpx solid #e6e6e6;
+}
+.confirm-btn2{
+  background: #d43429;
+  color: #ffffff;
+  margin: 0 5%;
+  border-radius: 50rpx;
+}

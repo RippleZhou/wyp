@@ -10,7 +10,7 @@ var Buyer_list=[
     pname:"达利园法式软面包香奶味营养早餐饼干蛋糕360g",
     prolistId:1,
     saleno:"已售1万+件",
-    status: true, selected: true
+    status: false, selected: true
   }, {
     userimg: '/img/utx.jpg',
     phone: '1***********78',
@@ -64,6 +64,19 @@ var Buyer_list=[
     saleno: "已售1万+件",
     status: true, selected: true
   },
+  {
+    userimg: '/img/utx2.jpg',
+    phone: '1*********98',
+    timer: '2019-06-21 12:30:45',
+    price: '168',
+    getwyb: "可获得物业币50粒",
+    num: 1,
+    pimg: "/img/pro01.jpg",
+    pname: "达利园法式软面包香奶味营养早餐饼干蛋糕160g",
+    prolistId: 6,
+    saleno: "已售1万+件",
+    status: true, selected: true
+  }
 ]
 module.exports = {
   buyerList: Buyer_list

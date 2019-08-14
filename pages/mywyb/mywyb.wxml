@@ -1,24 +1,50 @@
 <view class='font_30'>
   <view class='wyb_counts'>
     <view class='wyb_count flex flex-main-justify'>
-      <view class=''>
-        <view class='my_wyb'><text class='font_34'>当前物业币</text> </view>
-        <view class='fl my_wyb'><text class='font_34'>128个</text></view>
+        <view class='my_wyb'>
+          <text class='font_34'>当前物业币</text>
+          <view class="my_wyb_meta">
+            <text class="font_34">{{wyb}}元</text>
+            <navigator url="/pages/wyb-payment/wyb-payment" class="wyb_payment_link">缴物业费</navigator>
+          </view>
+        </view>
+      <view bindtap='GoWyExplain' class='m_t'>
+        <text class='font_24'>物业币说明</text>
       </view>
-      <view bindtap='GoMyWyb' class='m_t'><text class='font_24'>物业币说明</text></view>
     </view>
   </view>
   <view class='wyb_detail'>
-    <view class='detail_title'> <text class='font_30 font_700'>物业币明细</text><text class='font_24 color_999 new_10'>最近10条物业币明细</text></view>
+    <view class='detail_title'>
+      <text class='font_30 font_700'>物业币明细</text>
+      <text class='font_24 color_999 new_10'>最近{{wyblist.length}}条物业币明细</text>
+    </view>
   </view>
   <block wx:for="{{wyblist}}">
-    <view class='detali_list' bindtap='GoBill'>
-      <view class='detali_list_num'><text class='shopping_num font_30'>购物订单号：</text><text>{{item.shoppingNum}}</text> <text class='count font_36 font_700'>+{{item.acount}}</text></view>
-      <view class='detali_list_date'><text class='shopping_date font_26 color_999'>{{item.timer}}</text></view>
-    </view>
+    <!-- list -->
+      <view class="detali_list" data-wybid="{{item.id}}" data-type="{{item.type}}" data-orderid="{{item.orderId}}" bindtap="gotoWybDetail">
+        <view class='detali_list_num' wx:if="{{item.type===0}}">
+          <text class="shopping_num">订单号:{{item.orderCode}}</text>
+          <text style="color: #e61817;" class="income-num">+{{item.housingFee}}</text>
+        </view>
+        <view class='detali_list_num' wx:if="{{item.type===1}}">
+          <text class="shopping_num">物业缴费</text>
+          <text style="color:#000;" class="income-num">-{{item.housingFee}}</text>
+        </view>
+        <view class="detali_list_date">{{item.createDate}}</view>
+      </view>
+      <!-- item end -->
+    <!-- <view class='detali_list' bindtap='GoBill' data-wybid="{{item.id}}" data-type="{{item.type}}" data-orderid="{{item.orderId}}">
+      <view class='detali_list_num'>
+        <text class='shopping_num font_30'>{{item.type==0?'物业缴费':'购物'}}订单号：</text>
+        <text>{{item.orderCode}}</text>
+        <text class='count font_36 font_700' hidden="{{item.type==0}}">+{{item.housingFee}}</text>
+        <text class='count font_36 font_700' style="color:#000;" hidden="{{item.type==1}}">-{{item.housingFee}}</text>
+      </view>
+      <view class='detali_list_date'>
+        <text class='shopping_date font_26 color_999'>{{item.createDate}}</text>
+      </view>
+    </view> -->
   </block>
-  <view class='footer'>查看全部明细></view>
+  <!-- <view class='footer' bindtap='GoMyDetail'>查看全部明细></view> -->
+  <view class='footer' bindtap='GoMyDetail' hidden="{{showDetailButton}}">查看全部明细></view>
 </view>
-
-
-

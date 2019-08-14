@@ -1,0 +1,139 @@
+/* components/index/index-recommend/index-recommend.wxss */
+.swiper-wrap-banner {
+  width: 100%;
+  background-color: #fff;
+  min-height: 300rpx;
+}
+.width-100 {
+  width: 100%;
+  display: block;
+}
+.w_grid_swiper {
+  width: 100%;
+  height: 340rpx;
+  padding-top: 30rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+.grid-wrap {
+  width: 100%;
+  height: 340rpx;
+  background-color: #fff;
+}
+.grid {
+  width: 20%!important;
+  height: 155rpx!important;
+  color: #666;
+  font-size: 24rpx;
+  text-align: center;
+  position: relative;
+  display: block;
+}
+.w_grid_s_link_img {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 20rpx;
+  width: 80rpx!important;
+  height: 80rpx!important;
+  object-fit: contain;
+}
+.w_grid_gifImg {
+  display: block;
+  margin: auto;
+  position: absolute;
+  right: 8px;
+  top: -8px;
+  width: 50rpx;
+  height: 50rpx;
+}
+.w_nIns_Imgs_wrp {
+  width: 100%;
+  padding: 20rpx 0;
+  background: #fff;
+}
+.w_nIns_img {
+  width: 100%;
+  display: block;
+}
+.w_pinpais {
+  background: #fff;
+  padding: 20rpx 20rpx;
+  margin-bottom: 20rpx;
+}
+.w_pp_list {
+  width: 100%;
+  display: -webkit-box;
+  display: flex;
+  display: -ms-flexbox;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.w_pinpais_h2 {
+  font-size: 32rpx;
+  color: #000;
+  padding-bottom: 20rpx;
+  padding-top: 12rpx;
+  position: relative;
+  font-weight: 600;
+}
+.pp_list {
+  line-height: 0;
+  display: block;
+  width: 50%;
+  padding-top: 12rpx;
+  padding-right: 5rpx;
+  box-sizing:border-box;
+}
+
+/* 新品推荐 */
+.item-wrap{display:flex;}
+
+.image-wrap {
+  width:33%;
+background: #fff;
+}
+
+.image-wrap:first-child{
+ margin-left:1%;
+  }
+
+.content-wrap{width:96%;}
+image {
+  width: 100%;
+} 
+
+.title {
+  text-align: center;
+  font-size: 26rpx;
+  color: #333;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+  font-weight: 400;
+}
+
+.money {
+  font-size: 24rpx;
+  color: #e61817;
+  padding-bottom: 25rpx;
+  text-align: left;
+}
+
+.money1 {
+  display: inline-block;
+  font-size: 36rpx;
+  font-weight: 700;
+}
+
+.money2 {
+  display: inline-block;
+  color: #828282;
+  margin-left: 20rpx;
+  text-decoration: line-through;
+}
+.new-product-component{background:#fff;margin:20rpx 0; }
+.new-product{padding: 20rpx;background:#fff;}
+.np-title{    
+    font-size:34rpx;
+    color: #333;}

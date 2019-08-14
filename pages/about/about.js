@@ -7,6 +7,11 @@ Page({
   data: {
 
   },
+  GoAgreement:function(){
+    wx.navigateTo({
+      url: '/pages/agreement/agreement',
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -61,6 +66,9 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return {
+      title: '关于',
+      path: 'pages/about/about'
+    }
   }
 })

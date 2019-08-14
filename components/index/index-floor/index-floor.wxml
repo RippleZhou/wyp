@@ -1,0 +1,37 @@
+<!--components/index/index-floor/index-floor.wxml-->
+<view class="w_floorbox" wx:for="{{floorList}}" wx:key="{{index}}" wx:for-item="fList">
+  <view bindtap="goto" data-jumpid="{{fList.ad_list.jumpId}}" data-jumpids="{{fList.ad_list.jumpIds}}" data-jumptype="{{fList.ad_list.jumpType}}" class="w_floor_tImg">
+    <image mode='widthFix' class='full-percent' src="{{fList.ad_list.img || errorImgban}}"></image>
+  </view>
+  <view class="w_floor_proList" wx:for="{{fList.proList}}" wx:key="i" wx:for-item="porLis" wx:for-index="i">
+    <image bindtap="goto" data-jumpid="{{porLis.proId}}" data-jumptype="{{0}}" class='w_floor_proList_img' src="{{porLis.proImg}}" mode='widthFix'></image>
+    <view class="w_floor_rTxt">
+      <view class='w_floor_rTxt_h2' bindtap="goto" data-jumptype="{{0}}" data-jumpid="{{porLis.proId}}">{{porLis.proTit}}</view>
+      <view wx:if="{{porLis.pbuyNum>1}}" bindtap="goto" data-jumptype="{{0}}" data-jumpid="{{porLis.proId}}" class="w_floor_r_tred">{{porLis.pbuyNum}}件起兑</view>
+      <view></view>
+      <view class="w_floor_postxt">
+        <view class="w_floor_rTxt_h3" bindtap="goto" data-jumptype="{{0}}" data-jumpid="{{porLis.proId}}">
+          ￥
+          <text class='w_floor_rTxt_b'>{{porLis.proPrice}}</text>
+        </view>
+        <view wx:if="{{porLis.payByBean}}" class="w_floor_r_icon" bindtap="goto" data-jumptype="{{0}}" data-jumpid="{{porLis.proId}}">
+          <text class="w_floor_r_red w_floor_r"></text>用豆直兑
+        </view>
+        <view wx:if="{{porLis.payByGoldenBean}}" class="w_floor_r_icon" bindtap="goto" data-jumptype="{{0}}" data-jumpid="{{porLis.proId}}">
+          <text class="w_floor_r_orange w_floor_r"></text>金豆直兑
+        </view>
+        <view wx:if="{{porLis.payByQuan}}" class="w_floor_r_icon" bindtap="goto" data-jumptype="{{0}}" data-jumpid="{{porLis.proId}}">
+          <text class="w_floor_r_yellow w_floor_r"></text>红包直抵
+        </view>
+      </view>
+
+      <view wx:if="{{type==1}}" class="w_floor_posLink">
+<view wx:if="{{showJiedouButtons}}" class="w_floor_posLink">
+
+        <view class='w_floor_posLink_a' bindtap="share" data-proid="{{porLis.proId}}" data-proimg="{{porLis.proImg}}">借豆</view>
+        <view class="w_floor_posLink_a w_floor_posLink_a2" bindtap="goto" data-jumptype="{{0}}" data-jumpid="{{porLis.proId}}">抢单</view>
+      </view>
+ </view>
+    </view>
+  </view>
+</view>

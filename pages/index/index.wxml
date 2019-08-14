@@ -1,60 +1,114 @@
 <!--pages/my/my.wxml-->
 <!--顶部地址及介绍-->
-<!-- <view class='wyb_bar' style='margin-top:50rpx;'>物业帮</view> -->
-<view class='top'>
-  <text class='topdeliverytimetxt'>20分钟送达</text>
-  <text class='dwtxt' get>{{dwaddress}}</text>
-  <text bindtap="scrollbottom" class='scan'></text>
-  <text bindtap="scrollbottom" class='searchicon'></text>
-</view>
-<view class='je'>
-  <text class='xdj'>下单即送物业币</text>
-  <view class='wtwybtxt' bindtap='wybAbout'>什么是物业币?</view>
-  <text class='wyname'>{{wyname}}</text>
-</view>
-<!--轮播图-->
-<swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{activeColor}}" circular='{ true }'>
-  <view wx:for="{{imgUrls}}">
-    <swiper-item>
-      <navigator url="{{item.link}}" hover-class="navigator-hover">
-        <image src="{{item.url}}" class="slide-image" />
-      </navigator>
-    </swiper-item>
+<block wx:if="{{isScrollUp=='true'}}">
+  <view class='wyb_bar' style='margin-top:30rpx;'>
+  <view class='m_0'><text class='topdeliverytimetxt'>约30分钟送达</text>
+    <text class='dwtxt' get>{{dwaddress}}</text></view>
+    <!-- <text bindtap="GoScan" class='scan'></text> -->
+    <text bindtap="GoSearch" class='searchicon'></text>
   </view>
+  <view class='je'>
+  <view class='je_img'><image  src='/img/gou.jpg'></image></view>
+    <text class='xdj'>下单即送物业币</text>
+    <text class='wtwybtxt' bindtap='wybAbout'>什么是物业币?</text>
+    <text class='wyname'>{{wyname}}</text>
+  </view>
+</block>
+<block wx:if="{{isScrollUp=='false'}}">
+  <view class='scroll_top flex flex-main-justify'>
+    <!-- <view class='scroll_top_dwtxt'>
+      
+    </view> -->
+    <image src='/img/position.png'></image>
+    <text class='my_address scroll_top_dwtxt'>{{dwaddress}}</text>
+    <input class='scroll_top_input' placeholder='想买什么搜一搜' bindinput="SearchInput" value='{{searchText}}' wx:if="{{isScrollUp}}" onchange="GoSearch" oninput="GoSearch">
+    <text bindtap="GoSearch" class='scroll_top_search'></text>
+    </input>
+    <text class="w_popColsed" catchtap="closePopup">取消</text>
+    <!-- <text bindtap="GoScan" class='scroll_top_scan'></text> -->
+  </view>
+  <view class='scroll_title'>
+    <view class='scroll_title_housing'>{{wyname}}</view>
+    <view class='scroll_title_time'>配送时间约30分钟，超时将补偿物业币</view>
+  </view>
+</block>
+<!--轮播图-->
+<swiper wx:if='{{isScrollUp=="true"}}' class='scroll_detail' indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{activeColor}}" circular='{ true }'
+  vertical="{{true}}">
+  <block wx:for="{{takeTurnsNotice}}">
+    <swiper-item>
+      <view class='flex flex-main-left buyer_'>
+        <view class='buyer_info '>
+          <image src="{{item.imageUrl}}" class="utximg" />
+        </view>
+        <view class='buyer_phone  font_24 font_333'>{{item.cellPhone}}</view>
+        <view class='buyer_time  font_24 font_999'>{{item.noticeMsg}}</view>
+      </view>
+    </swiper-item>
+  </block>
 </swiper>
-<!--产品列表--> 
-<view wx:for="{{cartItems}}" bindtap='choosedetail' data-listdata='{{item}}'>
-  <view class='prolist'>
-    <view wx:if="{{!item.status}}" class='qgl'>抢光了~</view>
-    <view wx:if="{{!item.status}}" class='zz'></view>
-    <view class='imgview'>
-      <image class="imgmast" src="{{item.pimg}}"></image>
-    </view>
-    <view class='proinfoview'>
-      <view class='pronametxt'>
-        <text>{{item.pname}}</text>
-      </view>
-      <view>
-        <text class='getwybtxt'>{{item.getwyb}}</text>
-      </view>
-      <view class='priceinfo'>
-        <view>
-          <text class='price-rmb pricetxt'>￥</text>
-          <text class='pricetxt'>{{item.price}}</text>
-          <text class='saleno'>{{item.saleno}}</text>
-          <view class='utxview'>
-            <!-- <block wx:for="{{cartItems}}">
-              <image wx:if="{{prolistId==1}}" class='utximg' src='{{item.userimg}}'></image>
-              <image wx:if="{{prolistId==2}}" class='utximg2' src='{{item.userimg}}'></image>
-            </block> -->
+<swiper class='banner_pro' wx:if="{{isScrollUp=='true'}}" indicator-dots="{{indicatorDots}}" style="height:{{imgheights[current]}}rpx;" bindchange="bindchange"  autoplay="false" interval="{{interval}}" duration="{{duration}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{activeColor}}"
+  circular='{ true }'>
+  <block wx:for="{{imgUrls}}" wx:key="{{index}}">
+    <swiper-item >
+      <image src="{{item.imgUrl || errImg}}" class="slide-image" binderror="errImg" data-index="{{index}}" bindload='imageLoad' data-id='{{index}}' />
+    </swiper-item>
+  </block>
+</swiper>
+<!-- <swiper class='banner_message' indicator-dots="{{indicatorDots}}" style='height:{{Hei}}' autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{activeColor}}" circular='{ true }'>
+  <swiper-item>
+
+  </swiper-item>
+</swiper> -->
+<!--产品列表-->
+<view class='container {{isScrollUp=="false" ?"containertop":""}}'>
+  <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" class="list" bindscrolltolower="onReachBottom" bindscrolltoupper="onPullDownRefresh" bindscroll="scroll">
+    <view wx:for="{{cartItems}}" class='choose_detail' data-listdata='{{item}}' catchtap='choosedetail'>
+      <view class='prolist'>
+        <view wx:if="{{!item.status}}" class='qgl'>抢光了~</view>
+        <view wx:if="{{!item.status==1}}" class='zz'></view>
+        <view class='imgview'>
+          <image class="imgmast" src="{{item.pimg || errorImg}}"></image>
+        </view>
+        <view class='proinfoview'>
+          <view class='pronametxt'>
+            <text>{{item.pname}}</text>
+          </view>
+          <view class='get_my_wyb'>
+            <text class='getwybtxt'>{{item.getwyb}}</text>
+          </view>
+          <view class='priceinfo'>
             <view>
-              <image class='utximg' src='{{item.userimg}}'></image>
-              <image class='utximg2' src='{{item.userimg}}'></image>
+              <text class=' pricetxt price-rmb'>￥</text>
+              <text class='pricetxt'>{{item.price}}</text>
+              <text class='priceBsc'>￥{{item.bscPrice}}</text>
+              <view class='utxview flex'>
+                <view>
+                  <image class='utximg' src='{{item.userimg[0].imageUrl}}'></image>
+                  <image class='utximg2' src='{{item.userimg[1].imageUrl}}'></image>
+                </view>
+                <text class='caricon' catchtap='addCar' data-productId='{{item.proId}}' data-title='{{item.pname}}' data-image='{{item.pimg}}' data-price='{{item.price}}'></text>
+              </view>
             </view>
-             <text class='caricon'></text>
+          </view>
+          <view class='saleNo'>
+              <text class='saleNo_'>{{item.saleno}}</text>
           </view>
         </view>
       </view>
     </view>
-  </view>
+    <view class="w_loading_box">
+      <block wx:if="{{hidden}}">
+        <view class='w_load_tips'>没有更多数据了！</view>
+      </block>
+      <block wx:else="{{!hidden}}">
+        <view class='w_load_tips'>加载更多</view>
+      </block>
+    </view>
+  </scroll-view>
+  <!-- <view class="body-view">
+    <loading  bindchange="{{hidden ? 'loadingChange' : ''}}">
+    加载更多
+    </loading>
+  </view> -->
 </view>

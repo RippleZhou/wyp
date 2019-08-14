@@ -1,0 +1,25 @@
+<!--pages/ shippingAddress/shippingAddress.wxml-->
+<view  class='line'></view>
+<view class='first'>
+  <text class='consignee'>收货人</text>
+  <input data-prop-name='contactName' bindinput='sysnc_info' class='font_999' value='{{address.contactName}}' placeholder='请输入您的姓名'></input>
+</view>
+<view class='second'>
+  <text class='consignee'>手机号</text>
+  <input data-prop-name='contactCellPhone' bindinput='sysnc_info' class='font_999' value='{{address.contactCellPhone}}' placeholder='请输入您的手机号'></input>
+</view>
+<view class='third'>
+  <text class='consignee'>收货地址</text>
+  <text  class='housing'>{{address.address}}</text>
+</view>
+<view class='four'> 
+  <text class='consignee'>门牌号</text>
+  <text class='address'>{{address.addressDetail}}</text>
+</view>
+<view class='five'> 
+  <checkbox-group bindchange="isCheck" class='up_address_sel'>
+    <checkbox value='设为默认地址' checked="{{checkeds}}"></checkbox>设为默认地址
+  </checkbox-group>
+</view>
+<view class='btn_msg'  bindtap='save'>保存并使用</view>
+

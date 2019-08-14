@@ -1,26 +1,50 @@
 <!--pages/mywy/mywy.wxml-->
 <view class='font_30 my_wy bgc_fff'>
-  <view class='my_address pad_24_0 flex flex-main-left'>
-    <view class='color_999 w_206'>缴费小区</view>
-    <view>安林小区（杨新路97弄）</view>
+  <!-- <block wx:for="{{cusHouse}}"> -->
+  <view class='my_address pad_24_0 flex flex-main-justify' bindtap='CheckHousing'>
+    <view class='color_999 w_206'>请选择所在小区</view>
+    <view class='housingText'> <text >{{housingAddress}}</text>
+    <text class='myHousing' >></text></view>
   </view>
-  <view class='bd_1 flex flex-main-left'>
-    <view class='color_999 w_206 h90'> 收费物业单位</view>
-    <view class='w_428'><text class='h45'>上海上岗物业公司</text><text class='h45 color_999'>购物结算后可直接抵扣物业费</text></view>
-    <view class='wy_img'><image src="/img/phone.png"></image></view>
+  <view class='bd_1 input_box'>
+    <image class='search' src='/img/search.png' bindtap='search_HouseNum'></image>
+    <input class='inputHousing' placeholder='请输入门牌号' bindinput="seacrch_HouseNum" value='{{BindAddress}}' bindconfirm='seacrch_HouseNum' bindfocus="seacrch_HouseNum" onInput="seacrch_HouseNum" >{{BindAddress}}</input>
+    <view class='close' bindtap='cancel_HouseNum' hidden='{{!address_show}}'>×</view>
+    <!-- <view class='wy_img'>
+      <image src="/img/phone.png" bindtap='GoCall'></image>
+    </view> -->
   </view>
-  <view  class='pad_24_0 flex flex-main-left'>
-    <view class='color_999 jiaofei'>缴费户号</view>
-    <view class='color_999'>可查看物业纸质账单或电话咨询物业公司</view>
+  <!-- <view class='pad_24_0 font_24'>
+    <view class='color_999 fl jiaofei'>请输入缴费户号</view>
+    <input class='color_999' bindinput='goCheckHousing' value='{{inputValue}}' placeholder="可查看物业纸质账单或电话咨询物业公司" bindtap='cancel_housing'></input>
   </view>
   <view class='pad_24_0'>
-    <view class='h46'><text class='color_999 w_206'>户名:</text><text>赵铁柱</text></view>
-    <view class='h46'><text class='color_999 w_206'>住址信息：</text><text>杨新路197弄12号楼402室             </text>
+    <view class='h46'>
+      <text class='color_999 w_206 fl'>户名:</text>
+      <text>{{customerName}}</text>
     </view>
-    <view class='h46'><text class='color_999 w_206'>当前欠费金额：</text><text>999元</text></view>
+    <view class='h46'>
+      <text class='color_999 w_206 fl'>住址信息:</text>
+      <text>{{myAddress}}</text>
+    </view>
+  </view> -->
+  <!-- </block> -->
+</view>
+  <view class="selection" wx:for="{{HouseNumList}}" wx:key="{{item.initial}}" data-housing="{{item.housing_code}}" bindtap="goBindHouseNum" data-address="{{item.address}}" hidden='{{!address_show}}'> 
+    <view class="city-area">{{item.address}}</view>
   </view>
+<view class='sub'>
+  <button class="sub1 button-hover" bindtap="bindingProperty"  role="button" aria-label="" aria-disabled="false">提交</button>
 </view>
 
-
-
-
+<!-- //模态框 -->
+<view class='mask font_30' wx:if='{{show}}' bindtap='clickMask'>
+  <view class='modal-content' style='height:{{height}}'>
+    <view class='modal-title'>确认重新绑定</view>
+    <view class='modal-contain'>重新绑定物业，之前的物业币即被清空，您确定要重新绑定物业？</view>
+    <view class='modal-btn-wrapper'>
+      <view class='cancel-btn' bindtap='cancel'>以后再说</view>
+      <view class='confirm-btn' bindtap='conFirm'>确认</view>
+    </view>
+  </view>
+</view>

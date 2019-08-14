@@ -1,33 +1,47 @@
-<!--pages/user/codelogin/codelogin.wxml-->
-<view class='reg_v font_30'>
+<view class='login_img'>
+  <image src="/img/wypp1.jpg"></image>
+</view>
+<view class='reg_cons_btns'>
+  <button class='reg_bTxts ' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">微信一键登录</button>
+</view>
+
+<view class='reg_cons_btns'>
+  <button class='code_login' bindtap='GoMessage'>手机号码登录</button>
+</view>
+<!-- <view class='reg_v font_30'>
   <view class='reg_cons'>
     <view class='reg_inputLis'>
-      <input type='text' class='input' placeholder='请输入手机号'></input>
+      <input type='number' class='input' maxlength="11" placeholder='请输入手机号' bindinput="cellphoneInput"></input>
     </view>
     <view class='reg_inputLis'>
-      <input type='text' class='input' placeholder='请输入密码（最少6位数字，数字+字母）'></input>
+      <input type='password' class='input' placeholder='请输入密码（最少6位字符，数字+字母）' bindinput="pwdInput"></input>
     </view>
+    <view style="overflow:hidden;">
+      <view class='forget_code fr' bindtap='GoForget'>忘记密码？</view>
+    </view>
+
     <view class='reg_cons_btns'>
-      <button class='reg_bTxts'>登录</button>
+      <button class='{{ canLogin ? "reg_bTxts":"reg_bTxts gray"}}' bindtap="pwdLogin">登录</button>
     </view>
     <view class='message_forget'>
       <view class='message_login ' bindtap='GoMessage'>手机验证码登录</view>
       <view class='shuxian font_eb'></view>
-      <view class='forget_code ' bindtap='GoForget'>忘记密码</view>
-    </view> 
+      <view class='forget_code ' bindtap='gotoRegister'>注册</view>
+    </view>
     <view class='other_login '>
       <text class='login_line font_eb'></text>
       <text class='mtb_30 color_999'> 其他登录方式</text>
       <text class='login_line font_eb'></text>
     </view>
-    <view class='wx_login' bindtap='GoWechat'>
-      <view class='wx_img'><image src='/img/wxlogin.jpg'></image></view>
-      <view >微信登录</view>
-    </view>
+    <button class='btn2' open-type='getUserInfo' bindgetuserinfo="onGotUserInfo">
+      <image class='btnImg' src='/img/wxlogin.jpg'></image>
+      <view>微信登录</view>
+    </button>
     <view class='footer'>
       <view class='footer_content'>
-        注册/登录即代表已经同意 <text>《物业帮用户使用协议》</text> 
+        注册/登录即代表已经同意
+        <text bindtap='GoAgreement'>《物业拼拼用户使用协议》</text>
       </view>
     </view>
   </view>
-</view>
+</view> -->

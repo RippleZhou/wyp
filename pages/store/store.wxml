@@ -1,0 +1,56 @@
+<!--pages/store/store.wxml-->
+<view class='scroll_top flex flex-main-justify'>
+  <input class='scroll_top_input' placeholder='想买什么搜一搜' bindtap="GoSearch"  disabled >
+  <text bindtap="GoSearch" class='scroll_top_search'></text>
+  </input>
+</view>
+<swiper class="swiper-wrap-tab" display-multiple-items="2" wx:if="{{orderTab.length>1}}">
+  <block wx:for="{{orderTab}}" wx:key="unique">
+    <swiper-item catchtap="clickTab" data-index="{{index}}" widthFix="10rpx" data-numb="{{item.numN}}" class="swiper-item-tab">
+      <view class="swiper-item-tab-text {{states == index ? 'active-tab': ''}}">
+        {{item.name}}
+      </view>
+    </swiper-item>
+  </block>
+</swiper>
+<swiper class="w_sw_con {{orderTab.length<=1?'w_sw_con2':''}}" current='{{states}}' bindchange="swiperChangeTab">
+  <swiper-item class="swiper-slide" wx:if="{{orderTab.length==0}}">
+    <view class="eb_noPros {{orderTab.length==0?'eb_noShows':''}}">
+        <view class="eb_noTxts">哈鲁，商城商品还没有上架~</view>
+      </view>
+      </swiper-item>
+  <block wx:for="{{orderTab}}" wx:key="unique">
+    <swiper-item class="swiper-slide">
+      <!--没有数据时显示-->
+      <view class="eb_noPros {{isShows==true?'':'eb_noShows'}}" wx:if="{{isShows==false}}">
+        <view class="eb_noTxts">哈鲁，商城商品还没有上架~</view>
+      </view>
+      <scroll-view wx:else data-index="{{index}}" style='height:100%;width:auto;' scroll-y bindscrolltolower="scrolltolower" lower-threshold="100">
+        <swiper class='banner_pro' wx:if="{{states==0&&imgUrls.length>0}}" indicator-dots="{{indicatorDots}}" style="height:{{imgheights[current]}}rpx;" bindchange="bindchange"  autoplay="false" interval="{{interval}}" duration="{{duration}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{activeColor}}"
+  circular='{ false }'>
+          <block wx:for="{{imgUrls}}" wx:key="{{index}}">
+            <swiper-item >
+              <image src="{{item.imgUrl || errImg}}" class="slide-image" binderror="errImg" data-index="{{index}}" bindload='imageLoad' data-id='{{index}}' />
+            </swiper-item>
+          </block>
+        </swiper>
+        <view class='mall_box'>
+          <view  bindtap="navigate" data-productId="{{ex.productId}}" class='mall_list' wx:for="{{list}}" wx:key="unique" wx:for-item="ex">
+            <block wx:if="{{ex.productIsPutaway==1}}">
+              <view class='mall_t_img'><image src='{{ex.imageUrl}}'  mode="widthFix"></image></view>
+              <view class='mall_t_tit mall_pd'>{{ex.productTitle}}</view>
+              <text class='mall_t_tip mall_pd'>可获物业币{{ex.housingCoin}}</text>
+              <view class='mall_t_pirce mall_pd'>¥<text>{{ex.priceCurrentPrice}}</text><label>¥{{ex.priceBasicPrice}}</label></view>
+              <view class='mall_t_nums mall_pd'>已售1万+件</view>
+            </block>
+          </view>
+        </view>
+        <view class="w_loading_box">
+          <block wx:if="{{noPage==1}}">
+            <view class='w_load_tips'>{{tipTxt}}</view>
+          </block>
+        </view>
+      </scroll-view>
+    </swiper-item>
+  </block>
+</swiper>

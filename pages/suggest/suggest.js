@@ -1,4 +1,6 @@
 // pages/suggest/suggest.js
+const Common = require('../../utils/common');
+var Api = require("../../utils/api");
 const app = getApp();
 
 Page({
@@ -8,175 +10,196 @@ Page({
    */
   data: {
     pics: [],
-    textarea_hidden: 0,
-    mask_show: 0,
-    text_data: "",
-    words_count: 0
+    pics2: [],
+    textarea: '',
+    btn_msg: true,
+    content:'',
+
   },
-  doNotMove: function () {
-    console.log('stop user scroll it!');
-    return;
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onShareAppMessage: function (res) {
+    return {
+      title: '意见反馈',
+      path: 'pages/suggest/suggest'
+    }
   },
-  textarea_hidden: function (e) {
-    let text_data = e.detail.value;
-    let words_count = text_data.length;
-    let that = this;
-    that.setData({
-      text_data: text_data,
-      words_count: words_count
+  onLoad: function (options) {
+    console.log(options)
+    let customerName = options.customerName
+    let storeName = options.storeName
+    let storeId = options.storeId
+    this.setData({
+      customerName,
+      storeName,
+      storeId
     })
   },
-  submit: function (e) {
+  textarea: function (e) {
+    this.setData({
+      textarea: e.detail.value
+    })
+  },
+  submit: function () {
+    console.log(this.data)
     let that = this;
+   
+    let customerName = that.data.customerName
+    let storeName = that.data.storeName
+    let storeId = that.data.storeId
+    let user = Common.getUser()
+    console.log('user==',user)
+    let userCode=user.userCode
+    console.log('userCode==', userCode)
+    console.log(that.data.pics)
+    let imageUrl= []
     // 获取描述内容
-    let content = that.data.text_data;
+    console.log(that.data)
+    let content = that.data.textarea;
+    console.log(content)
     if (content == '') {
-      toast.showToast('请填写反馈内容！');
-      return;
+      wx.showToast({ title: "请填写您的意见!", icon: 'none' })
+      return
     }
-
-    util.getData('feedback', {
-      content: content,
-      images: JSON.stringify(that.data.pics),
-      openid: app.globalData.openid,
-      method: 'POST'
-    }, function (data) {
-      if (data.errno !== 0) {
-        toast.showToast(data.errdesc);
-        return;
-      }
-
-      that.setData({
-        textarea_hidden: 1,
-        mask_show: 1
+    if (that.data.pics.length>0){
+      imageUrl = JSON.stringify(that.data.pics2)
+    }else{
+      wx.showToast({
+        title: '请上传图片',
+        icon:'none'
       })
-    })
-
-  },
-  closePage: function (e) {
-    wx.navigateBack();
-  },
-  uploadImg: function (e) {
-    let {
-      pics
-    } = this.data;
-    if (pics.length == 3) {
-      return;
+      return
     }
-    let that = this;
-    wx.chooseImage({
-      count: 3 - pics.length,
-      sizeType: ['compressed'],
-      sourceType: ['album', 'camera'],
-      success: function (res) {
-        let tempFilePaths = res.tempFilePaths
-        let arr = that.uploadMutileimg({
-          pictures: tempFilePaths
+  
+    let parms = {
+      customerName,
+      storeName,
+      storeId,
+      userCode ,
+      content: content,
+      imageUrl
+    }
+    var MD5signStr = Common.md5sign(parms);
+    parms.sign = MD5signStr
+    Common.request.post(Api.housing.mySuggest, parms, function (data) {
+      if (data.status == 'OK') {
+        wx.showToast({
+          title: "意见提交成功",
+          icon: 'none'
+        })
+        setTimeout(function(){
+          wx.switchTab({
+            url: '/pages/owner/owner'
+          })
+        },
+        2000)
+      } else {
+        wx.showToast({
+          title: '请上传图片和您的意见',
+          icon: 'none'
         })
       }
     })
-
   },
-  uploadMutileimg: function (data) {
-    var that = this,
-      i = data.i ? data.i : 0,
-      success = data.success ? data.success : 0,
-      fail = data.fail ? data.fail : 0;
-    wx.uploadFile({
-      url: 'https://xxx/Upload/uploadMoreImg',
-      filePath: data.pictures[i],
-      name: 'file',
-      success: (res) => {
-        success++;
-      },
-      fail: (res) => {
-        fail++;
-      },
-      complete: (res) => {
-        i++;
-        var imgdata = JSON.parse(res.data);
-        var img = imgdata.data[0];
-        that.data.pics.push(img);
-        if (i == data.pictures.length) { //当图片传完时，停止调用   
-          that.setData({
-            pics: that.data.pics
+  uploadImg(e){
+    var _this =this
+    wx.chooseImage({
+      count: 6,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success(res) {
+        wx.showToast({
+          title: '正在上传...',
+          icon: 'loading',
+          mask: true,
+          duration: 1000
+        })
+        let picsImg = res.tempFilePaths;
+        let pics = _this.data.pics
+        let picAll = picsImg.length + pics.length
+        var count = 0;
+        for (var i = 0, h = picsImg.length; i < h; i++) {
+          console.log(picAll)
+          if (picAll<=6){
+            console.log(picsImg)
+            pics.push(picsImg[i])
+            console.log(pics)
+            _this.setData({
+              pics: pics
+            })
+          }else{
+            wx.showToast({
+              title: "最多可提交6张图片",
+              icon: 'none'
+            })
+           }
+          var MD5signStr = Common.md5sign({
+            base64Imgs: picsImg.toString()
           })
-        } else { //若图片还没有传完，则继续调用函数                    
-          data.i = i;
-          data.success = success;
-          data.fail = fail;
-          that.uploadMutileimg(data);
-        }
+          Common.request.post(Api.order.uploadImg, {
+            base64Imgs: picsImg.toString(),
+            sign: MD5signStr
+          }, function (data) {
+            if (data.status == 'OK') {
+              if (count<=6){
+                count++;
+                console.log('count++', count)
+                let imgs = data.message
+                _this.data.pics2.push(imgs)
+                console.log(_this.data.pics2)
+              }else{
+                wx.showToast({
+                  title: "最多可提交6张图片",
+                  icon: 'none'
+                })
+                return
+              }
 
+              
+            } else {
+              wx.showToast({
+                title: '最多可提交6张图片',
+                icon: 'none'
+              })
+            }
+          })
+        }
+        
+      }
+    })
+    
+  },
+  
+  listenerButtonPreviewImage: function (e) {
+    let index = e.target.dataset.index;//预览图片的编号
+    let that = this;
+    wx.previewImage({
+      current: that.data.pics[index],//预览图片链接
+      urls: that.data.pics,//图片预览list列表
+      success: function (res) {
+        //console.log(res);
+      },
+      fail: function () {
+        //console.log('fail')
       }
     })
   },
   delete_this: function (e) {
     var pics = this.data.pics;
+    var pics2 = this.data.pics2;
     var src = e.currentTarget.dataset.src;
     for (var i = 0; i < pics.length; i++) {
       if (pics[i] == src) {
         pics.splice(i, 1);
+        pics2.splice(i, 1);
       }
     }
     this.setData({
-      pics: pics
+      pics: pics,
+      pics2: pics2
     })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
 
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

@@ -1,131 +1,159 @@
 <!--pages/order-detail/order-detail.wxml-->
+<wxs module="util" src="./order-detail.wxs"></wxs>
 <view class="wait-order-wrap">
-  <image src="../../img/cart.png" class="cart-icon"></image>
-  <text class="w_font">待接单</text>
-  <view class="w_time">预计送达时间 今天20:20-20:30</view>
+  <image src="../../img/cart.png" class="cart-icon" wx:if="{{orderInfor.orderState==2}}"></image>
+  <text class="w_font">{{util.getStateTxt(orderInfor.orderState)}}</text>
+  <view class="w_time" wx:if="{{orderInfor.orderState==0}}">请在1小时内完成支付，超时订单将被取消</view>
+  <!-- <view class="w_time" wx:if="{{orderInfor.orderState==1||orderInfor.orderState==2||orderInfor.orderState==4}}">预计送达时间 {{orderInfor.wantYearDate}} {{orderInfor.wantDate}}</view> -->
+  <view class="w_time" wx:if="{{orderInfor.orderState==5}}">用户: {{cancelTxts}}</view>
+  <view class="w_time" wx:if="{{orderInfor.orderState==8}}">请在24小时内将商品送回物业，超时将被取消</view>
+  <view class="w_time" wx:if="{{orderInfor.orderState==9}}">{{orderInfor.refundDate||''}}</view>
+  <view class="w_time" wx:if="{{orderInfor.orderState==10}}">{{orderInfor.orderDate||''}}</view>
 </view>
-
 <view class="message-wrap">
   <view class="title">物业信息</view>
   <view class="line-wrap">
     <text class="m_left">物业名称</text>
-    <text class="m_right">阳新五街坊物业</text>
+    <text class="m_right">{{orderInfor.storeName}}</text>
   </view>
   <view class="line-wrap">
     <text class="m_left">物业电话</text>
-    <image src="../../img/phone.png" class="phone-icon m_right"></image>
-    <text class="m_right">021-38990099</text>
+    <image src="../../img/phone.png" class="phone-icon m_right" bindtap='getTel' data-phone="{{orderInfor.storeCellPhone}}"></image>
+    <text class="m_right" bindtap='getTel' data-phone="{{orderInfor.storeCellPhone}}">{{orderInfor.storeCellPhone}}</text>
   </view>
   <view class="line-wrap">
     <text class="m_left">物业地址</text>
-    <text class="m_right">阳新五街坊物业</text>
+    <text class="m_right">{{orderInfor.storeAddress}}</text>
   </view>
-
 </view>
-
-<view class="message-wrap">
+<view class="message-wrap" wx:if="{{orderInfor.orderType==1&&orderInfor.orderState!=1&&orderInfor.orderState!=0&&orderInfor.orderState!=5}}">
   <view class="title">配送员信息</view>
   <view class="line-wrap">
     <text class="m_left">配送员姓名</text>
-    <text class="m_right">老王</text>
+    <text class="m_right">{{orderInfor.deliveryUserName}}</text>
   </view>
   <view class="line-wrap">
     <text class="m_left">配送员电话</text>
-    <image src="../../img/phone.png" class="phone-icon m_right"></image>
-    <text class="m_right">15802166499</text>
+    <image src="../../img/phone.png" class="phone-icon m_right" bindtap='getTel' data-phone="{{orderInfor.deliveryMobile}}"></image>
+    <text class="m_right" bindtap='getTel' data-phone="{{orderInfor.deliveryMobile}}">{{orderInfor.deliveryMobile}}</text>
   </view>
 </view>
-
-<view class="message-wrap">
+<view class="message-wrap" wx:if="{{orderInfor.orderType==1}}">
   <view class="title">收货信息</view>
-  <view class="line-wrap">
+  <!-- <view class="line-wrap">
     <text class="m_left">预约时间</text>
-    <text class="m_right">12月20日 09:20-10:40</text>
-  </view>
+    <text class="m_right">{{orderInfor.wantYearDate}}  {{orderInfor.wantDate}}</text>
+  </view> -->
   <view class="line-wrap">
     <text class="m_left">收货地址</text>
-    <text class="m_right">杨新路222222222</text>
+    <text class="m_right">{{orderInfor.addressDetail}}</text>
   </view>
   <view class="line-wrap">
-    <text class="m_right">杨新路222222222</text>
+    <text class="m_left"></text>
+    <text class="m_right">{{orderInfor.contactName}} {{orderInfor.contactCellPhone}}</text>
   </view>
 </view>
-
 <view class="product-list">
   <view class="p_title">商品信息</view>
-
-  <view class="product-item">
-    <image src="../../img/002.jpg" class="p-img"></image>
+  <view class="product-item" wx:for="{{proList}}" wx:key="unique" wx:for-item="ex">
+    <image src="{{ex.imageUrl}}" class="p-img" bindtap='getDtail' data-productid="{{ex.productId}}" data-storeid="{{orderInfor.storeId}}" data-soutype="{{orderInfor.orderSourceType}}"></image>
     <view class="item-right-wrap">
-      <view class="item-right">
-        <view class="item-title">盼盼法式小面包1.5kg软面包盼盼法式小面包1.5kg软面包</view>
-        <view class="item-price">￥120.00</view>
+      <view class="item-right" bindtap='getDtail' data-productid="{{ex.productId}}" data-storeid="{{orderInfor.storeId}}" data-soutype="{{orderInfor.orderSourceType}}">
+        <view class="item-title">{{ex.productTitle}}</view>
+        <view class="item-price">￥{{ex.totalAmount}}</view>
       </view>
-      <view class="item-bottom">
-        <text>单价：￥120.00</text>
-        <text class="item-number">×1</text>
+      <view class="item-bottom" bindtap='getDtail' data-productid="{{ex.productId}}" data-storeid="{{orderInfor.storeId}}" data-soutype="{{orderInfor.orderSourceType}}">
+        <text>单价：￥{{ex.productPrice}}</text>
+        <text class="item-number">X{{ex.productNum}}</text>
       </view>
-      <view class="item-bottom"> 
-        <text>系列：350ml*6瓶</text>
+      <view class="item-bottom" bindtap='getDtail' data-productid="{{ex.productId}}" data-storeid="{{orderInfor.storeId}}" data-soutype="{{orderInfor.orderSourceType}}"> 
+        <text>系列：{{ex.productMode}}</text>
       </view>
-    </view>
-  </view>
+      <block wx:if="{{orderInfor.orderSourceType==2}}">
+      <view class='item_btns' wx:if="{{ex.orderState==6&&util.timeIs(orderInfor.orderDate)==1}}" bindtap='getRefund' data-orderid="{{orderInfor.id}}" data-productid="{{ex.productId}}">退货</view>
 
-    <view class="product-item">
-    <image src="../../img/002.jpg" class="p-img"></image>
-    <view class="item-right-wrap">
-      <view class="item-right">
-        <view class="item-title">盼盼法式小面包1.5kg软面包盼盼法式小面包1.5kg软面包</view>
-        <view class="item-price">￥120.00</view>
-      </view>
-      <view class="item-bottom">
-        <text>单价：￥120.00</text>
-        <text class="item-number">×1</text>
-      </view>
-      <view class="item-bottom"> 
-        <text>系列：350ml*6瓶</text>
-      </view>
+      <view class='item_btns' wx:if="{{ex.orderState==8||ex.orderState==9||ex.orderState==10||ex.orderState==13||ex.orderState==12}}" bindtap='getRrfundDetail' data-orderid="{{orderInfor.id}}">{{util.getStateTxt2(ex.orderState)}}</view>
+      </block>
     </view>
   </view>
 
 </view>
-
-<view class="message-wrap">
-  <view class="title">订单信息</view>
+<view class="message-wrap message-wrap2">
+  <view class="title">订单信息<block wx:if="{{orderInfor.orderType==2}}">(自提订单)</block>
+  <block wx:if="{{orderInfor.orderSourceType==1}}">[货架商品]</block>
+  <block wx:if="{{orderInfor.orderSourceType==2}}">[线上商城]</block>
+  </view>
   <view class="line-wrap">
     <text class="line-column">订单编号：</text>
-    <text class="">1983674528034</text>
+    <text class="">{{orderInfor.orderCode}}</text>
   </view>
-
- <view class="line-wrap">
+<view class="line-wrap">
+    <text class="line-column">下单时间：</text>
+    <text class="">{{orderInfor.orderDate||''}}</text>
+  </view>
+ <view class="line-wrap" wx:if="{{orderInfor.orderState!=0}}">
     <text class="line-column">支付方式：</text>
-    <text class="">微信</text>
+    <text class="">{{util.getPayTxt(orderInfor.payMethod)}}</text>
   </view>
    <view class="line-wrap">
     <text class="line-column">商品金额：</text>
-    <text class="">￥120.00</text>
+    <text class="">￥{{orderInfor.orderAmount}}</text>
   </view>
    <view class="line-wrap">
     <text class="line-column">配送费：</text>
-    <text class="">￥5.00</text>
+    <text class="">￥{{orderInfor.userTransferAmount}}</text>
   </view>
    <view class="line-wrap">
     <text class="line-column">实付金额：</text>
-    <text class="red">￥120.00</text>
+    <text class="red">￥{{orderInfor.totalAmount}}</text>
   </view>
   <view class="line-wrap">
-    <text class="line-column">获得物业币个数：</text>
-    <text class="red">120个</text>
+    <text class="line-column">获得物业币：</text>
+    <text class="red">{{orderInfor.housingAmount}}</text>
   </view>
-  <view class="line-wrap">
-    <text class="line-column">下单时间：</text>
-    <text class="">2019-04-02 09:30:29</text>
-  </view>
+  
 </view>
-
 <view class="cancel-btn-wrap">
-  <view class="cancel-btn">
+  <view class='Refund' hover-class="plain-hover" wx:if="{{orderInfor.orderState==8||orderInfor.orderState==9||orderInfor.orderState==13}}" bindtap='getRrfundDetail' data-orderid="{{orderInfor.id}}">
+    {{util.getStateTxt2(orderInfor.orderState)}}
+  </view>
+  <view class='application' hover-class="plain-hover" wx:if="{{orderInfor.orderState==6&&util.timeIs(orderInfor.orderDate)==1}}" bindtap='getRefund' data-orderid="{{orderInfor.id}}">
+      退货
+  </view>
+  <!-- <view class='application' hover-class="plain-hover" wx:if="{{orderInfor.orderState==10||orderInfor.orderState==12}}" bindtap='cancelReturn' data-orderid="{{orderInfor.id}}">
+      撤销退货
+  </view> -->
+  <view class='pay-btn' hover-class="plain-hover" wx:if="{{orderInfor.orderState==0}}" bindtap='getPay' data-orderid="{{orderInfor.id}}">
+    立即支付
+  </view>
+   <block wx:if="{{orderInfor.orderSourceType==1}}">
+  <view class="cancel-btn" hover-class="plain-hover" wx:if="{{orderInfor.orderState==0||orderInfor.orderState==1||orderInfor.orderState==14}}" bindtap='cancelShows' data-orderid="{{orderInfor.id}}">
     取消订单
   </view>
+  </block>
+   <block wx:if="{{orderInfor.orderSourceType==2}}">
+ <view class="cancel-btn" hover-class="plain-hover" wx:if="{{orderInfor.orderState==0||orderInfor.orderState==16}}" bindtap='cancelShows' data-orderid="{{orderInfor.id}}">
+    取消订单
+  </view>
+</block>
+    <view class='again_buy' hover-class="plain-hover" wx:if="{{orderInfor.orderState==6||orderInfor.orderState==10||orderInfor.orderState==13||exorderInfor.orderState==15}}" bindtap='goCars' data-orderItem="{{orderInfor.orderItemList}}">
+    再次购买
+  </view>
 </view>
- 
+<!-- 模态框 -->
+<view class='mask font_30' wx:if='{{cancelShow}}'>
+ <view class='modal-content'>
+  <view class='modal-btn-wrapper flex flex-wrap '>
+    <view class='cancel-btn2'>
+      <text>取消原因</text>
+      <image  bindtap='cancel' class='cancel-img' src='/img/quxiao.png'></image>
+    </view>
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio" wx:for="{{cancelList}}" wx:key="unique">
+        {{item.text}}<radio class='fr' value="{{item.value}}" color='#d43429' checked="{{item.checked}}"/>
+      </label>
+    </radio-group>
+    <view class='confirm-btn2'  bindtap='cancelConfirm'>确认</view>
+  </view>
+ </view>
+</view> 

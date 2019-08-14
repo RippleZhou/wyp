@@ -1,16 +1,20 @@
 <!--pages/Setting/Setting.wxml-->
 <view>
-  <view class='delete flex flex-main-justify'>
-    <view>清除缓存</view>
-    <view class='cor_9'>＞</view>
+  <view class='set flex flex-main-justify' wx:if="{{!setted}}" bindtap='goSet'>
+    <view>设置支付密码</view>
+    <text decode='true' class='cor_9'>&gt;</text>
   </view>
-  <view class='comments flex flex-main-justify'>
-    <view>去评论</view>
-    <view class='cor_9'>＞</view>
+  <view class='Modify flex flex-main-justify' wx:if="{{setted}}" bindtap='goModify'>
+    <view>修改支付密码</view>
+    <text decode='true' class='cor_9'>&gt;</text>
   </view>
-  <view class='about flex flex-main-justify'>
+    <view class='forget flex flex-main-justify' wx:if="{{setted}}" bindtap='goSet'>
+    <view>忘记支付密码</view>
+    <text decode='true' class='cor_9'>&gt;</text>
+  </view>
+  <view class='about flex flex-main-justify' bindtap='goAbout'>
     <view>关于</view>
-    <view class='cor_9' bindtap='goAbout'>＞</view>
+    <text decode='true' class='cor_9'>&gt;</text>
   </view>
-  <view class='logOut cor_red'>退出登录</view>
+    <view class='logOut cor_red' bindtap='logout'>退出登录</view>
 </view>

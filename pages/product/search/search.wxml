@@ -1,0 +1,36 @@
+<!--pages/product/search/search.wxml-->
+<view class="head_index head_searchs">
+  <view class="head_i_cens">
+    <form class='search_form' >
+      <input class='search_input' type="search" 
+        placeholder="请输入要搜索产品" value="{{searchKey}}"
+        bindinput="setDefaultValue" confirm-type="搜索" bindconfirm="search" 
+         oninput="search">
+        <text class="w_popColsed" catchtap="closePopup" hidden='{{!address_show}}'>
+     </text>
+        </input>
+    </form>
+  </view>
+  <view class="w_head_rightTxt" bindtap="goBack">取消</view>
+</view>
+
+<view class="w_boxsT w_hisSearBox">
+  <view class="w_HistorySearch">
+    <view class="w_hisSear_tit">历史搜索
+      <text class='delete_icon' bindtap="deleteSearchKeys"></text>
+    </view>
+    <scroll-view scroll-x="{{true}}" class="tab w_hisSear_list">
+      <view class='tab-item' wx:for="{{historySearchKeys}}" wx:if="{{item}}"
+        wx:key="{{index}}" bindtap="goSearchList" data-key="{{item}}">{{item}}</view>
+    </scroll-view>
+  </view>
+  <!-- <view class="w_HistorySearch">
+    <view class="w_hisSear_tit">热门关键词</view>
+    <scroll-view scroll-x class="tab w_hisSear_list">
+      <view class='tab-item' wx:for="{{hotKeys}}" wx:if="{{item}}"
+        wx:key="{{index}}" bindtap="goSearchList" data-key="{{item}}">{{item}}</view>
+    </scroll-view>
+  </view> -->
+</view>
+
+

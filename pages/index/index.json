@@ -1,7 +1,7 @@
 {
-      "backgroundTextStyle": "light",
+      "backgroundTextStyle": "dark",
       "navigationBarBackgroundColor": "#fff",
-      "navigationBarTitleText": "物业帮",
+      "navigationBarTitleText": "物业拼拼",
       "navigationBarTextStyle": "black",
       "enablePullDownRefresh": true
 }

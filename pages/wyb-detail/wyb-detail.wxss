@@ -1,38 +1,130 @@
 /* pages/wyb-detail/wyb-detail.wxss */
 /* 选项卡 */
 
-
-.swiper-tab{
-    width: 100%;
-    border-bottom: 2rpx solid #ccc;
-    text-align: center;
-    height: 88rpx;
-    line-height: 88rpx;
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-    position:fixed;
-background:#fff;
-z-index:99;
-
+.swiper-tab {
+  width: 100%;
+  border-bottom: 1rpx solid #ebebeb;
+  text-align: center;
+  height: 88rpx;
+  line-height: 88rpx;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  position: fixed;
+  background: #fff;
+  z-index: 99;
 }
-.swiper-tab-item{
-    width: 30%; 
-    color:#434343;
+.swiper-tab-item {
+  width: 30%;font-size: 30rpx;color:#333;
 }
-.active{
-    color:#F65959;
-    border-bottom: 6rpx solid #F65959;
+.active {
+  color: #e61817;
+  border-bottom: 6rpx solid #e61817;
 }
-swiper{
+swiper {
   text-align: center;
 }
 
+.order-number-wrap {
+  overflow: hidden;
+}
+.income-num {
+  font-size: 36rpx;
+  float: right;
+  font-weight: 700;
+}
 
-.order-number-wrap{overflow: hidden;}
-.red{color: #e61817;font-size:36rpx ;float:right;font-weight: 700;}
-.black{font-size:36rpx ;float:right;}
-.order-number{color: #333;font-size: 30rpx;float: left;font-weight: 700;}
-.time{font-size: 26rpx;margin-top: 14rpx;float: left;}
-.all-content-item{padding: 20rpx;border-bottom: 2rpx solid #e6e6e6;overflow: hidden;}
-.line{width:100%;height:12rpx;background: #f6f6f6;padding-top:45px;}
+.order-number {
+  color: #333;
+  font-size: 30rpx;
+  float: left;
+  font-weight: 700;
+}
+.time {
+  font-size: 26rpx;
+  margin-top: 14rpx;
+  float: left;
+}
+.all-content-header {
+  padding: 30rpx 20rpx;
+  background: #f6f6f6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.months {
+  padding: 16rpx 24rpx;
+  background: #fff;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+}
+.months:after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8rpx;
+  transform: translateY(4rpx);
+  border-style: solid;
+  border-width: 10rpx;
+  border-color: #000 transparent transparent;
+}
+.all-content-item {
+  padding: 20rpx;
+  border-bottom: 2rpx solid #e6e6e6;
+  overflow: hidden;
+}
+.income {
+  text-align: left;
+}
+.income-value {
+  font-size: 32rpx;
+  color: #333;
+}
+.income-meta {
+  font-size: 28rpx;
+  color: #999;
+}
+.line {
+  width: 100%;
+  height: 0;
+  background: #f6f6f6;
+  padding-top:88rpx;
+}
+
+.list-end {
+  font-size: 28rpx;
+  padding: 30rpx 0;
+}
+.filte_txt{
+  font-size: 24rpx;color:#666;text-align: center;padding-top:30rpx;
+}
+/**没有商品时**/
+.eb_noPros {
+  text-align: center;
+  padding: 150rpx 0 50rpx;
+}
+.eb_noImgs {
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+.eb_noImgs image {
+  width: 40%;
+  margin: 0 auto;
+}
+.eb_noTxts {
+  text-align: center;
+  font-size: 32rpx;
+  color: #666;
+}
+
+.accumulator {
+  text-align: right;
+  padding: 20rpx;
+  font-size: 26rpx;
+  color: #999999;
+}
+
+.accumulator-value {
+  font-size: 32rpx;
+  color: #333333;
+}

@@ -1,0 +1,45 @@
+<!--pages/housing/housing.wxml-->
+<scroll-view scroll-y="true"
+ scroll-into-view="{{scrollTopId}}" scroll-top="{{scrollTop}}">
+<view class='searchbox'>
+  <view class='input_box'>
+    <image class='search' src='/img/search.png' bindtap='search_housing'></image>
+    <input placeholder='请输入小区名称' bindinput="seacrch_housing" value='{{seacrch_housing}}'></input>
+    <view class='close' bindtap='cancel_housing' hidden='{{!address_show}}'>×</view>
+  </view>
+</view>
+<view id='address'>
+  <view class='noData' hidden="{{emptyHidden}}">暂无数据</view>
+  <view class="selection" wx:for="{{housingList}}" wx:key="{{item.initial}}"  data-address="{{item.address}}" data-storeName="{{item.storeName}}" bindtap="bindHousing" data-storeId="{{item.storeId}}">
+   <view class='font_34 item_address'> {{item.storeName}}</view>     
+  <view  class='font_28 item_housing'>{{item.address}}</view>
+  </view>
+</view>
+</scroll-view>
+<!-- <scroll-view scroll-y="true" style="height:1500px"  
+ scroll-into-view="{{scrollTopId}}" scroll-top="{{scrollTop}}">
+  <view class='searchbox'>
+      <view class='input_box'>
+        <image class='search' src='/img/search.png' bindtap='search_housing'></image>
+       <input placeholder='请输入小区名称' onchange="seacrch_housing" oninput="seacrch_housing" onblur="seacrch_housing" value='{{housing_value}}' bindtap='search_housing'></input>
+        <view class='close'  bindtap='cancel_housing' hidden='{{!address_show}}'>×</view>
+      </view>
+    </view>
+  <view id='address' hidden='{{address_show}}'>
+    <view class="selection" wx:for="{{HousingList}}" wx-key="storeName">
+      <view class="item_housing" wx:for="{{item}}"   wx:for-item="ct"  data-storeId="{{ct.storeId}}" data-storeName="{{ct.storeName}}" data-address="{{ct.address}}" bindtap="bindHousing">
+  <view class='font_34 item_address'> {{ct.storeName}}</view>     
+  <view  class='font_28 item_housing'>{{ct.address}}</view>
+      </view>
+    </view>
+  </view>
+  <view id='address_search' hidden='{{!address_show}}'>    
+    <view>
+      <view class="item_housing" data-storeId="{{search_housing.storeId}}" data-storeName="{{search_housing.storeName}}" data-address="{{search_housing.address}}" bindtap="bindHousing">
+          <view class='font_34 item_address'> {{search_housing.storeName}}</view>     
+          <view  class='font_28 item_housing'>{{search_housing.address}}</view>
+      </view>
+      <view class='noData' hidden='{{is_data}}'>暂无数据</view>
+    </view>
+  </view>
+</scroll-view> -->

@@ -1,0 +1,69 @@
+function getStateTxt(states) //状态
+{
+  var name = ''
+  // if (states == 0) {
+  //   name = "待付款"
+  // } else if (states == 1) {
+  //   name = "待接单"
+  // } else if (states == 2 || states == 4) {
+  //   name = "待送达"
+  // } else if (states == 5 || states == 7) {
+  //   name = "已取消"
+  // } else if (states == 6 || states == 8 || states == 10 || states == 13 || states == 15) {
+  //   name = "已完成"
+  // } else if (states == 14) {
+  //   name = "待提货"
+  // }
+  if (states == 0) {
+    name = "待支付"
+  } else if (states == 1) {
+    name = "待接单"
+  } else if (states == 2) {
+    name = "已接单"
+  } else if (states == 4) {
+    name = "已取货"
+  } else if (states == 5) {
+    name = "已取消"
+  } else if (states == 6) {
+    name = "已完成"
+  } else if (states == 7) {
+    name = "支付失败"
+  } else if (states == 8) {
+    name = "平台同意退货"
+  } else if (states == 9) {
+    name = "退货成功"
+  } else if (states == 10 || states == 12) {
+    name = "待平台同意退货"
+  } else if (states == 13) {
+    name = "退换货失效"
+  } else if (states == 14) {
+    name = "待提货"
+  } else if (states == 15) {
+    name = "已完成"
+  }else if (states == 16) {
+    name = "待仓库发货"
+  } else if (states == 17) {
+    name = "待送达物业"
+  }
+  else if (states == 18) {
+    name = "审核未通过"
+  } else if (states == 19) {
+    name = "已撤销退货"
+  }
+  else if (states == 20 || states == 21 || states == 22) {
+    name = "已退货待退款"//已退货待退款
+  }else{
+    name = "退货成功"
+  }
+  return name
+}
+// 订单状态：0待付款；1待接单；2已接单；3已到店；4已取货；5已取消；6已送达；7支付失败；8待退货；9已退货；10退货审核中(平台); 12退货审核中(物业)13退换货失效；14待提货; 15已提货; 16线上商品待仓库发货 17线上商品待送达物业;18：退换货审核不通过； 19：退货用户撤销； 20：已退货-待退款；
+// 订单状态（查询全部: 字段不传，0: 待付款，1, 2, 3, 4, 14待收货）
+// 新订单：0待付款；1待接单，14待提货
+// 待送达 ：2已接单，4已取货
+// 已取消：5已取消，7支付失败
+// 已完成：6,15已送达；10待平台同意退货；13退换货失效；15已退货
+
+module.exports = {
+  getStateTxt: getStateTxt
+}

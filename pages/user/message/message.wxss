@@ -122,3 +122,8 @@ margin: 0 auto;
   width: 100%;
   margin:50rpx auto;
 }
+
+.gray{
+  background: #ccc !important;
+}
+
