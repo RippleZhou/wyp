@@ -2,13 +2,17 @@
 <!--顶部地址及介绍-->
 <block wx:if="{{isScrollUp=='true'}}">
   <view class='wyb_bar' style='margin-top:30rpx;'>
-  <view class='m_0'><text class='topdeliverytimetxt'>约30分钟送达</text>
-    <text class='dwtxt' get>{{dwaddress}}</text></view>
+    <view class='m_0'>
+      <text class='topdeliverytimetxt'>约30分钟送达</text>
+      <text class='dwtxt' get>{{dwaddress}}</text>
+    </view>
     <!-- <text bindtap="GoScan" class='scan'></text> -->
     <text bindtap="GoSearch" class='searchicon'></text>
   </view>
   <view class='je'>
-  <view class='je_img'><image  src='/img/gou.jpg'></image></view>
+    <view class='je_img'>
+      <image src='/img/gou.jpg'></image>
+    </view>
     <text class='xdj'>下单即送物业币</text>
     <text class='wtwybtxt' bindtap='wybAbout'>什么是物业币?</text>
     <text class='wyname'>{{wyname}}</text>
@@ -47,10 +51,10 @@
     </swiper-item>
   </block>
 </swiper>
-<swiper class='banner_pro' wx:if="{{isScrollUp=='true'}}" indicator-dots="{{indicatorDots}}" style="height:{{imgheights[current]}}rpx;" bindchange="bindchange"  autoplay="false" interval="{{interval}}" duration="{{duration}}" indicator-color="{{indicatorColor}}" indicator-active-color="{{activeColor}}"
-  circular='{ true }'>
+<swiper class='banner_pro' wx:if="{{isScrollUp=='true'}}" indicator-dots="{{indicatorDots}}" style="height:{{imgheights[current]}}rpx;" bindchange="bindchange" autoplay="false" interval="{{interval}}" duration="{{duration}}" indicator-color="{{indicatorColor}}"
+  indicator-active-color="{{activeColor}}" circular='{ true }'>
   <block wx:for="{{imgUrls}}" wx:key="{{index}}">
-    <swiper-item >
+    <swiper-item>
       <image src="{{item.imgUrl || errImg}}" class="slide-image" binderror="errImg" data-index="{{index}}" bindload='imageLoad' data-id='{{index}}' />
     </swiper-item>
   </block>
@@ -60,6 +64,48 @@
 
   </swiper-item>
 </swiper> -->
+<!-- 限时抢购 -->
+<block  wx:if="{{hasActivity}}">
+  <view class='flash_container'>
+    <view class="flash_sale">
+      <view class="flash_sale_img">
+        <image src="/img/flashale.png"></image>
+      </view>
+      <view class="flash_sale_txt">
+        <text class="flas-sale_last font_24">{{activityTxt}}</text>
+        <text class="flash_sale_timer font_24" wx:if="{{IsTimer}}" >{{day}}天{{hou}}:{{min}}:{{sec}}</text>
+      </view>
+      <view class="more" bindtap="MoreFlash">更多 ></view>
+    </view>
+    <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" class="flash_list" bindscrolltolower="onReachBottom" bindscrolltoupper="onPullDownRefresh" bindscroll="scroll">
+      <view wx:for="{{cartItems1}}" class='choose_detail' data-listdata='{{item}}' catchtap='choosedetai2'>
+        <view class='prolist'>
+          <view class='imgview'>
+            <image class="imgmast" src="{{item.pimg || errorImg}}"></image>
+          </view>
+          <view class='proinfoview'>
+            <view class='pronametxt'>
+              <text>{{item.pname}}</text>
+            </view>
+            <view class='get_my_wyb'>
+              <text class='getwybtxt'>{{item.getwyb}}</text>
+            </view>
+            <view class='priceinfo'>
+              <view>
+                <text class=' pricetxt price-rmb'>￥</text>
+                <text class='pricetxt'>{{item.price}}</text>
+                <text class='priceBsc'>￥{{item.bscPrice}}</text>
+              </view>
+            </view>
+            <view class='saleNo'>
+              <text class='saleNo_'>{{item.saleno}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</block>
 <!--产品列表-->
 <view class='container {{isScrollUp=="false" ?"containertop":""}}'>
   <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" class="list" bindscrolltolower="onReachBottom" bindscrolltoupper="onPullDownRefresh" bindscroll="scroll">
@@ -92,7 +138,7 @@
             </view>
           </view>
           <view class='saleNo'>
-              <text class='saleNo_'>{{item.saleno}}</text>
+            <text class='saleNo_'>{{item.saleno}}</text>
           </view>
         </view>
       </view>

@@ -25,6 +25,25 @@ var raw = function(args) {
   string = string.substr(1);
   return string;
 };
+// var raw1 = function (args) {
+//   var keys = Object.keys(args);
+//   keys = keys.sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1))
+//   var newArgs = {};
+//   keys.forEach(function (key) {
+//     newArgs[key] = args[key];
+//   });
+
+//   var string = "";
+//   var obj={}
+//   for (var k in newArgs) {
+//     if (k.prototype.toString.call(obj) === '[Object Object]'){
+
+//     }
+//     string += "&" + k + "=" + newArgs[k];
+//   }
+//   string = string.substr(1);
+//   return string;
+// };
 
 /**
  * @synopsis 签名算法

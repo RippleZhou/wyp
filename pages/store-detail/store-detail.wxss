@@ -17,6 +17,9 @@ page{
 .details_introduce{
   padding:20rpx 24rpx;
 }
+.slide-image{
+  width:100%;
+}
 .detail_getwyb{
   color:#fa0000;
 background:#ffedec;

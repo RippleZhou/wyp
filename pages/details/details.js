@@ -34,22 +34,26 @@ Page({
     imgheights: [],
     current: 0,
     isIpx: false,
-    shareIn:{
-      title:'',
-      imageUrl:'',
+    shareIn: {
+      title: '',
+      imageUrl: '',
     }
   },
-  onShareAppMessage: function (res) {
-    let { productId, storeId, proInfor } = this.data
+  onShareAppMessage: function(res) {
+    let {
+      productId,
+      storeId,
+      proInfor
+    } = this.data
     let userCode = Common.getUserCode()
     let user = Common.getUser()
-    let userInfo=Common.getStorage('userInfo')
+    let userInfo = Common.getStorage('userInfo')
     Common.setStorage("isShare", 1)
-    Common.getStorage('Isb',1)
+    Common.getStorage('Isb', 1)
     let usersName = userInfo.nickName || ''
     let title = this.data.shareIn.title || `${usersName}向您推荐${proInfor.productTitle}`
     let imageUrl = this.data.shareIn.imageUrl || ''
-    console.log("res:",res)
+    console.log("res:", res)
     console.log("title:", title)
     return {
       title,
@@ -57,10 +61,12 @@ Page({
       path: `pages/details/details?isShare=1&shareUserCode=${userCode}&shareProductId=${productId}&shareStoreId=${storeId}`
     }
   },
-  async getShareInfo(userCode, productId, storeId){
+  async getShareInfo(userCode, productId, storeId) {
     let _this = this
     var parm = {
-      sourceType: 13, shareProductId: productId, shareStoreId: storeId
+      sourceType: 13,
+      shareProductId: productId,
+      shareStoreId: storeId
     }
     var MD5signStr = Common.md5sign(parm);
     parm.sign = MD5signStr
@@ -69,16 +75,16 @@ Page({
       console.log('parm', parm)
       let data = await Common.ajax.post(Api.housing.getShareInfo, parm)
       console.log('接口返回：', data)
-      if (data.message){
+      if (data.message) {
         _this.setData({
-          shareIn:{
+          shareIn: {
             title: data.message.oneLevelTitle,
             imageUrl: data.message.shareProductImage
           }
         })
         console.log('message01', data.message)
         return true
-      }else{
+      } else {
         console.log('message02', data.message)
         return false
       }
@@ -86,7 +92,7 @@ Page({
       console.log('----false---')
       return false
     }
- 
+
   },
   onLoad: async function(options) {
     // if (!user) {
@@ -115,7 +121,7 @@ Page({
       //   console.log('not login')
       //   return Common.gotoHome() //登录以后跳详情todo
       // }
-      if (!user.isBinding){
+      if (!user.isBinding) {
         console.log('没有绑定')
         this.getInor(shareProductId, shareStoreId)
         this.getList(shareStoreId)
@@ -146,7 +152,6 @@ Page({
       } else {
         console.log('相同物业')
         this.getInor(shareProductId, user.storeId)
-
         this.getList(user.storeId)
         this.setData({
           productId: shareProductId,
@@ -155,7 +160,7 @@ Page({
       }
     } else {
       console.log('正常進入')
-      let that=this
+      let that = this
       let {
         userCode,
         storeId,
@@ -163,15 +168,42 @@ Page({
       } = options
       let StStoreId = Common.getStorage('storeId')
       console.log('StStoreId', StStoreId)
-      if (StStoreId){
-        that.getInor(productId, StStoreId)
-        that.getList(StStoreId)
+      if (StStoreId) {
+        if (options.productId != StStoreId) { //不同物业
+          console.log('不同物业')
+          let hasProduct = await this.hasProduct(options.productId, options.storeId)
+          console.log('hasProduct===', hasProduct)
+          if (!hasProduct) {
+            Common.setStorage('Isb', 1)
+            //如果此物业此商品为0 跳到首页 如果不为0则进入当前商品详情页面
+            console.log('没有商品')
+            return Common.gotoIndex()
+          } else {
+            console.log('有商品')
+            this.getInor(options.productId, options.storeId)
+            this.getList(options.storeId)
+            this.setData({
+              productId: options.productId,
+              storeId: options.storeId
+            })
+          }
+        } else {
+          console.log('相同物业')
+          this.getInor(options.productId, options.storeId)
+          this.getList(options.storeId)
+          this.setData({
+            productId: options.productId,
+            storeId: options.storeId
+          })
+        }
+        that.getInor(productId, options.storeId)
+        that.getList(options.storeId)
         that.setData({
           productId: productId,
-          storeId: StStoreId
+          storeId: options.storeId
         })
         console.log(options)
-      }else{
+      } else {
         that.getInor(productId, storeId)
         that.getList(storeId)
         that.setData({
@@ -179,7 +211,7 @@ Page({
           storeId: storeId
         })
         console.log(options)
-      } 
+      }
       console.log('storeId::::', storeId, 'productId:::', productId)
       console.log(options)
     }
@@ -238,10 +270,10 @@ Page({
     parm.sign = MD5signStr
     console.log('-------parm---!!-----', parm)
     Common.request.post(Api.order.detai, parm, function(data) {
-      console.log('getInor:',data)
+      console.log('getInor:', data)
       if (data.status == 'OK') {
         var list = data.message
-        console.log('list',list)
+        console.log('list', list)
         if (list.productAppDesc) {
           _this.getProductImgs(list.productAppDesc)
         }
@@ -279,7 +311,7 @@ Page({
       } else {
         //没有商品
         // return Common.gotoIndex()
-        console.log('b:',data)
+        console.log('b:', data)
       }
     })
   },
@@ -302,16 +334,16 @@ Page({
   },
   go_index() {
     let user = Common.getUser()
-    if (!user){
+    if (!user) {
       return Common.gotoHome()
       return
-    }else{
+    } else {
       wx.switchTab({
         url: '/pages/index/index',
       })
     }
   },
-  go_car(){
+  go_car() {
     let user = Common.getUser()
     if (!user) {
       return Common.gotoHome()
@@ -324,24 +356,25 @@ Page({
   },
   //添加购物车
   addcart: async function() {
+    await Common.goToLogin()
     let _this = this
     let islogin = Common.isLogin()
     let user = Common.getUser()
-    let usecode=user.usecode
+    let userCode = user.userCode
     let isBinding = user.isBinding
-    if (!user) {
+    if (!userCode) {
       return Common.gotoHome()
     } else {
       if (!isBinding) {
         wx.showModal({
           title: '温馨提示',
           content: '为了方便充缴物业费，下单前请先绑定小区哦~',
-          cancelText:'再想想',
-          confirmText:'绑定小区',
+          cancelText: '再想想',
+          confirmText: '绑定小区',
           success(res) {
             if (res.confirm) {
               console.log('用户点击确定')
-              Common.setStorage('targetUrl','/pages/details/details?productId=' + _this.data.productId + '&storeId=' + user.storeId)
+              Common.setStorage('targetUrl', '/pages/details/details?productId=' + _this.data.productId + '&storeId=' + user.storeId)
               setTimeout(function() {
                 wx.navigateTo({
                   url: '/pages/bindAddress/bindAddress',
@@ -353,7 +386,7 @@ Page({
             }
           }
         })
-      }else{
+      } else {
         let parm = {
           userCode: user.userCode,
           productId: _this.data.productId,
@@ -363,8 +396,8 @@ Page({
         }
         let storeId2 = _this.data.storeId;
         console.log('storeId01::::', user.storeId, 'storeId02:::', _this.data.storeId)
-        console.log( 'productId02:::', _this.data.productId)
-        if (user.storeId != storeId2){//不同物业
+        console.log('productId02:::', _this.data.productId)
+        if (user.storeId != storeId2) { //不同物业
           let hasProduct = await this.hasProduct(_this.data.productId, user.storeId)
           console.log('hasProduct===', hasProduct)
           if (!hasProduct) {
@@ -377,7 +410,7 @@ Page({
         console.log(parm)
         var MD5signStr = Common.md5sign(parm);
         parm.sign = MD5signStr
-        Common.request.post(Api.car.addCart, parm, function (data) {
+        Common.request.post(Api.car.addCart, parm, function(data) {
           if (data.status == 'OK') {
             wx.showToast({
               title: '添加成功',
@@ -398,15 +431,30 @@ Page({
       }
     }
   },
-  onShow:async function() {
+  onShow: async function() {
+    // wx.setNavigationBarColor({
+    //   frontColor: '#ffffff',
+    //   backgroundColor: '#ff0000',
+    //   animation: {
+    //     duration: 400,
+    //     timingFunc: 'easeIn'
+    //   }
+    // })
+    // wx.setNavigationBarTitle({
+    //   title: '商品详情'
+    // })
     Common.setStorage('Isb', 0)
     let that = this
-    let { productId, storeId } = this.data
+    let {
+      productId,
+      storeId
+    } = this.data
     let userCode = Common.getUserCode()
     let user = Common.getUser()
     let cars = Common.getStorage('isAddCar')
     Common.removeStorage('isAddCar')
     console.log(cars + "isAddCars")
+    await this.getShareInfo(userCode, productId, storeId)
     wx.getSystemInfo({
       success: function(res) {
         // console.log(res)
@@ -459,16 +507,21 @@ Page({
     })
   },
   //立即购买
-  goPay:async function() {
+  goPay: async function() {
+    // await Common.goToLogin()
     let _this = this
     let islogin = Common.isLogin()
     let user = Common.getUser()
-    let usecode = user.usecode
-    console.log('user:',user)
+    if (user == "用户不存在") {
+      Common.goToLogin()
+      return false;
+    }
+    let userCode = user.userCode
+    console.log('user:', user)
     let isBinding = user.isBinding
-    if (!user) {
-      return Common.gotoHome()
-    } else{
+    if (!userCode) {
+      return Common.goToLogin()
+    } else {
       if (!isBinding) {
         wx.showModal({
           title: '温馨提示',
@@ -480,19 +533,19 @@ Page({
               console.log('用户点击确定')
               Common.setStorage('targetUrl', '/pages/details/details?productId=' + _this.data.productId + '&storeId=' + user.storeId)
               Common.setStorage('isAddPay', 1)
-              setTimeout(function () {
+              setTimeout(function() {
                 wx.navigateTo({
                   url: '/pages/bindAddress/bindAddress',
                 })
               }, 1000)
-              
+
             } else if (res.cancel) {
               console.log('用户点击取消')
               return;
             }
           }
         })
-      }else{
+      } else {
         let parm = {
           userCode: user.userCode,
           productId: _this.data.productId,
@@ -503,7 +556,7 @@ Page({
         let storeId2 = _this.data.storeId;
         console.log('storeId', user.storeId)
         console.log('storeId2', storeId2)
-        if (user.storeId != storeId2) {//不同物业
+        if (user.storeId != storeId2) { //不同物业
           let hasProduct = await this.hasProduct(_this.data.productId, user.storeId)
           console.log('hasProduct===', hasProduct)
           if (!hasProduct) {

@@ -9,6 +9,7 @@ Page({
    */
   data: {
     orderId:'',
+    hidden:false,
     proList:[],
     orderInfor:{},
     cancelReason:'',
@@ -70,9 +71,21 @@ Page({
     Common.request.post(Api.order.orderDetail, parm, function (data) {
       if (data.status == 'OK') {
         console.log("orderDetail:", data.message)
+        if (!data.message.pickUpCode || !data.message.qrcodeImg){
+          console.log('没有取件码')
+          _this.setData({
+            hidden:false
+          })
+        }else{
+          _this.setData({
+            pickUpCode: data.message.pickUpCode,
+            qrcodeImg: data.message.qrcodeImg,
+            hidden: true
+          })
+        }
         _this.setData({
           proList: data.message.orderItemList,
-          orderInfor: data.message
+          orderInfor: data.message,
         })
         let typs = _this.data.orderInfor.cancelReason
         let txt=''
@@ -82,7 +95,7 @@ Page({
             txt = _this.data.cancelList[i].text
           }
         }
-        if (!typs){
+        if (typs == '' || typs == null || typs == undefined){
           txt = '订单超时未支付'
         }
         _this.setData({
@@ -96,16 +109,24 @@ Page({
   },
   //产品详情
   getDtail(e){
+    console.log(e);
     var productId = e.currentTarget.dataset.productid
     var storeId = e.currentTarget.dataset.storeid
     var orderSourceType = e.currentTarget.dataset.soutype
+    var activityCode = e.currentTarget.dataset.activitycode
     if (orderSourceType==1){
       wx.navigateTo({
         url: '/pages/details/details?productId=' + productId + '&storeId=' + storeId,
       })
-    }else{
+    }
+    if (orderSourceType == 2){
       wx.navigateTo({
         url: `/pages/store-detail/store-detail?storeId=${storeId}&productId=${productId}`
+      })
+    }
+    if (orderSourceType == 3) {
+      wx.navigateTo({
+        url: `/pages/flashSale-detail/flashSale-detail?storeId=${storeId}&productId=${productId}&activityCode=${activityCode}&orderSourceType=${orderSourceType}`
       })
     }
   },

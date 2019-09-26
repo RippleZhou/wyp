@@ -36,7 +36,8 @@
         </swiper>
         <view class='mall_box'>
           <view  bindtap="navigate" data-productId="{{ex.productId}}" class='mall_list' wx:for="{{list}}" wx:key="unique" wx:for-item="ex">
-            <block wx:if="{{ex.productIsPutaway==1}}">
+            <block>
+            <!-- <block wx:if="{{ex.productIsPutaway==1}}"> 下架商品-->
               <view class='mall_t_img'><image src='{{ex.imageUrl}}'  mode="widthFix"></image></view>
               <view class='mall_t_tit mall_pd'>{{ex.productTitle}}</view>
               <text class='mall_t_tip mall_pd'>可获物业币{{ex.housingCoin}}</text>

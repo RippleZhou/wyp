@@ -1,0 +1,50 @@
+<!--pages/moreFlash/moreFlash.wxml-->
+<block wx:for="{{ActivityList}}" wx:for-item="dayItem"  wx:key="activityName">
+  <view class="flash_title flex flex-main-justify" data-code="{{dayItem.activityCode}}">
+    <view class="flash_txt font_28">{{dayItem.activityName}}</view>
+    <view class="flash_timer font_24" wx:if="{{dayItem.IsTimer}}"
+> {{dayItem.activityTxt}}</view>
+    <view class="flash_timer font_24" wx:else>
+      <text class="flash_last" >{{dayItem.activityTxt}}</text>
+      <!-- <text class="flash_last" > 抢购倒计时</text> -->
+      <text class="Countdown_timer">{{dayItem.day}}</text>天
+      <text class="Countdown_timer ">{{dayItem.hou}}</text>:
+      <text class=" Countdown_timer">{{dayItem.min}}</text>:
+      <text class=" Countdown_timer">{{dayItem.sec}}</text> </view>
+  </view>
+  
+  <view class='containertop'>
+    <scroll-view scroll-top="{{scrollTop}}" scroll-y="true" class="list" bindscrolltolower="onReachBottom" bindscrolltoupper="onPullDownRefresh" bindscroll="scroll">
+      <view wx:for="{{dayItem.activityItemList}}" wx:key="{{item.productId}}" class='choose_detail' data-listdata='{{item}}' catchtap='choosedetail'>
+        <view class='prolist'>
+          <view wx:if="{{dayItem.stock=='0'}}" class='qgl'>抢光了~</view>
+          <view wx:if="{{dayItem.stock=='0'}}" class='zz'></view>
+          <view class='imgview'>
+            <image class="imgmast" src="{{item.imageUrl || errorImg}}"></image>
+          </view>
+          <view class='proinfoview'>
+            <view class='pronametxt'>
+              <text>{{item.productName}}</text>
+            </view>
+            <view class='get_my_wyb'>
+              <text class='getwybtxt'>可获得物业币{{item.housingCoin}}</text>
+            </view>
+            <view class='priceinfo'>
+              <view>
+                <text class=' pricetxt price-rmb'>￥</text>
+                <text class='pricetxt'>{{item.productSalePrice}}</text>
+                <text class='priceBsc'>￥{{item.productBasicPrice}}</text>
+              </view>
+            </view>
+            <view class=' {{dayItem.stock=="0"?"disnone":"utxview"}}'>
+              去抢购
+            </view>
+            <view class='saleNo'>
+              <text class='saleNo_'>{{item.saleno}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</block>

@@ -52,11 +52,9 @@ Page({
     }
     let MD5sign = Common.md5sign(params);
     params.sign = MD5sign;
-  
     let res = await Common.ajax.post(Api.address.getHousingListByCityId, params)
     console.log('res==',res.message)
     let housingList = res.message
-
     let emptyHidden = true
     if (housingList.length == 0) {
       emptyHidden = false

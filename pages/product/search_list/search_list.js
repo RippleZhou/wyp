@@ -49,9 +49,19 @@ Page({
     if (self.data.total <= self.data.offset && self.data.total != 0) return; //翻到最后一页
 
     const { searchText } = self.data;
-
+    let users=Common.getStorage('users')
     let user = Common.getUser() || Common.getStorage("user");
-    let storeId = user.storeId + "";
+    let storeId = new Number(user.storeId).toString() || Common.getStorage('storeId').toString();
+    if (storeId == '' || storeId == null || storeId == undefined || storeId == 'NaN' || storeId == 0 || storeId == -1) {
+      storeId = Common.storeId2()
+      console.log(storeId, 'storeId2===')
+    }
+    if (users == 3 && user == "用户不存在") {
+      storeId = Common.getStorage('storeId').toString()
+      if (storeId == " ") {
+        return false;
+      }
+    }
     var params = {
       storeId,
       searchText
@@ -90,8 +100,19 @@ Page({
   navigate(e) {
     const { productid } = e.currentTarget.dataset;
     // console.log(e.currentTarget)
+    let users = Common.getStorage('users')
     let user = Common.getUser() || Common.getStorage("user");
-    const storeId = new Number(user.storeId).toString();
+    let storeId = new Number(user.storeId).toString() || Common.getStorage('storeId').toString();
+    if (storeId == '' || storeId == null || storeId == undefined || storeId == 'NaN' || storeId == 0 || storeId == -1) {
+      storeId = Common.storeId2()
+      console.log(storeId, 'storeId2===')
+    }
+    if (users == 3 && user == "用户不存在") {
+      storeId = Common.getStorage('storeId').toString()
+      if (storeId == " ") {
+        return false;
+      }
+    }
     wx.navigateTo({
       url: `/pages/store-detail/store-detail?storeId=${storeId}&productId=${productid}`
     });

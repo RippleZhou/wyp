@@ -33,7 +33,7 @@
 
 <view class='message_info'>
     <view class='message_title'>退款信息</view>
-    <view class='mes_con' wx:for="{{proList}}" wx:key="unique" wx:for-item="ex" bindtap='getDtail' data-productid="{{ex.productId}}" data-storeid="{{orderInfor.storeId}}" data-soutype="{{orderInfor.orderSourceType}}">
+    <view class='mes_con' wx:for="{{proList}}" wx:key="unique" wx:for-item="ex" bindtap='getDtail' data-productid="{{ex.productId}}" data-storeid="{{orderInfor.storeId}}" data-soutype="{{orderInfor.orderSourceType}}" data-activitycode="{{orderInfor.activityCode}}">
       <image class='message_img' src="{{ex.imageUrl}}"></image>
       <view class='message_contain'>
         <view class='message_top'>

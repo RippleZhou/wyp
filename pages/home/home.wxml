@@ -8,3 +8,8 @@
     </button>
     <view wx:else>请升级微信版本</view>
 </view>
+<!-- <view class='reg_cons_btns'>
+  <button class='reg_bTxts' bindtap='goIndex'>
+      暂不授权
+    </button>
+ </view> -->

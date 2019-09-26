@@ -1,8 +1,5 @@
-const QQMapWX = require('../../utils/qqmap-wx-jssdk.min.js');
-// var qqmapsdk;
 const Common = require('../../utils/common');
 var Utils = require('../../utils/util.js');
-var json = require('../../data/home_data.js');
 var Api = require("../../utils/api");
 var app = getApp();
 let {
@@ -11,7 +8,12 @@ let {
 
 Page({
   data: {
+    IsTimer: true,
+    activityTxt: '',
+    longtime: '',
+    actShow: false,
     searchText: "",
+    activityStatus:false,
     imgheights: [],
     current: 0,
     limit: 10,
@@ -29,6 +31,8 @@ Page({
     scrollTop: 0,
     scrollHeight: 0,
     cartItems: [],
+    cartItems1: [],
+    hasActivity: false,
     imgUrls: [{
       imgUrl: '/img/2.jpg',
       directUrl: "",
@@ -54,11 +58,8 @@ Page({
     interval: 3000, //间隔时间
     duration: 2000, //滑动时间
     userinfo: {},
-    //  dwaddress: '',
-    //  wyname: '',
-    //  storeId: 0
   },
-  errImg: function (e) {
+  errImg: function(e) {
     let _this = this
     console.log(e)
     // Common.errImgFun(e, _this);
@@ -71,22 +72,28 @@ Page({
     })
   },
 
-  GoSearch: function () {
+  GoSearch: function() {
     this.setData({ //重置分页
       offset: 1,
       cartItems: [],
+      cartItems1: [],
       isScrollUp: 'false'
     })
     this.getproList();
   },
-  SearchInput: function (e) {
+  SearchInput: function(e) {
     console.log(e.detail.value)
     var value = e.detail.value
     this.setData({
       searchText: value
     })
   },
-  scrollbottom: function () { //滚动到底部
+  MoreFlash() {
+    wx.navigateTo({
+      url: '/pages/moreFlash/moreFlash',
+    })
+  },
+  scrollbottom: function() { //滚动到底部
     wx.showToast({
       title: '成功',
       icon: 'success', //当icon：'none'时，没有图标 只有文字
@@ -127,10 +134,11 @@ Page({
         confirmText: '绑定小区',
         success(res) {
           if (res.confirm) {
+            Common.setStorage('Isb', 1)
             console.log('用户点击确定')
             app.globalData.requireBindingForCart = true // 需要绑定
             app.globalData.product = Item // 商品
-            setTimeout(function () {
+            setTimeout(function() {
               wx.navigateTo({
                 url: '/pages/bindAddress/bindAddress',
               })
@@ -144,7 +152,7 @@ Page({
       })
     } else {
       var cartItems = wx.getStorageSync("cartItems") || []
-      var exist = cartItems.find(function (el) {
+      var exist = cartItems.find(function(el) {
         return el.productId == Item.productid;
       })
       //如果购物车里面有该商品那么他的数量每次加一
@@ -174,13 +182,13 @@ Page({
       let MD5sign = Common.md5sign(params);
       params.sign = MD5sign;
       Common.request.post(Api.car.addCart, params,
-        function (data) {
+        function(data) {
           console.log(data)
           if (data.status == "OK") {
             //更新缓存数据
             wx.setStorageSync("cartItems", cartItems)
             wx.showToast({
-              title: "加入购物车成功！",
+              title: "加购成功！",
               duration: 1500
             });
             Common.setTabBar(_this);
@@ -190,7 +198,7 @@ Page({
         })
     }
   },
-  bindchange: function (e) {
+  bindchange: function(e) {
     this.setData({
       current: e.detail.current
     })
@@ -212,62 +220,70 @@ Page({
     })
   },
   //加入到购物车
-  addCar: function (e) {
+  addCar:async function(e) {
+    await Common.goToLogin()
     console.log(e)
     let user = Common.getUser()
+    let userCode = user.userCode
     let isBinding = user.isBinding
-    if (!isBinding) {
-      wx.showModal({
-        title: '温馨提示',
-        content: '为了方便充缴物业费，下单前请先绑定小区哦~',
-        cancelText: '再想想',
-        confirmText: '绑定小区',
-        success(res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-            setTimeout(function () {
-              wx.navigateTo({
-                url: '/pages/bindAddress/bindAddress',
-              })
-            }, 1000)
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-            return false;
+    if (!userCode) {
+      return Common.gotoHome()
+    } else{
+      if (!isBinding) {
+        wx.showModal({
+          title: '温馨提示',
+          content: '为了方便充缴物业费，下单前请先绑定小区哦~',
+          cancelText: '再想想',
+          confirmText: '绑定小区',
+          success(res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+              setTimeout(function () {
+                wx.navigateTo({
+                  url: '/pages/bindAddress/bindAddress',
+                })
+              }, 1000)
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+              return false;
+            }
           }
-        }
-      })
-    } else {
-      let self = this;
-      let storeId = Common.getStorage('storeId') || user.storeId
-      console.log('storeId:', storeId)
-      var cartItems = wx.getStorageSync("cartItems") || []
-      self.createCar({
-        productid: parseInt(e.target.dataset.productid),
-        title: e.target.dataset.title,
-        image: e.target.dataset.image,
-        price: e.target.dataset.price,
-        storeId: storeId
-      });
+        })
+      } else {
+        let self = this;
+        let storeId = Common.getStorage('storeId') || user.storeId
+        console.log('storeId:', storeId)
+        var cartItems = wx.getStorageSync("cartItems") || []
+        self.createCar({
+          productid: parseInt(e.target.dataset.productid),
+          title: e.target.dataset.title,
+          image: e.target.dataset.image,
+          price: e.target.dataset.price,
+          storeId: storeId
+        });
+        Common.setTabBar(self);
+      }
     }
 
-    if (!Common.biz.loggedIn()) {
-      wx.navigateTo({
-        url: '/pages/user/home/home',
-      })
-      return
-    }; 
+
+    // if (!Common.biz.loggedIn()) {
+    //   wx.navigateTo({
+    //     url: '/pages/isLogin/isLogin',
+    //   })
+    //   return
+    // };
 
   },
-  GoScan: function () {
+  GoScan: function() {
     let _this = this;
     wx.scanCode({
-      success: (res) => { },
+      success: (res) => {},
       fail: (res) => {
         console.log(res);
       }
     })
   },
-  imgH: function (e) {
+  imgH: function(e) {
     var winWid = wx.getSystemInfoSync().windowWidth; //获取当前屏幕的宽度
     var imgh = e.detail.height;　　　　　　　　　　　　　　　　 //图片高度
     var imgw = e.detail.width;
@@ -282,19 +298,26 @@ Page({
     let params = {};
     let _this = this;
     let user = Common.getUser();
-    let storeId = new Number(user.storeId).toString() || Common.getStorage("shareStoreId2").toString();
+    let users=Common.getStorage('users')
+    let storeId = new Number(user.storeId).toString() || Common.getStorage('storeId').toString()|| Common.getStorage("shareStoreId2").toString();
     console.log('storeId', storeId)
-    if (storeId == '' || storeId == null || storeId == undefined || storeId == 'NaN' || storeId == 0 || storeId==-1) {
+    if (storeId == '' || storeId == null || storeId == undefined || storeId == 'NaN' || storeId == 0 || storeId == -1) {
       storeId = Common.storeId2()
-      console.log(storeId,'storeId2===')
+      console.log(storeId, 'storeId2===')
+    }
+    if(users == 3 && user=="用户不存在"){
+      storeId = Common.getStorage('storeId').toString()
+      if (storeId == " ") {
+        return false;
+      }
     }
     params.storeId = storeId
     console.log(params.storeId, '---storeId2===')
-    console.log()
+    // console.log()
     let MD5sign = Common.md5sign(params);
     params.sign = MD5sign;
     Common.request.post(Api.productHousing.housingInfo, params,
-      function (data) {
+      function(data) {
         if (data.status == "OK") {
           console.log(data);
           _this.setData({
@@ -315,7 +338,7 @@ Page({
     let MD5sign = Common.md5sign(params);
     params.sign = MD5sign;
     Common.request.post(Api.housingbanner.queryBannerList, params,
-      function (data) {
+      function(data) {
         if (data.status == "OK") {
           // console.log('00000',data);
           if (data.message.length > 0) {
@@ -346,7 +369,7 @@ Page({
             sign: MD5signStr
           })
 
-          Common.request.post(url, reqParams, function (res) {
+          Common.request.post(url, reqParams, function(res) {
             if (res.status == "OK") {
               Common.setStorage('openid', res.message.wxOpenId)
 
@@ -362,8 +385,11 @@ Page({
   nearHousing(latitude, longitude) {
     let that = this
     console.log(that.data)
-     latitude = Common.getStorage('latitude').toString()
-     longitude = Common.getStorage('longitude').toString()
+    latitude = Common.getStorage('latitude').toString()
+    longitude = Common.getStorage('longitude').toString()
+    if (latitude == " " || longitude == " "){
+      return false;
+    }
     console.log('latitude', latitude)
     console.log('longitude', longitude)
     let url = Api.housing.nearestStore
@@ -373,17 +399,23 @@ Page({
     }
     let MD5sign = Common.md5sign(params);
     params.sign = MD5sign;
-    Common.request.post(url, params, function (data) {
+    Common.request.post(url, params, function(data) {
       if (data.status == "OK") {
         console.log(data);
         let user = Common.getStorage('user');
-        console.log('user===--==',user)
+        console.log('user===--==', user)
         let dwaddress = data.message.address
         let storeId = data.message.storeId
         let wyname = data.message.storeName
-        Common.setStorage('user', Object.assign(user, { wyname: wyname }))
-        Common.setStorage('user', Object.assign(user, { storeId: storeId })) 
-        Common.setStorage('user', Object.assign(user, { dwaddress: dwaddress }))  
+        Common.setStorage('user', Object.assign(user, {
+          wyname: wyname
+        }))
+        Common.setStorage('user', Object.assign(user, {
+          storeId: storeId
+        }))
+        Common.setStorage('user', Object.assign(user, {
+          dwaddress: dwaddress
+        }))
         Common.setStorage('dwaddress', dwaddress)
         Common.setStorage('wyname', wyname)
         Common.setStorage('storeId', storeId)
@@ -396,21 +428,24 @@ Page({
           wyname
         })
         that.getproList();
+        that.getActivityList()
       }
     })
   },
   //首次加载
-  onLoad: function (options) {
-    let that=this
-    let Isb=Common.getStorage('Isb')
-    if(!Isb){
+  onLoad: function(options) {
+    let that = this
+    let Isb = Common.getStorage('Isb')
+    if (!Isb) {
       that.setData({ //重置分页
         offset: 1,
         cartItems: [],
+        cartItems1: [],
         hidden: false
       })
       that.housingInfo();
-      that.getproList();
+      // that.getproList();
+      // that.getActivityList()
     }
     console.log('|||000==user', Common.getUser())
     console.log('|||000==user', Common.getStorage('user'))
@@ -429,8 +464,11 @@ Page({
         return Common.gotoHome() //登录
       }
     }
+
     let storeId = user.storeId
-    that.setData({ storeId })
+    that.setData({
+      storeId
+    })
     console.log('--==user--', user)
     let cars = Common.getStorage('isAddCar')
     Common.removeStorage('isAddCar')
@@ -448,61 +486,60 @@ Page({
     }
 
   },
-  onShow: function () {
+  onShow: function() {
+    // Common.setTabBar(this)
+    this.setData({
+      offset: 1,
+      cartItems:[],
+      cartItems1:[]
+    })
     let Isb = Common.getStorage('Isb')
     console.log('isb', Isb)
-    // this.setData({ //重置分页
-    //   offset: 1,
-    //   cartItems: [],
-    //   hidden: false
-    // })
     var that = this;
     let user = Common.getStorage('user')
-    let userCode=user.userCode;
+    let userCode = user.userCode;
     Common.setStorage('userCode', userCode)
     console.log('--==user--', user)
     let isBinding = user.isBinding
+    let users = Common.getStorage('users')
+    if(isBinding && users==3){
+      that.setData({
+        dwaddress: Common.getStorage('dwaddress'),
+        wyname: Common.getStorage('wyname')
+      })
+    }
     // let storeId = user.storeId
     // console.log('-=-storeId', storeId)
     console.log('==--isBinDing--', isBinding)
-    if (Isb==1) {
-      console.log(Isb,'************')
+    if (Isb == 1) {
+      console.log(Isb, '************')
       that.setData({ //重置分页
         offset: 1,
+        cartItems1: [],
         cartItems: [],
         hidden: false
       })
+      // that.getproList();
+      // that.getActivityList()
     }
     if (!isBinding) {
       console.log("1111---", isBinding)
       that.nearHousing()
       that.housingInfo()
-      // that.setData({
-      //   storeId: storeId
-      // })
-      // that.getproList();
-      //  this.nearHousing()
+      // that.getActivityList()
     } else {
       if (Isb == 1) {
         console.log(Isb, '************')
         that.setData({ //重置分页
           offset: 1,
+          cartItems1: [],
           cartItems: [],
           hidden: false
         })
         that.housingInfo();
-        that.getproList();
+        // that.getproList();
         Common.removeStorage('Isb')
       }
-      // that.setData({ //重置分页
-      //   offset: 1,
-      //   cartItems: [],
-      //   hidden: false
-      // })
-
-      let password = '123456a'
-      let u = Utils.isNumberOr(password)
-      let v = Common.validPassword(password)
       this.getOpenIdFromServer()
       console.log('===user===', user)
       let cellPhone = Common.getStorage('cellPhone') || Common.getStorage('phone') || user.cellPhone
@@ -514,26 +551,37 @@ Page({
       }))
       console.log('---user---', user)
       wx.getSystemInfo({
-        success: function (res) {
+        success: function(res) {
           that.setData({
             scrollHeight: res.windowHeight
           });
         }
       });
     }
-    Common.setTabBar(that);
-    that.getTakeTurnsNotice();
-
+    if (userCode) {
+      Common.setTabBar(that);
+       that.getproList();
+       that.getActivityList()
+    }
+    // that.getActivityList()
+    that.setData({
+      longtime: setTimeout(function () {
+        that.getTime()
+      }, 4000)
+    })
+    that.getTakeTurnsNotice()
     const vm = that;
     //  判断是否是从购物车引导绑定的
     if (app.globalData.requireBindingForCart) {
-      const { product } = app.globalData
+      const {
+        product
+      } = app.globalData
       app.globalData.requireBindingForCart = false
       app.globalData.product = null
       this.createCar(product)
     }
   },
-  scroll: function (event) {
+  scroll: function(event) {
     //该方法绑定了页面滚动时的事件，我这里记录了当前的position.y的值,为了请求数据之后把页面定位到这里来。
     let scrollTop = event.detail.scrollTop
     if (scrollTop >= 100 || this.data.searchText) {
@@ -546,7 +594,7 @@ Page({
       });
     }
   },
-  getUserInfo: function (e) {
+  getUserInfo: function(e) {
     // console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
@@ -555,18 +603,235 @@ Page({
       hasUserInfo: true
     })
   },
-  wybAbout: function () {
+  wybAbout: function() {
     wx.navigateTo({
       url: '/pages/wybexplain/wybexplain',
     })
   },
-  choosedetail: function (e) {
+  choosedetai2: function(e) {
+    console.log(e);
+    const e_data = e.currentTarget.dataset;
+    console.log(e_data);
+    let user = Common.getUser();
+    let users=Common.getStorage('users')
+    let storeId = user.storeId
+    if(user=="用户不存在"&&users==3){
+      storeId = Common.getStorage('storeId')
+    }
+    var prolistId = e_data.listdata.proId
+    var activityCode = e_data.listdata.activityCode
+    var sourceType = e_data.listdata.sourceType
+    wx.navigateTo({
+      url: '/pages/flashSale-detail/flashSale-detail?productId=' + prolistId + '&storeId=' + storeId + '&activityCode=' + activityCode + '&sourceType=' + sourceType,
+    })
+  },
+  choosedetail: function(e) {
     const e_data = e.currentTarget.dataset;
     // console.log(e_data);
     let user = Common.getUser();
+    let storeId=user.storeId;
+    if(user=="用户不存在"){
+      storeId = Common.getStorage('storeId')
+    }
     var prolistId = e_data.listdata.proId
     wx.navigateTo({
-      url: '/pages/details/details?productId=' + prolistId + '&storeId=' + user.storeId,
+      url: '/pages/details/details?productId=' + prolistId + '&storeId=' + storeId,
+    })
+  },
+  getActivityList() {
+    let _this = this;
+    let params = {};
+    var cartItems = {};
+    let user = Common.getUser() || Common.getStorage('user');
+    let users=Common.getStorage('users')
+    console.log('user',user)
+    let storeId = new Number(user.storeId).toString() || Common.getStorage('storeId').toString()|| Common.getStorage("shareStoreId2").toString();
+    if (storeId == '' || storeId == null || storeId == undefined || storeId == 'NaN' || storeId == 0 || storeId == -1) {
+      storeId = Common.storeId2()
+    }
+    if (user == "用户不存在" && users == 3) {
+      console.log(1111)
+      storeId = Common.getStorage('storeId').toString()
+    }
+    params.storeId = storeId
+    params.offset = new Number(_this.data.offset).toString();
+    params.limit = new Number(_this.data.limit).toString();
+    let MD5sign = Common.md5sign(params);
+    params.sign = MD5sign;
+    Common.request.post(Api.ProductActivity.activityList, params,
+      function(data) {
+        if (data.status == "OK") {
+          console.log(data);
+          if (data.rows.length > 0) {
+            let activityCode = data.rows[0].activityCode
+            console.log('activityCode==', activityCode)
+            _this.setData({
+              hasActivity: true,
+              activityCode,cartItems1:[]
+            })
+            _this.getActivity()
+          }else{
+            _this.setData({
+              hasActivity:false
+            })
+          }
+        }
+      })
+  },
+  getActivity() {
+    let _this = this;
+    _this.setData({
+      cartItems1:[]
+    })
+    let params = {};
+    var cartItems1 = {};
+    let user = Common.getUser() || Common.getStorage('user');
+    let users = Common.getStorage('users')
+    let storeId = new Number(user.storeId).toString() || Common.getStorage('storeId').toString()|| Common.getStorage("shareStoreId2").toString();
+    if (storeId == '' || storeId == null || storeId == undefined || storeId == 'NaN' || storeId == 0) {
+      storeId = Common.storeId2()
+    }
+    if (user == "用户不存在" && users == 3) {
+      storeId = Common.getStorage('storeId').toString()
+    }
+    params.activityCode = _this.data.activityCode
+    params.storeId = storeId
+    params.offset = '1'
+    // params.offset = new Number(_this.data.offset).toString();
+    params.limit = new Number(_this.data.limit).toString();
+    let MD5sign = Common.md5sign(params);
+    params.sign = MD5sign;
+    Common.request.post(Api.ProductActivity.activity, params,
+      function(data) {
+        if (data.status == "OK") {
+          console.log(data);
+          let proList1 = _this.data.cartItems1;
+          let productList1 = data.message.itemList.slice(0,2) || [];
+          for (let i = 0; i < productList1.length; i++) {
+            let pro1 = {}; //定义产品对象，获取数据，追加到数组里
+            // pro.pname = productList[i].productExpirationNum;
+            pro1.pimg = productList1[i].imageUrl; //图片路径
+            pro1.num = productList1[i].stockNum; //库存
+            // pro1.sourceType = productList1[i].activityProductType //产品类型
+            if (productList1[i].activityProductType==1){
+              pro1.sourceType=17
+            }else{
+              pro1.sourceType = 16
+            }
+            let sourceType = pro1.sourceType;
+            let activityBeginDate = productList1[i].activityBeginDate
+            console.log('activityBeginDate', productList1[i].activityBeginDate)
+            let beginDate = (activityBeginDate.substring(0, 20)).replace(/-/g, '/')
+            pro1.beginDate = beginDate; //活动开始时间
+            let activityEndDate = productList1[i].activityEndDate
+            console.log('activityEndDate', productList1[i].activityEndDate)
+            let stopDate = (activityEndDate.substring(0, 20)).replace(/-/g, '/')
+            pro1.stopDate = stopDate; //活动结束时间
+            pro1.aItemId = productList1[i].activityItemId //id
+            pro1.limNub = productList1[i].limitedNumber; //限购
+            pro1.bscPrice = productList1[i].productBasicPrice //原价
+            pro1.pname = productList1[i].productTitle; //"产品名称";
+            pro1.proId = productList1[i].productId; //产品编号
+            pro1.activityCode = productList1[i].activityCode //活动编码
+            let saleNum = productList1[i].saleNum ? productList1[i].saleNum : 0;
+            pro1.saleno = "已售" + saleNum + "件";
+            pro1.price = productList1[i].productSalePrice; //商品活动价
+            pro1.getwyb = "可获得物业币" + productList1[i].housingCoin;
+            pro1.status = productList1[i].stockNum > 0;
+            pro1.userimg = productList1[i].buyerImageUrl;
+            proList1.push(pro1);
+            _this.setData({
+              activityBeginDate,
+              activityEndDate,
+              sourceType
+            })
+            console.log(pro1)
+            console.log(proList1)
+          }
+          console.log('proList1', proList1)
+          let nowDate = +new Date() //获取当前时间戳
+          var cartItems1 = proList1;
+          _this.data.offset++;
+          _this.setData({
+            cartList1: false,
+            cartItems1: cartItems1,
+            offset: _this.data.offset,
+            hidden: _this.data.hidden,
+            hiddenTexts: _this.data.hiddenTexts
+          });
+        }
+      })
+  },
+   async getTime() {
+    let that = this
+    let activityBeginDate = (that.data.activityBeginDate).replace(/-/g, '/');
+    let activityEndDate = (that.data.activityEndDate).replace(/-/g, '/');
+    let beginDate = +new Date(activityBeginDate); //获取截至时间戳(.getTime()==+)activityBeginDate
+    let stopDate = +new Date(activityEndDate); //获取截至时间戳(.getTime()==+)
+    console.log(beginDate, stopDate)
+    console.log('that.data.activityEndDate', activityEndDate, activityBeginDate)
+
+    let nowDate = +new Date() //获取当前时间戳
+    console.log('nowDate1', nowDate)
+    let dTime
+    let dTime1 = beginDate - nowDate //计算时间差距离活动开始时间
+    console.log('dTime1', dTime1)
+    let dTime2 = stopDate - nowDate; //计算时间差距离活动结束时间
+    if (dTime2 < 0) {
+      console.log('活动已结束')
+      that.setData({
+        actShow: true,
+        btnShow: true,
+        IsTimer:false,
+        activityTxt: '活动已结束'
+      })
+      console.log('activityTxt', that.data.activityTxt)
+      clearTimeout(that.data.longtime)
+      console.log(that.data, 'thssadasd')
+      return false;
+    }
+    if (dTime1 > 0) {
+      dTime = dTime1
+      console.log('dTime1', dTime)
+      that.setData({
+        btnShow: false,
+        actShow: false,
+        IsTimer: true,
+        activityTxt: '抢购倒计时'
+      })
+      that.setData({
+        longtime: setTimeout(function() {
+          that.getTime()
+        }, 1000)
+      })
+      console.log('activityTxt', that.data.activityTxt)
+
+    }
+    if (dTime1 < 0 && dTime2 > 0) {
+      dTime = dTime2
+      console.log('dTime2', dTime)
+      that.setData({
+        btnShow: false,
+        actShow: false,
+        IsTimer: true,
+        activityTxt: '距离活动结束'
+      })
+      that.setData({
+        longtime: setTimeout(function() {
+          that.getTime()
+        }, 1000)
+      })
+      console.log('activityTxt', that.data.activityTxt)
+    }
+    let sec = dTime / 1000; //计算秒
+    let min = sec / 60; //计算分钟
+    let hou = min / 60; //计算小时
+    let day = hou / 24; //计算天
+    this.setData({
+      day: parseInt(day) < 10 ? '0' + parseInt(day) : parseInt(day),
+      hou: parseInt(hou % 24) < 10 ? '0' + parseInt(hou % 24) : parseInt(hou % 24),
+      min: parseInt(min % 60) < 10 ? '0' + parseInt(min % 60) : parseInt(min % 60),
+      sec: parseInt(sec % 60) < 10 ? '0' + parseInt(sec % 60) : parseInt(sec % 60)
     })
   },
   getproList() {
@@ -574,20 +839,27 @@ Page({
     let params = {};
     var cartItems = {};
     let user = Common.getUser() || Common.getStorage('user');
-    let storeId = new Number(user.storeId).toString() || Common.getStorage("shareStoreId2").toString();
-    if (storeId == '' || storeId == null || storeId == undefined || storeId == 'NaN' || storeId==0){
-      storeId=Common.storeId2()
+    let users = Common.getStorage('users')
+    let storeId = new Number(user.storeId).toString() || Common.getStorage('storeId').toString() || Common.getStorage("shareStoreId2").toString();
+    console.log('storeId', storeId)
+    if (storeId == '' || storeId == null || storeId == undefined || storeId == 'NaN' || storeId == 0||storeId == -1) {
+      storeId = Common.storeId2()
+    }
+    if (user == "用户不存在" && users == 3) {
+      _this.setData({
+        cartItems: []
+      })
+      storeId = Common.getStorage('storeId').toString()
     }
     params.storeId = storeId
-
-    // console.log('storeid', params.storeId)
+    console.log('storeid', params.storeId)
     params.searchText = _this.data.searchText;
     params.offset = new Number(_this.data.offset).toString();
     params.limit = new Number(_this.data.limit).toString();
     let MD5sign = Common.md5sign(params);
     params.sign = MD5sign;
     Common.request.post(Api.productHousing.index, params,
-      function (data) {
+      function(data) {
         if (data.status == "OK") {
           console.log(data)
           let proList = _this.data.cartItems;
@@ -613,6 +885,7 @@ Page({
             pro.userimg = productList[i].buyerImageUrl;
             pro.productIsPutaway = productList[i].productIsPutaway;
             proList.push(pro);
+
           }
           var cartItems = proList;
           _this.data.offset++;
@@ -638,7 +911,7 @@ Page({
     let MD5sign = Common.md5sign(params);
     params.sign = MD5sign;
     Common.request.post(Api.customerAddress.getAddressByLngAndLat, params,
-      function (data) {
+      function(data) {
         if (data.status == "OK") {
           console.log(data.message);
         } else {
@@ -655,7 +928,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   // 上拉加载
-  onReachBottom: function () {
+  onReachBottom: function() {
     if (!this.data.hidden) {
       this.getproList();
     }
@@ -663,12 +936,14 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.setData({ //重置分页
       offset: 1,
       cartItems: [],
+      cartItems1: [],
       hidden: false
     })
+    this.getActivityList();
     this.getproList();
     wx.stopPullDownRefresh();
   },
@@ -676,7 +951,7 @@ Page({
     let _this = this;
     let params = {};
     Common.request.get(Api.takeTurns.takeTurnsNotice, {},
-      function (data) {
+      function(data) {
         if (data.status == "OK") {
           let takeTurnsNotice = data.message;
           // console.log(takeTurnsNotice)
@@ -699,7 +974,7 @@ Page({
     let dataset = e.currentTarget.dataset;
     let url = shif.data.imgUrls[dataset.index].directUrl;
   },
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     let title = JSON.parse(this.data.isScrollUp) ? '物业拼拼商城' : '物业拼拼-全部商品'
     let user = Common.getUser()
     let shareStoreId = user.storeId
@@ -709,5 +984,12 @@ Page({
       title,
       path: `pages/index/index?isShare=1&isScrollUp=${isScrollUp}&shareStoreId=${shareStoreId}`
     }
-  }
+  },
+  onUnload() {
+    clearTimeout(this.data.longtime);
+  },
+  onHide: function() {
+    //写在onHide()中，切换页面或者切换底部菜单栏时关闭定时器。
+    clearTimeout(this.data.longtime)
+  },
 })

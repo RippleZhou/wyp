@@ -1,0 +1,202 @@
+/* pages/moreFlash/moreFlash.wxss */
+@import '../../style/flex.wxss';
+@import '../../style/common.wxss';
+.flash_title{
+  padding: 24rpx;
+}
+.flash_last{
+  font-size: 26rpx;
+  color: #000;
+}
+.disnone{
+  display: none;
+}
+.flash_timer{
+  color: #e61817;
+}
+.Countdown_timer{
+  padding: 6rpx;
+  background: #e61817;
+  color: #fff;
+  margin: 0 8rpx;
+}
+.flash_txt{
+  max-width: 40%;
+  white-space:nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #000;
+}
+
+/* 产品 */
+containertop {
+padding-bottom: 20rpx;
+position: relative;
+height: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: space-between;
+box-sizing: border-box;
+}
+
+scroll-view {
+  width: 100%;
+}
+.utxview{
+  padding: 12rpx 24rpx;
+  color: #fff;
+  font-size: 30rpx;
+  background:  #e61817;
+  border-radius: 30rpx;
+  position: absolute;
+  right: 0;
+  bottom: 20rpx;
+}
+.prolist {
+  /* padding:0 24rpx; */
+  height: 300rpx;
+  position: relative;
+}
+
+/*主图view*/
+
+.imgview {
+  width: 40%;
+  height: 100%;
+  text-align: center;
+  position: absolute;
+  left: 0;
+}
+
+/*主图img*/
+
+.imgmast {
+  width: 280rpx;
+  height: 100%;
+}
+
+/*产品信息view*/
+
+.choose_detail {
+  padding: 20rpx 24rpx;
+}
+
+.proinfoview {
+  width: 60%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+/*产品名字*/
+.pronametxt {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  padding-left: 24rpx;
+  font-size: 28rpx;
+  overflow: hidden;
+}
+
+/*可获得物业币txt*/
+
+.get_my_wyb {
+  padding-left: 24rpx;
+}
+
+.getwybtxt {
+  display: inline-block;
+  color: #fa0000;
+  background: #ffedec;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+  padding: 0 20rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+}
+
+/*价格信息view*/
+
+.priceinfo {
+  width: 100%;
+  position: absolute;
+  bottom: 58rpx;
+}
+
+/*价格文案*/
+
+.pricetxt {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: red;
+}
+
+.price-rmb {
+  margin-left: 24rpx;
+  font-size: 24rpx;
+}
+
+/*已售数量文案*/
+
+.saleNo {
+  width: 100%;
+  position: absolute;
+  bottom: 20rpx;
+  color: #999;
+  font-size: 24rpx;
+  margin-left: 8rpx;
+}
+
+.saleNo_ {
+  margin-left: 24rpx;
+}
+.priceBsc {
+  color: #999;
+  font-size: 24rpx;
+  margin-left: 10rpx;
+  text-decoration: line-through;
+}
+/*遮罩层*/
+
+.zz {
+  height: 295rpx;
+  width: 100%;
+  background-color: white;
+  position: absolute;
+  z-index: 1000;
+  opacity: 0.6;
+  padding-top: 20rpx;
+}
+
+/*抢光了文字*/
+
+.qgl {
+  height: 40rpx;
+  width: 120rpx;
+  background-color: #7e7c7c;
+  position: absolute;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 40rpx;
+  color: white;
+  top: 150rpx;
+  left: 80rpx;
+  z-index: 999;
+}
+
+.w_loading_box {
+  text-align: center;
+  border-top: 1rpx solid #ebebeb;
+}
+
+.w_load_tips {
+  font-size: 30rpx;
+  color: #999;
+  height: 100rpx;
+  line-height: 100rpx;
+}

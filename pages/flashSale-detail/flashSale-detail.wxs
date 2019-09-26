@@ -1,0 +1,23 @@
+function mediaType(str) {
+  return str.substring(str.length - 3)
+}
+
+function numberFixed(num) {
+  return Number(num).toFixed(2)
+}
+
+function selnameExt(name_ext, attr_name) {
+  var name = ''
+  if (attr_name) {
+    name = attr_name;
+  }
+  if (name_ext != null && name_ext != '' && name_ext != undefined) {
+    name += '|' + name_ext
+  }
+  return name
+}
+module.exports = {
+  mediaType: mediaType,
+  numberFixed: numberFixed,
+  selnameExt: selnameExt
+}

@@ -50,6 +50,12 @@ Page({
   onShow: function () {
     Common.setStorage('Isb', 1)
     let user = Common.getStorage('user') || Common.getUser()
+    let userCode=user.userCode
+    if(!userCode){
+      this.setData({
+        isShows:false
+      })
+    }
     let isBinding = user.isBinding
     console.log(isBinding)
     if (!isBinding) {
@@ -72,13 +78,15 @@ Page({
       noPage: 0,
       isShows: true,
     })
-    this.getList(this.data.states)
-    
+    if(userCode){
+      this.getList(this.data.states)
+      Common.setTabBar(this);
+    }    
     this.getCancelList()
-    Common.setTabBar(this)
   },
   //点击时切换
   clickTab(e) {
+    
     let _this = this
     let dataIndex = e.currentTarget.dataset.index
     if (_this.data.states == dataIndex) { return }
@@ -102,17 +110,30 @@ Page({
       noPage: 0,
       isShows: true,
     })
-    _this.getList(e.detail.current)
+    let user = Common.getStorage('user') || Common.getUser()
+    let userCode = user.userCode
+    if(userCode){
+      _this.getList(e.detail.current)
+    }
+    // _this.getList(e.detail.current)
   },
   //是否到底
   scrolltolower(e) {
     let _this = this
     let dataset = e.currentTarget.dataset
+    let user = Common.getStorage('user') || Common.getUser()
+    let userCode = user.userCode
     if (_this.data.offset != 0) {//有数据就继续加载
+    if(userCode){
       _this.getList(dataset.index)
       _this.setData({
         tipTxt: '加载中'
       })
+    }
+      // _this.getList(dataset.index)
+      // _this.setData({
+      //   tipTxt: '加载中'
+      // })
       // console.log(_this.data.offset)
     } else {
       _this.setData({
@@ -325,6 +346,8 @@ Page({
   //撤销退货
   cancelReturn(e){
     let _this = this
+    let user = Common.getStorage('user') || Common.getUser()
+    let userCode = user.userCode
     console.log("退货Id:", e.currentTarget.dataset.orderid)
    wx.showModal({
      title: "确认要撤销退货吗？",
@@ -346,7 +369,9 @@ Page({
                  noPage: 0,
                  isShows: true,
                })
-               _this.getList(_this.data.states)
+               if(userCode){
+                 _this.getList(_this.data.states)
+               }
              },1000)
            }
          })

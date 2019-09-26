@@ -1,13 +1,19 @@
 // let cUrl = 'https://vue.3721zh.com/api/'  //测服
 // let cUrl = 'https://v.3721zh.com/api/'
 // var cUrl='https://jpaytest.3721zh.com/'
- //var cUrl = 'https://xqapitest.3721zh.com/'  //本地 + 测服 +有商品
+//var cUrl = 'https://xqapitest.3721zh.com/'  //本地 + 测服 +有商品
 // var cUrl='https://small.3721zh.com'
 //var cUrl = 'https://wypapi.3721zh.com/'  //线上
 var cUrl ='https://xqhjuatapi.3721zh.com/' //测服
+//var cUrl ='http://192.168.1.185:8080/' // 临时
 const api = {
   common: {
     getmsAuthCode: `${cUrl}common/getmsAuthCode`
+  },
+   ProductActivity:{
+    activity: `${cUrl}ProductHousingActivity/activity`,//查询单个活动
+    activityList: `${cUrl}ProductHousingActivity/activityList`,//查询活动列表页
+    activityProduct: `${cUrl}ProductHousingActivity/activityProduct`//查询产品详情
   },
   user: {
     decryptPhone: `${cUrl}customerWeChat/decryptPhone`,
@@ -47,7 +53,8 @@ const api = {
     getSettlementOrder: cUrl + 'sopHousingOrder/getSettlementOrder',
     uploadImg: cUrl + 'sopHousingOrder/uploadImg',//图片上传
     returndOrderSubmit: cUrl + 'sopHousingOrder/returndOrderSubmit',//退换货提交
-    submitOrder: cUrl + '/sopHousingOrder/submitOrder',//提交订单
+    //submitOrder: cUrl + '/sopHousingOrder/submitOrder',//提交订单
+    submitOrder: cUrl + '/sopHousingOrder/submitOrderToPay',//提交订单
     getReturnOrderList: cUrl + 'sopHousingOrder/getReturnOrderList',//提交订单-退款
     returndCancel:cUrl+"sopHousingOrder/returndCancel",//撤销退换货
     getReturnOrderDetail: cUrl +'sopHousingOrder/getReturnOrderDetail',//退换货详情

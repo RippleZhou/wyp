@@ -1,4 +1,3 @@
-var json = require('../../data/home_data.js')
 const Common = require('../../utils/common');
 var Api = require("../../utils/api");
 const app = getApp();
@@ -89,11 +88,14 @@ Page({
               let user = res.data.message
               let targetUrl = Common.getStorage('targetUrl')
               let targetUrl1 = Common.getStorage('targetUrl1')
+              let targetUrl2 = Common.getStorage('targetUrl2')
               Common.setStorage('user', user);
               console.log('targetUrl', targetUrl)
               console.log('targetUrl1', targetUrl1)
+              console.log('targetUrl2', targetUrl2)
               Common.removeStorage('targetUrl')
               Common.removeStorage('targetUrl1')
+              Common.removeStorage('targetUrl2')
               if (targetUrl) {
                 return wx.redirectTo({
                   url: targetUrl
@@ -102,6 +104,11 @@ Page({
               if (targetUrl1) {
                 return wx.redirectTo({
                   url: targetUrl1
+                })
+              }
+              if (targetUrl2) {
+                return wx.redirectTo({
+                  url: targetUrl2
                 })
               }
               if (user.wxBindStatus) {
@@ -117,8 +124,10 @@ Page({
                 }
               }else {
                 console.log('新用户')
-                Common.setStorage('users',1)
-                Common.gotoHome()
+                that.nearHousing()
+                Common.setStorage('users',3)
+                Common.gotoIndex()
+                // Common.gotoHome()
               }
               Common.setWxOpenId(res.data.message.wxOpenId)
             },

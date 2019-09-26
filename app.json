@@ -1,6 +1,10 @@
 {
-  "pages": [        
-    "pages/isLogin/isLogin",
+  "pages": [
+    "pages/isLogin/isLogin",       
+    "pages/moreFlash/moreFlash",  
+    "pages/index/index",     
+    "pages/flashSale-detail/flashSale-detail",
+    "pages/order-detail/order-detail",
     "pages/home/home",
     "pages/components/pro-imgtxt/pro-imgtxt",
     "pages/product/search/search",
@@ -8,7 +12,6 @@
     "pages/store/store",
     "pages/addressList/addressList",
     "pages/editorAddress/editorAddress",
-    "pages/ shippingAddress/shippingAddress",
     "pages/agreement/agreement",
     "pages/city/city",
     "pages/fillOrder/fillOrder",
@@ -19,7 +22,6 @@
     "pages/bindAddress/bindAddress",
     "pages/suggest/suggest",
     "pages/user/codelogin/codelogin",
-    "pages/index/index",
     "pages/CommodityList/CommodityList",
     "pages/details/details",
     "pages/exchangeBox/exchangeBox",
@@ -28,7 +30,6 @@
     "pages/bills/bills",
     "pages/application/application",
     "pages/wyb-detail/wyb-detail",
-    "pages/order-detail/order-detail",
     "pages/ReturnRequest/returnfail/returnfail",
     "pages/ReturnRequest/rerurnSuccess/rerurnSuccess",
     "pages/user/message/message",

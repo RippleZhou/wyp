@@ -6,8 +6,6 @@ let {
   regeneratorRuntime
 } = global
 
-
-
 var common = {
   appkey: "3721zhkj",
   error: {
@@ -18,6 +16,7 @@ var common = {
   response: {
     check: {}
   },
+
   biz: {
     loggedIn: {} //检查是否登录
   },
@@ -116,6 +115,7 @@ common.GoWechat=function(nickName, imageUrl) {
   console.log(nickName, imageUrl)
   let targetUrl = common.getStorage('targetUrl')
   let targetUrl1 = common.getStorage('targetUrl1')
+  let targetUrl2 = common.getStorage('targetUrl2')
   wx.login({
     success(res) {
       if (res.code) {
@@ -229,7 +229,9 @@ common.error.api.prototype.constructor = common.error.api
  * @returns 访问api需要的签名
  */
 common.miscellaneous.getSign = params => {
+  console.log("params:",params)
   var data = md5Sign.raw(params) + '&key=' + common.appkey
+  console.log('ddata',data)
   return md5(data).toUpperCase()
 }
 /** 
@@ -241,10 +243,11 @@ common.miscellaneous.getSign = params => {
  */
 common.miscellaneous.signedParams = params => {
   console.log('signedParams')
+  console.log('params')
   var sign = common.miscellaneous.getSign(params)
   console.log(params)
   console.log(sign)
-  return Object.assign(params, { sign: sign })
+  return Object.assign(params, { sign: sign.toString() })
 }
 common.getparam = function (data) {
   let param = {};
@@ -613,6 +616,17 @@ common.gotoHome = function () {
     url: '/pages/home/home'
   })
 }
+common.goToLogin = function () {
+  let userCode = common.getUserCode()
+  if (userCode) {
+    return true;
+  } else {
+    wx.redirectTo({
+      url: '/pages/home/home',
+    })
+    return false
+  }
+}
 common.gotoBind=function() {
   wx.navigateTo({
     url: '/pages/bindAddress/bindAddress'
@@ -894,7 +908,10 @@ common.setTabBar = function (that)
   if (!wx.getStorageSync('cartItemsNum'))
   {
     let userCode = common.getUser().userCode || common.getStorage('userCode');
-    let storeId = common.getUser().storeId || common.storeId2();
+    let storeId = common.getUser().storeId || common.getStorage('storeId') ||common.storeId2();
+    if (storeId == '' || storeId == null || storeId == undefined || storeId == 'NaN' || storeId == 0 || storeId == -1) {
+      storeId = common.storeId2()
+    }
     common.request.get(Api.car.queryCart, { userCode: userCode, storeId: storeId},
       function (data) {
         if (data.status == "OK") {
@@ -927,7 +944,6 @@ common.setTabBar = function (that)
             //更新缓存数据
           wx.setStorageSync("cartItemsNum", Num)
           wx.setStorageSync("cartItems", exboxList)
-
           if (Num <= 0) {
             wx.removeTabBarBadge({
               index: 3,

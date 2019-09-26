@@ -64,8 +64,12 @@ Page({
   navigate(e){
     const {productid} = e.currentTarget.dataset
     // console.log(e.currentTarget)
+    let users=Common.getStorage('users')
     let user = Common.getUser() || Common.getStorage('user');
-    const storeId = new Number(user.storeId).toString();
+    let storeId = new Number(user.storeId).toString();
+    if(users=="3"&& user=="用户不存在"){
+      storeId = Common.getStorage('storeId').toString()
+    }
     wx.navigateTo({
       url:`/pages/store-detail/store-detail?storeId=${storeId}&productId=${productid}`
     })
@@ -122,7 +126,14 @@ Page({
     let params = {};
     var cartItems = {};
     let user = Common.getUser() || Common.getStorage('user');
-    params.storeId = new Number(user.storeId).toString();
+     let storeId = new Number(user.storeId).toString() || Common.getStorage("shareStoreId2").toString();
+     if (storeId == '' || storeId == null || storeId == undefined || storeId == 'NaN' || storeId == 0 || storeId == -1) {
+       storeId = Common.storeId2()
+     }
+     if(user=="用户不存在"){
+       storeId = Common.getStorage('storeId').toString()
+     }
+     params.storeId = storeId
     let MD5sign = Common.md5sign(params);
     params.sign = MD5sign;
     Common.request.post(Api.mall.activityTypeTree,
@@ -145,6 +156,14 @@ Page({
             console.log("isShows", _this.data.isShows)
             return
           }
+          _this.setData({
+            orderTab: [],
+            categorySysNo: isNo,
+            list: [],
+            offset: 1,
+            noPage: 0,
+            isShows: false,
+          })
           orderTab.push({ name: data.message[0].name, numN: data.message[0].value }, { name: '全部', numN: '2' })
           // if (_this.data.states == data.message[0].value) {
           //   isNo = data.message[0].value
@@ -166,7 +185,6 @@ Page({
         }else{
           console.log('queryFirstTypeTree****Error:', this.data.message)
         }
-        
       }
     )
   },
@@ -205,13 +223,19 @@ Page({
         categorySysNo:categorySysNo,
         list:[],
         offset:1
-
       })
       console.log("categorySysNo02:", this.data.categorySysNo)
-      // that.getData()
-      // that.getFloorList(categorySysNo)
     }
+    let user = Common.getUser()
+    let userCode = user.userCode || Common.getStorage('userCode')
+    // Common.setTabBar(this)
+    if (userCode) {
+      console.log('购物车')
+      Common.setTabBar(that)
+    }
+    let users=Common.getStorage('users')
     this.getData()
+    // Common.setTabBar(this)
   }, 
   bindchange(){
   },
@@ -220,13 +244,20 @@ Page({
     var url = ''
     var parm = {}
     let user = Common.getUser()
+    let users=Common.getStorage('users')
+    let storeId = user.storeId
+    if(user=="用户不存在" && users == 3){
+      storeId = Common.getStorage('storeId')
+      console.log('storeid',storeId)
+    }
     // let states=_this.data.categorySysNo
     console.log(states,'status-==-')
+
     if (states==1){
       url = Api.mall.activityTypeProduct
       parm = {
         type: states.toString(),
-        storeId: user.storeId.toString(),
+        storeId: storeId.toString(),
         offset: _this.data.offset.toString(),
         limit: _this.data.limit.toString()
       }
@@ -235,7 +266,7 @@ Page({
       url=Api.mall.search
       parm = {
         searchText:'',
-        storeId: user.storeId.toString(),
+        storeId: storeId.toString(),
         offset: _this.data.offset.toString(),
         limit: _this.data.limit.toString()
       }
@@ -246,12 +277,12 @@ Page({
       if (data.status == 'OK') {
         console.log(data)
         var rows = data.message.productList
-        if (data.total <= 0) {
-          _this.setData({
-            offset: 1, noPage: 0, isShows: false
-          })
-          return
-        }
+        // if (data.total <= 0) {
+        //   _this.setData({
+        //     offset: 1, noPage: 0, isShows: false
+        //   })
+        //   return
+        // }
         if (rows.length > 0) {
           var items = _this.data.list
           for (let i = 0; i < rows.length; i++) {
@@ -306,8 +337,17 @@ Page({
   scrolltolower(e) {
     let _this = this
     let dataset = e.currentTarget.dataset
+    console.log(_this.data.status)
+    // let 
     if (_this.data.offset != 1) {//有数据就继续加载
-      _this.getList(dataset.index)
+      console.log('dataset.index', dataset.index)
+      let Sta =  dataset.index
+      if (_this.data.orderTab.length>1){
+        Sta = Sta+1
+      }else{
+        Sta = 2
+      }
+      _this.getFloorList(Sta)
       _this.setData({
         tipTxt: '加载中'
       })

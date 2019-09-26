@@ -28,6 +28,9 @@
 .font_24{
   font-size: 24rpx;
 }
+.font_22{
+  font-size: 22rpx;
+}
 .bgc_fff{
   background: #ffffff;
 }

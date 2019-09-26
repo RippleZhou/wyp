@@ -2,7 +2,6 @@
 // var demo = new QQMapWX({
 //   key: 'HVUBZ-JFRH4-XZNUL-DA6AP-TXK45-4IBUM' // 必填
 // });
-var json = require('../../data/home_data.js')
 const Common = require('../../utils/common');
 var Api = require("../../utils/api");
 const app = getApp();
@@ -65,6 +64,11 @@ Page({
   onReady: function() {
 
   },
+  goIndex(){
+    wx.switchTab({
+      url: '/pages/index/index',
+    })
+  },
   onGotUserInfo: function (e) {
     console.log(e)
     console.log("errMsg:",e.detail.errMsg)
@@ -93,6 +97,8 @@ Page({
   onShow: function() {
     let targetUrl = Common.getStorage('targetUrl')
     let targetUrl1 = Common.getStorage('targetUrl1')
+    let targetUrl2 = Common.getStorage('targetUrl2')
+
     console.log('targetUrl', targetUrl)
     this.nearHousing()
     // Common.gotoIndex();

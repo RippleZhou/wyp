@@ -39,9 +39,12 @@ Page({
     let user = Common.getUser()
     let userInfo = Common.getStorage('userInfo')
     let usersName = userInfo.nickName || ''
-    let title = `${usersName}向您推荐${proInfor.productTitle}`
+    // let title = `${usersName}向您推荐${proInfor.productTitle}`
+    let title = this.data.shareIn.title || `${usersName}向您推荐${proInfor.productTitle}`
+    let imageUrl = this.data.shareIn.imageUrl || ''
     return {
       title,
+      imageUrl,
       path: `pages/store-detail/store-detail?isShare=1&shareUserCode=${userCode}&shareProductId=${productId}&shareStoreId=${storeId}`
     }
   },
@@ -170,6 +173,7 @@ Page({
       imgheights: imgheights
     });
   },
+
   bindchange: function(e) {
     this.setData({
       current: e.detail.current
@@ -270,6 +274,8 @@ Page({
     if (!user) {
       return Common.gotoHome()
     } else {
+      console.log("000000")
+      Common.setTabBar(this)
       wx.switchTab({
         url: '/pages/exchangeBox/exchangeBox',
       })
@@ -277,14 +283,19 @@ Page({
   },
   //添加购物车
   addcart: async function() {
+    await Common.goToLogin()
     let _this = this;
     let user = Common.getUser();
+    let userCode=user.userCode
     let isBinding = user.isBinding;
-    if (!user) {
+    // if(!userCode){
+
+    // }
+    if (!userCode) {
       wx.navigateTo({
         url: "/pages/home/home"
       });
-      return;
+      return false; 
     } else {
       if (!isBinding) {
         wx.showModal({
@@ -339,7 +350,7 @@ Page({
               icon: "none",
               duration: 2000
             });
-
+            Common.setTabBar(_this)
             let Num = wx.getStorageSync("cartItemsNum") + 1;
             wx.setStorageSync("cartItemsNum", Num);
           } else {
@@ -406,12 +417,13 @@ Page({
   },
   //立即购买
   goPay: async function() {
+    await Common.goToLogin()
     let _this = this;
     let islogin = Common.isLogin();
     let user = Common.getUser();
-    let usecode = user.usecode;
+    let userCode = user.userCode;
     let isBinding = user.isBinding;
-    if (!user) {
+    if (!userCode) {
       wx.navigateTo({
         url: "/pages/home/home"
       });

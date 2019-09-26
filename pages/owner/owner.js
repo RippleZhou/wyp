@@ -17,11 +17,12 @@ Page({
     urlImg:'/img/wypp.png'
   },
   GoLogin: function () {
-    wx.navigateTo({
-      url: '/pages/user/codelogin/codelogin?jumpurl=/pages/owner/owner',
+    wx.redirectTo({
+      url: '/pages/home/home',
     })
   },
-  GoMyWyb: function () {
+  async GoMyWyb() {
+    await this.goToLogin()
     let isBinding=Common.getStorage('user').isBinding;
     console.log('==isBinding===', isBinding)
     if(isBinding){
@@ -33,17 +34,20 @@ Page({
     }
   },
   GoMyBind: function () {
+    this.goToLogin()
     wx.navigateTo({
       url: '/pages/bindAddress/bindAddress',
     })
   },
   gowyDetail(){
+    this.goToLogin()
     Common.setStorage('curType',2)
     wx.navigateTo({
       url: "/pages/wyb-detail/wyb-detail"
     });
   },
   GoSet: function () {
+    this.goToLogin()
     wx.navigateTo({
        url: "/pages/Setting/Setting",
     })
@@ -55,11 +59,13 @@ Page({
     }
   },
   GoMyAddress(){
+    this.goToLogin()
     wx.navigateTo({
       url: '/pages/addressList/addressList',
     })
   },
   GoSuggest: function () {
+    this.goToLogin()
     let storeName = this.data.storeName
     let storeId = this.data.storeId
     let customerName = this.data.customerName
@@ -68,6 +74,7 @@ Page({
     })
   },
   GoAllOrder: function (e) {
+    this.goToLogin()
     console.log(e)
     let states = e.currentTarget.dataset.states
     app.globalData.states = states
@@ -80,6 +87,7 @@ Page({
     })
   },
   GoOrder: function () {
+    this.goToLogin()
     // wx.navigateTo({
     //   url: '/pages/order-detail/order-detail',
     // })
@@ -90,6 +98,7 @@ Page({
     })
   },
   GoScan: function () {
+    this.goToLogin()
     wx.scanCode({
       success: (res) => {
         console.log(res)
@@ -99,7 +108,8 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  GoMyWy: function () {
+  async GoMyWy() {
+    await this.goToLogin()
     let {
       address,
       storeId,
@@ -207,10 +217,15 @@ Page({
     console.log('user===',user)
     Common.saveUser(user)
     console.log('---user===', user)
-    let userCode = user.userCode
+    let userCode = user.userCode||Common.getStorage('userCode')
     this.render()
     this.getMyHousing()
-    Common.setTabBar(this)
+    if (userCode) {
+      console.log('11111sadadas')
+      Common.setTabBar(this);
+    }else{
+      console.log('无usercode')
+    }
   },
   onLoad: function (options) {
     console.log('onload')
@@ -271,5 +286,17 @@ Page({
   render() {
     this.renderUser()
     this.renderWYB()
+  },
+  goToLogin(){
+    let user = Common.getUser() || Common.getStorage('user');
+    let userCode=Common.getStorage('userCode')||user.userCode
+    if (userCode){
+      return true;
+    }else{
+      wx.redirectTo({
+        url: '/pages/home/home',
+      })
+      return false
+     }
   }
 })

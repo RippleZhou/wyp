@@ -31,6 +31,7 @@ Page({
     let { cellPhone, authCode, canLogin } = that.data
     let targetUrl = Common.getStorage('targetUrl')
     let targetUrl1 = Common.getStorage('targetUrl1')
+    let targetUrl2 = Common.getStorage('targetUrl2')
     if (!canLogin) return;
     let url = Api.user.loginCode
     let params = {

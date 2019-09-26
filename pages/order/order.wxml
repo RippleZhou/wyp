@@ -29,6 +29,7 @@
               <label>申请时间:{{ex.applicationRefundDate}}
                 <text wx:if="{{ex.orderSourceType==1}}">(货架订单)</text>
                 <text wx:if="{{ex.orderSourceType==2}}">(线上订单)</text>
+                <text wx:if="{{ex.orderSourceType==3}}">(限时活动)</text>
               </label>
               <label class="{{(ex.returnState!=9)?'redTxts':''}}">{{util.getStateTxt(ex.returnState)}}</label>
             </view>
@@ -37,6 +38,7 @@
                 <text wx:if="{{ex.orderState==9||ex.orderState==10||ex.orderState==12||ex.orderState==20}}">申请时间:</text>{{ex.orderDate}}
                 <text wx:if="{{ex.orderSourceType==1}}">(货架订单)</text>
                 <text wx:if="{{ex.orderSourceType==2}}">(线上订单)</text>
+                <text wx:if="{{ex.orderSourceType==3}}">(限时活动)</text>
               </label>
               <label class="{{(ex.orderState==0||ex.orderState==1||ex.orderState==2||ex.orderState==3||ex.orderState==4||ex.orderState==6||ex.orderState==14||ex.orderState==10||ex.orderState==12||ex.orderState==15||ex.orderState==20)?'redTxts':''}}">{{util.getStateTxt(ex.orderState)}}</label>
             </view>
@@ -66,6 +68,9 @@
                 <text wx:if="{{ex.orderState==0||ex.orderState==1||ex.orderState==14}}" bindtap='cancelShows' data-orderid="{{ex.id}}">取消订单</text>
               </block>
               <block wx:if="{{ex.orderSourceType==2}}">
+                <text wx:if="{{ex.orderState==0||ex.orderState==16}}" bindtap='cancelShows' data-orderid="{{ex.id}}">取消订单</text>
+              </block>
+              <block wx:if="{{ex.orderSourceType==3}}">
                 <text wx:if="{{ex.orderState==0||ex.orderState==16}}" bindtap='cancelShows' data-orderid="{{ex.id}}">取消订单</text>
               </block>
               <text class='' wx:if="{{ex.orderState==6||ex.orderState==10||ex.orderState==13||ex.orderState==15}}" bindtap='goCars' data-orderItem="{{ex.orderItemList}}">再次购买</text>

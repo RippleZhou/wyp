@@ -53,20 +53,27 @@
     <text class="m_right">{{orderInfor.contactName}} {{orderInfor.contactCellPhone}}</text>
   </view>
 </view>
+<!-- 提货二维码 -->
+<view class="QuickMark font_30" wx:if="{{hidden}}">
+  <view class="QuickMark_txt">请在物业营业时间内前往，凭提货码取货</view>
+  <view class="QuickMark_img"><image src="{{qrcodeImg}}"></image></view>
+  <view class="QuickMark_txt">提货码:{{pickUpCode}}</view>
+</view>
+<!-- 商品信息 -->
 <view class="product-list">
   <view class="p_title">商品信息</view>
-  <view class="product-item" wx:for="{{proList}}" wx:key="unique" wx:for-item="ex">
-    <image src="{{ex.imageUrl}}" class="p-img" bindtap='getDtail' data-productid="{{ex.productId}}" data-storeid="{{orderInfor.storeId}}" data-soutype="{{orderInfor.orderSourceType}}"></image>
+  <view class="product-item" wx:for="{{proList}}" wx:key="unique" wx:for-item="ex" bindtap='getDtail' data-productid="{{ex.productId}}" data-storeid="{{orderInfor.storeId}}" data-activitycode="{{orderInfor.activityCode}}" data-soutype="{{orderInfor.orderSourceType}}">
+    <image src="{{ex.imageUrl}}" class="p-img"></image>
     <view class="item-right-wrap">
-      <view class="item-right" bindtap='getDtail' data-productid="{{ex.productId}}" data-storeid="{{orderInfor.storeId}}" data-soutype="{{orderInfor.orderSourceType}}">
+      <view class="item-right">
         <view class="item-title">{{ex.productTitle}}</view>
         <view class="item-price">￥{{ex.totalAmount}}</view>
       </view>
-      <view class="item-bottom" bindtap='getDtail' data-productid="{{ex.productId}}" data-storeid="{{orderInfor.storeId}}" data-soutype="{{orderInfor.orderSourceType}}">
+      <view class="item-bottom">
         <text>单价：￥{{ex.productPrice}}</text>
         <text class="item-number">X{{ex.productNum}}</text>
       </view>
-      <view class="item-bottom" bindtap='getDtail' data-productid="{{ex.productId}}" data-storeid="{{orderInfor.storeId}}" data-soutype="{{orderInfor.orderSourceType}}"> 
+      <view class="item-bottom"> 
         <text>系列：{{ex.productMode}}</text>
       </view>
       <block wx:if="{{orderInfor.orderSourceType==2}}">
@@ -82,6 +89,7 @@
   <view class="title">订单信息<block wx:if="{{orderInfor.orderType==2}}">(自提订单)</block>
   <block wx:if="{{orderInfor.orderSourceType==1}}">[货架商品]</block>
   <block wx:if="{{orderInfor.orderSourceType==2}}">[线上商城]</block>
+  <block wx:if="{{orderInfor.orderSourceType==3}}">[限时活动]</block>
   </view>
   <view class="line-wrap">
     <text class="line-column">订单编号：</text>
@@ -132,6 +140,11 @@
   </view>
   </block>
    <block wx:if="{{orderInfor.orderSourceType==2}}">
+ <view class="cancel-btn" hover-class="plain-hover" wx:if="{{orderInfor.orderState==0||orderInfor.orderState==16}}" bindtap='cancelShows' data-orderid="{{orderInfor.id}}">
+    取消订单
+  </view>
+</block>
+   <block wx:if="{{orderInfor.orderSourceType==3}}">
  <view class="cancel-btn" hover-class="plain-hover" wx:if="{{orderInfor.orderState==0||orderInfor.orderState==16}}" bindtap='cancelShows' data-orderid="{{orderInfor.id}}">
     取消订单
   </view>

@@ -160,6 +160,7 @@ Page({
                     let url = Api.user.wxBindCellPhone
                     Common.request.post(url, param, function(data) {
                       if (data.status == 'OK') {
+                        that.housingInfo(data.message.storeId)
                         Common.isLogin();
                         console.log(Common.isLogin(),"+++++")
                         Common.setStorage('islogin',1)
@@ -167,15 +168,20 @@ Page({
                         console.log(Common.isLogin(),'______-----')
                         console.log(data,'codelogin 168行');
                         let user=data.message
+                        Common.setStorage('userCode',user.userCode)
+                        Common.setStorage('storeId', user.storeId)
                         Common.saveUser(user)
                         Common.saveLogin()
                         let targetUrl = Common.getStorage('targetUrl')
                         console.log('codelogin 173行','targetUrl', targetUrl)
                         let targetUrl1 = Common.getStorage('targetUrl1')
                         console.log('codelogin 175行','targetUrl1', targetUrl1)
+                        let targetUrl2 = Common.getStorage('targetUrl2')
+                        console.log('codelogin 177行', 'targetUrl2', targetUrl2)
                         Common.setStorage('user',user);
                         Common.removeStorage('targetUrl')
                         Common.removeStorage('targetUrl1')
+                        Common.removeStorage('targetUrl2')
                         if (targetUrl) {
                           console.log('codelogin 180行', 'targetUrl', targetUrl)
                           return wx.redirectTo({
@@ -186,6 +192,12 @@ Page({
                           console.log('codelogin 186行', 'targetUrl1', targetUrl1)
                           return wx.redirectTo({
                             url: targetUrl1
+                          })
+                        }
+                        if (targetUrl2) {
+                          console.log('codelogin 195行', 'targetUrl2', targetUrl2)
+                          return wx.redirectTo({
+                            url: targetUrl2
                           })
                         }
                         Common.gotoIndex()
@@ -207,6 +219,35 @@ Page({
     // let targetUrl = Common.getStorage('targetUrl')
     // let targetUrl1 = Common.getStorage('targetUrl1')
 
+  },
+  housingInfo(std) {
+    let params = {};
+    let _this = this;
+    let storeId = std.toString()
+    if (storeId==""){
+      return false;
+    }
+    console.log('storeId', storeId)
+    params.storeId = storeId
+    console.log(params.storeId, '---storeId2===')
+    let MD5sign = Common.md5sign(params);
+    params.sign = MD5sign;
+    Common.request.post(Api.productHousing.housingInfo, params,
+      function (data) {
+        if (data.status == "OK") {
+          console.log(data);
+          _this.setData({
+            storeId: data.message.id,
+            dwaddress: data.message.storeAddress,
+            wyname: data.message.storeName
+          });
+          Common.setStorage('dwaddress', data.message.storeAddress)
+          Common.setStorage('wyname', data.message.storeName)
+          Common.setStorage('storeId', data.message.id)
+        } else {
+          console.log(data.message);
+        }
+      })
   },
   GoMessage: function() {
     wx.navigateTo({
@@ -258,6 +299,7 @@ Page({
   onShow: function() {
     let targetUrl = Common.getStorage('targetUrl')
     let targetUrl1 = Common.getStorage('targetUrl1')
+    let targetUrl2 = Common.getStorage('targetUrl2')
     console.log(Common.isLogin())
     // Common.isLogin() ? Common.gotoIndex() : this.gotologin()
     this.wxGetOpenId();

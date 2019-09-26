@@ -2,12 +2,12 @@
 const computedBehavior = require("miniprogram-computed");
 const api = require('../../utils/api.js')
 const common = require('../../utils/common')
-const selecteds=0
+const selecteds = 0
 var app = getApp();
 let {
   regeneratorRuntime
 } = global
-const status = { 
+const status = {
   selected: {
     src: '/img/circlered.jpg',
     select: true
@@ -25,22 +25,25 @@ Component({
       name: '自提',
       orderType: 2,
       status: status.selected,
-    },{
+    }, {
       name: '送货上门',
       orderType: 1,
       status: status.unselected,
     }],
     multiIndex: [0, 0],
-
-
     address: {
       storeName: '',
       storeAddress: '',
-      addressDetail:'',
-      contactCellPhone:'',
-      contactName:''
+      addressDetail: '',
+      contactCellPhone: '',
+      contactName: ''
     },
     address2: {
+      addressDetail: '',
+      contactCellPhone: '',
+      contactName: '请填写联系人信息',
+    },
+    address3: {
       addressDetail: '',
       contactCellPhone: '',
       contactName: '请填写联系人信息',
@@ -51,8 +54,10 @@ Component({
       closeDate: "17:30:00"
     },
     itemsHj: [],
-    itemsXs:[],
-    items:[],
+    itemsXs: [],
+    itemsHd: [],
+    itemsAty: [],
+    items: [],
     deliveryFee: {
       userTransferAmount: 0
     },
@@ -60,7 +65,7 @@ Component({
       userTransferShoppingAmount: 0
     },
     housingCoinRate: 0,
-    isIpX:false
+    isIpX: false
   },
   computed: {
     total_price() {
@@ -70,33 +75,42 @@ Component({
       return parseFloat((this.data.itemsXs.reduce((total, currentValue) => total + currentValue.priceCurrentPrice * currentValue.productNum, 0)).toFixed(2))
     },
     total_price_with_shipping() {
-      let f01=0
-      let f02=0
-      if (this.data.itemsHj.length>0){
+      let f01 = 0
+      let f02 = 0
+      let f03 = 0
+      if (this.data.itemsHj.length > 0) {
         f01 = this.data.deliveryFee.userTransferAmount
       }
-      if (this.data.itemsXs.length > 0){
+      if (this.data.itemsXs.length > 0) {
         f02 = this.data.deliveryFee2.userTransferShoppingAmount
+      }
+      if (this.data.itemsAty.length > 0) {
+        f03 = this.data.itemsAty.reduce((free, li) => free + li.userTransferAmount, 0)
       }
       let del01 = this.data.delivery_methods.find(item => item.status.select).name == '自提' ? 0 : f01
       let del02 = this.data.delivery_methods.find(item => item.status.select).name == '自提' ? 0 : f02
-      return parseFloat((this.data.items.reduce((total, currentValue) => total + currentValue.priceCurrentPrice * currentValue.productNum, 0) +
-        (del01) + (del02)).toFixed(2))
+      let del03 = this.data.delivery_methods.find(item => item.status.select).name == '自提' ? 0 : f03
+      return parseFloat((this.data.items.reduce((total, currentValue) => total + currentValue.priceCurrentPrice * currentValue.productNum.toFixed(2), 0) +
+        (del01) + (del02) + (del03)).toFixed(2))
     },
     shipping() {
       if (this.data.delivery_methods.find(item => item.status.select).name == '自提') return '(自提)'
-      if (this.data.deliveryFee.userTransferAmount <= 0 && this.data.deliveryFee2.userTransferShoppingAmount <= 0) return '(已包邮)'
-      else{
-        let f01=0
-        let f02=0
-        if (this.data.itemsHj.length>0){
-          f01=this.data.deliveryFee.userTransferAmount
+      if (this.data.deliveryFee.userTransferAmount <= 0 && this.data.deliveryFee2.userTransferShoppingAmount <= 0 && this.data.deliveryFee3 <= 0) return '(已包邮)'
+      else {
+        let f01 = 0
+        let f02 = 0
+        let f03 = 0
+        if (this.data.itemsHj.length > 0) {
+          f01 = this.data.deliveryFee.userTransferAmount
         }
-        if (this.data.itemsXs.length > 0){
+        if (this.data.itemsXs.length > 0) {
           f02 = this.data.deliveryFee2.userTransferShoppingAmount
         }
-        return `(邮费￥${f01 + f02})`
-      } 
+        if (this.data.itemsAty.length > 0) {
+          f03 = this.data.itemsAty.reduce((free, li) => free + li.userTransferAmount, 0)
+        }
+        return `(邮费￥${f01 + f02 + f03})`
+      }
     },
     property_currency() {
       return this.data.housingCoinRate
@@ -134,8 +148,8 @@ Component({
 
       multiArray[1] =
         today_list.length > 0 ?
-        (this.data.multiIndex[0] == 0 ? today_list : list) :
-        list
+          (this.data.multiIndex[0] == 0 ? today_list : list) :
+          list
 
       return {
         multiIndex: this.data.multiIndex,
@@ -174,6 +188,7 @@ Component({
 
         return list;
       }
+
       function get_start(openDate, span) {
         let date = new Date();
         let temp = format(date, 'yyyy-MM-dd') // '2019-06-21'
@@ -181,6 +196,7 @@ Component({
         let timespan = new Date(temp + ' ' + openDate).getTime() - new Date(temp).getTime() // '2019-06-21' - '2019-06-21 19:00'
         return new Date(temp).getTime() + Math.ceil(timespan / span) * span
       }
+
       function get_end(closeDate, span) {
         let date = new Date();
         let temp = format(date, 'yyyy-MM-dd') // '2019-06-21'
@@ -190,18 +206,18 @@ Component({
       }
     },
   },
-  ready: function() {
+  ready: function () {
     let that = this;
     let selt = app.globalData.selecteds
-    let openId = common.getWxOpenId() 
-    if (!openId){
+    let openId = common.getWxOpenId()
+    if (!openId) {
       console.log("openId:", openId)
       that.getOpenIdFromServer()
     }
     console.log("1:送货上门,0:自提物业", selt)
     console.log("current_method_name", that.current_method_name)
-    if (selt==1){
-      getApp().globalData.selecteds=0
+    if (selt == 1) {
+      getApp().globalData.selecteds = 0
       let delivery_methods = this.data.delivery_methods.map(
         item => Object.assign(item, {
           status: status[item.orderType == 1 ? 'selected' : 'unselected']
@@ -212,7 +228,7 @@ Component({
       })
     }
     wx.getSystemInfo({
-      success: function(res) {
+      success: function (res) {
         console.log(res)
         let model = res.model.substring(0, res.model.indexOf("X")) + "X";
         if (model == 'iPhone X') {
@@ -221,54 +237,75 @@ Component({
           })
         }
       }
-    })　
+    })
     const url = api.order.getSettlementOrder;
     let data = {
       customerCode: common.getUser().userCode, //'HFMAB34GIVYSA', //
       storeId: common.getUser().storeId //973//
       //sign: "30834A5DF7B1E5A923B6F396EFF64E82"
     };
-    console.log("data:",data)
-     common.request.get(url, common.miscellaneous.signedParams(data), //data, //
+    console.log("data:", data)
+    common.request.get(url, common.miscellaneous.signedParams(data), //data, //
       data => {
         const message = data.message
+        console.log('message', message)
         let items = message.items
-        let itemsHj = [], itemsXs = []
+        let activityLists = message.activityItems
+        let itemsHj = [],
+          itemsXs = [],
+          itemsHd = [],
+          itemsAty = activityLists;
+        let pros={}
+        for (var s = 0; s < activityLists.length;s++){
+          pros.activityCode = activityLists[s].list[0].activityCode.toString()
+          pros.companyTransferAmount = activityLists[s].companyTransferAmount
+          pros.userTransferAmount = activityLists[s].userTransferAmount
+          itemsHd.push(pros)
+        }
+        console.log('itemsAty****:', itemsAty)
         for (let i = 0; i < items.length; i++) {
-          if (items[i].orderSourceType == 1) {//1是货架订单 2是商城订单
+          if (items[i].orderSourceType == 1) { //1是货架订单 2是商城订单3 限时抢购
             itemsHj.push(items[i])
-          } else {
+          }
+          if (items[i].orderSourceType == 2) {
             itemsXs.push(items[i])
           }
         }
-        console.log('message.deliveryFee.deliveryFee', message.deliveryFee.shoppingDeliveryFee)
-        let fee01 = message.deliveryFee.deliveryFee
-        let fee02 = message.deliveryFee.shoppingDeliveryFee
+
+        let fee01 = message.deliveryFee
+        let fee02 = message.shoppingDeliveryFee
+        
         that.setData({
-          address:{
+          address: {
             storeName: message.address.storeName,
             storeAddress: message.address.storeAddress,
             contactName: message.address.contactName,
             contactCellPhone: message.address.contactCellPhone,
             addressDetail: message.address.addressDetail,
           },
-          itemsHj, itemsXs, items,
+          itemsHj,
+          itemsXs,
+          itemsHd,
+          itemsAty,
+          items,
           deliveryFee: fee01,
           deliveryFee2: fee02,
           housingCoinRate: message.housingCoinRate,
           store: message.store
         })
-      },function(err){
-        console.log('err:',err)
+      },
+      function (err) {
+        console.log('err:', err)
       })
     var url2 = api.housing.getAddressList + '?userCode=' + common.getUser().userCode
     console.log('User:', common.getUser().userCode)
     common.request.get(url2, {},
       function (data) {
         if (data.status == "OK") {
+          console.log(that.data.activityFe)
           var list = data.message
           for (var i = 0; i < list.length; i++) {
-            if (list[i].isDefault == 1){
+            if (list[i].isDefault == 1) {
               console.log("contactName:", list[i].contactName)
               that.setData({
                 address2: {
@@ -277,7 +314,7 @@ Component({
                   contactName: list[i].contactName,
                 }
               })
-            }else{
+            } else {
               that.setData({
                 address2: {
                   addressDetail: list[0].addressDetail,
@@ -287,7 +324,7 @@ Component({
               })
             }
           }
-        } 
+        }
       })
   },
   methods: {
@@ -316,7 +353,7 @@ Component({
         }
       })
     },
-    swith: function(event) {
+    swith: function (event) {
       const name = event.currentTarget.dataset.name
       let delivery_methods = this.data.delivery_methods.map(
         item => Object.assign(item, {
@@ -328,19 +365,20 @@ Component({
       })
 
     },
-    phone: function(event) {
+    phone: function (event) {
       let phone = event.currentTarget.dataset.phone;
       wx.makePhoneCall({
         phoneNumber: phone
       })
     },
-    get_help: function() {
+    get_help: function () {
       wx.navigateTo({
         url: '/pages/help/help',
       })
     },
-    submit: function() {
-      console.log(111)
+    submit: function () {
+      // console.log(111)
+
       function getStrforParamValue(data) {
         let obj = '[';
         for (let item in data) {
@@ -359,17 +397,57 @@ Component({
         obj += ']';
         return obj;
       }
-      //"{"shopId":2103,"arriveBeginDate":"","arriveEndDate":"2019 - 05 - 25 13: 30: 01","userId":6080211,"productItems":[{"productId":96640,"price":100,"amount":2},{"productId":96641,"price":300,"amount":2}],"userTransferAmount":10,"companyTransferAmount":20,"totalAmount":856,"remark":"包装牢固一点","payMethod":7,"openId":"oSBLy5CC6ByjMLORAyiKy9arJ83I","aliUserId":"208802678739","sign":"EA01040A91E114BE86CCE4C443D7BF0F","orderType":1}"
+
+      function getStrforParamValue2(data) {
+        let str = '';
+        str += '{'
+        for (var prop in data) {
+          str += `${prop}=`
+          if (typeof (data[prop]) == 'object') {
+            str += getStrforParamValue2(data[prop]);
+          } else str += data[prop] + ','
+        }
+        if (str[str.length - 1] == ",")
+          str = str.substr(0, str.length - 1);
+        str += '}'
+        return str;
+      }
+      function getStrforParamValue3(data) {
+        let str = '';
+        str += '{'
+        for (var prop in data) {
+          str += `"${prop}":`
+          if (typeof (data[prop]) == 'object') {
+            str += getStrforParamValue3(data[prop]);
+          } else str += data[prop] + ','
+        }
+        if (str[str.length - 1] == ",")
+          str = str.substr(0, str.length - 1);
+        str += '}'
+        return str;
+      }
       let that = this;
       let user = common.getUser()
       let url = api.order.submitOrder;
+      console.log('this.data', that.data)
+
       let items = this.data.items.map(
         item => {
-          return {
-            "amount": item.productNum,
-            "price": item.priceCurrentPrice,
-            "productId": item.productId,
-            "sourceType": item.orderSourceType,
+          if (item.activityCode) {
+            return {
+              'activityCode': item.activityCode,
+              "amount": item.productNum,
+              "price": item.priceCurrentPrice,
+              "productId": item.productId,
+              "sourceType": item.orderSourceType,
+            }
+          } else {
+            return {
+              "amount": item.productNum,
+              "price": item.priceCurrentPrice,
+              "productId": item.productId,
+              "sourceType": item.orderSourceType,
+            }
           }
         })
       let {
@@ -383,7 +461,7 @@ Component({
       let date = mArray[0][mIndex[0]].value
       let start = item.start_value
       let end = item.end_value
-      let openId= common.getWxOpenId() 
+      let openId = common.getWxOpenId()
       let orderType = this.data.delivery_methods.find(item => item.status.select == true).orderType
       if (orderType == 1 && (!this.data.address2.contactName || !this.data.address2.contactCellPhone)) {
         wx.showToast({
@@ -394,26 +472,35 @@ Component({
       }
       let f01 = 0
       let f02 = 0
+      let f03 = 0
+      console.log(this.data)
       if (this.data.itemsHj.length > 0) {
         f01 = this.data.deliveryFee.userTransferAmount
+        console.log(this.data)
       }
       if (this.data.itemsXs.length > 0) {
         f02 = this.data.deliveryFee2.userTransferShoppingAmount
       }
+      if (this.data.itemsAty.length > 0) {
+        f03 = this.data.itemsAty.reduce((free, li) => free + li.userTransferAmount, 0)
+      }
       let del01 = this.data.delivery_methods.find(item => item.status.select).name == '自提' ? 0 : f01
       let del02 = this.data.delivery_methods.find(item => item.status.select).name == '自提' ? 0 : f02
+      let del03 = this.data.delivery_methods.find(item => item.status.select).name == '自提' ? 0 : f03
       let totalAmount = parseFloat((this.data.items.reduce((total, currentValue) => total + currentValue.priceCurrentPrice * currentValue.productNum, 0) +
-        (del01) +
-        (del02)).toFixed(2))
-      console.log("del01:", del01, "del02:", del01, "totalAmount:", totalAmount.toFixed(2))
+        (del01) + (del02) + (del03)).toFixed(2))
+      console.log("del01:", del01, "del02:", del01, "totalAmount:", totalAmount.toFixed(2), "del03:", del03)
       let sourceType = this.data.items.sourceType
       let data = {}
+      console.log(this.data)
       let to = totalAmount.toFixed(2)
-      if (orderType == 1){
+      console.log('itemsHd', that.data.itemsHd)
+      if (orderType == 1) {
         data = {
           "shopId": user.storeId,
           "userCode": user.userCode,
           "productItems": getStrforParamValue(items),
+          "activityDeliveryAmount": getStrforParamValue(that.data.itemsHd),
           "userTransferAmount": this.data.deliveryFee.userTransferAmount.toString(),
           "companyTransferAmount": this.data.deliveryFee.companyTransferAmount,
           "userTransferShoppingAmount": this.data.deliveryFee2.userTransferShoppingAmount.toString(),
@@ -431,37 +518,33 @@ Component({
           "arriveBeginDate": date + ' ' + start,
           "arriveEndDate": date + ' ' + end
         })
-      }else{
+      }
+      if (orderType == 2) {
         data = {
           "shopId": user.storeId,
+          "arriveBeginDate": "2019-05-25 13:00",
+          "arriveEndDate": "2019-05-25 13:30",
           "userCode": user.userCode,
           "productItems": getStrforParamValue(items),
+          "activityDeliveryAmount": getStrforParamValue(that.data.itemsHd),
           "userTransferAmount": this.data.deliveryFee.userTransferAmount.toString(),
           "companyTransferAmount": this.data.deliveryFee.companyTransferAmount,
           "userTransferShoppingAmount": this.data.deliveryFee2.userTransferShoppingAmount.toString(),
           "companyTransferShoppingAmount": this.data.deliveryFee2.companyTransferShoppingAmount,
-          "totalAmount": totalAmount.toString(),
+          "totalAmount": to.toString(),
           "remark": "物业用户下单",
           "payMethod": 7,
           "openId": openId,
           "orderType": orderType,
-          "contactName": this.data.address.contactName,
           "contactCellPhone": this.data.address.contactCellPhone,
+          "contactName": this.data.address.contactName,
           "addressDetail": this.data.address.addressDetail
         };
-      }
-      //  let payment = {"appId":"wx611196cc73b35909","timeStamp":"1565578851","nonceStr":"a28c0eb5c4684d6c97583a2999188264","package":"prepay_id=wx12110051229573ac66ffb6861195232400","signType":"RSA","paySign":"gG8u3SbsOjUTLiq/2Pi0IpssxIkdFg9bmHCPzz8f0l110GfT5VtA3RxSq9N+hfJyinJlh2pAZDW4STA4JgBl0hLasgLsz3XTUc9tMb/DY4UO0EZQyFLrWZ+/4w3NHyCY3krofYzPn1lvHQL+KnDiLOacdhhpFHdgHSGgN/AK1BWRIxy98optrJPMlruBa5GZ6JR6WaScSiKLaHBGMP76/O2Geg50UYXj7IrXtcaT7zpw6Uxn1fMwviflqRri8wa7ArHghsVOrChdh2TXzR8y6kVIQ38/9dG35tdjF5dP4ESJ0vV33La6cJfTrvf5KnQ9gzORQmhn3uqGO5YmUPHEgg=="}
-      // let orderId = '0001'
-      // let delivery_info = 0
-      // let obtain_property_currency = 0
-      // that.call_pay(payment, orderId, delivery_info, obtain_property_currency)
-      common.request.post(url,
-        //common.miscellaneous.signedParams(data),
-        Object.assign(
-          common.miscellaneous.signedParams(data), {
-            productItems: items
-          }
-        ),
+      };
+      common.request.post(url, Object.assign(common.miscellaneous.signedParams(data),{
+        productItems: items,
+        activityDeliveryAmount: that.data.itemsHd
+      }),
         data => {
           if (data.message.allinPay.status == 'ERROR') {
             wx.showToast({
@@ -479,7 +562,7 @@ Component({
           that.call_pay(payment, orderId, delivery_info, obtain_property_currency)
         })
     },
-    call_pay: function(payment, orderId, delivery_info, obtain_property_currency) {
+    call_pay: function (payment, orderId, delivery_info, obtain_property_currency) {
       wx.requestPayment(
         Object.assign(payment, {
           success(res) {
@@ -495,41 +578,42 @@ Component({
           }
         }))
     },
-    products_list: function(event) {
+    products_list: function (event) {
       let list = JSON.stringify(event.currentTarget.dataset.list);
+      console.log('list001', event)
       wx.navigateTo({
         url: `/pages/CommodityList/CommodityList?list=${decodeURIComponent(list)}`,
       })
     },
-    bindMultiPickerChange: function(e) {
+    bindMultiPickerChange: function (e) {
       console.log('picker发送选择改变，携带值为', e.detail.value)
       this.setData({
         multiIndex: e.detail.value
       })
     },
-    bindMultiPickerColumnChange: function(e) {
+    bindMultiPickerColumnChange: function (e) {
       console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
       this.data.multiIndex[e.detail.column] = e.detail.value;
       if (!e.detail.column) this.data.multiIndex[1] = 0;
       console.log(this.data.multiIndex);
       this.setData(this.data);
     },
-    select_address: function() {
-      let _this=this
-      console.log("contactName:",_this.data.address2.contactName)
+    select_address: function () {
+      let _this = this
+      console.log("contactName:", _this.data.address2.contactName)
       common.setStorage('fillOrder', 1)
-      if (_this.data.address2.contactName){
+      if (_this.data.address2.contactName) {
         wx.navigateTo({
           url: `/pages/addressList/addressList`,
         })
-      }else{
+      } else {
         wx.navigateTo({
           url: `/pages/editorAddress/editorAddress`,
         })
       }
-      
+
     },
-    set_address: function(address) {
+    set_address: function (address) {
       let {
         contactName,
         contactCellPhone

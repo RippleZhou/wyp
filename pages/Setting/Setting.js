@@ -15,8 +15,13 @@ Page({
   },
   logout() {
     let storeId = Common.getStorage('storeId')
+    Common.removeStorage('user')
     Common.removeLogin();
-    Common.gotoIsLogin()
+    Common.gotoHome()
+    // Common.gotoIsLogin()
+    Common.removeStorage('targetUrl')
+    Common.removeStorage('targetUrl1')
+    Common.removeStorage('targetUrl2')
     // this.goHome();
   },
   goAbout: function() {

@@ -52,7 +52,19 @@ Page({
     let params = {};
     var cartItems = {};
     let user = Common.getUser() || Common.getStorage("user");
-    params.storeId = new Number(user.storeId).toString();
+    let users = Common.getStorage('users')
+    let storeId = new Number(user.storeId).toString() || Common.getStorage('storeId').toString();
+    if (storeId == '' || storeId == null || storeId == undefined || storeId == 'NaN' || storeId == 0 || storeId == -1) {
+      storeId = Common.storeId2()
+      console.log(storeId, 'storeId2===')
+    }
+    if (users == 3 && user == "用户不存在") {
+      storeId = Common.getStorage('storeId').toString()
+      if (storeId == " ") {
+        return false;
+      }
+    }
+    params.storeId = storeId
     params.searchKey = _this.data.searchKey;
     params.offset = new Number(_this.data.offset).toString();
     params.limit = new Number(_this.data.limit).toString();
@@ -89,7 +101,9 @@ Page({
     });
   },
   goSearchList(e) {
-    const { key } = e.currentTarget.dataset;
+    const {
+      key
+    } = e.currentTarget.dataset;
     wx.navigateTo({
       url: "/pages/product/search_list/search_list?searchText=" + key
     });
@@ -112,8 +126,7 @@ Page({
     historySearchKeys.push(self.data.searchKey);
     Common.setStorage("historySearchKeys", historySearchKeys);
     wx.navigateTo({
-      url:
-        "/pages/product/search_list/search_list?searchText=" +
+      url: "/pages/product/search_list/search_list?searchText=" +
         self.data.searchKey
     });
   }

@@ -2,7 +2,7 @@
 const Common = require('../../utils/common');
 const util = require('../../utils/util')
 const Api = require("../../utils/api");
-const app = getApp(); 
+const app = getApp();
 let {
   regeneratorRuntime
 } = global
@@ -17,15 +17,15 @@ Page({
     value: '80%'
   },
   data: {
-    address_show:false,
+    address_show: false,
     cityId: '',
     textarea: '',
     storeName: '',
     housingAddress: '',
     address: '',
-    MyHousingVal:'',
+    MyHousingVal: '',
   },
-  CheckHousing: function (e) {
+  CheckHousing: function(e) {
     let cityId = Common.getStorage('cityId');
     wx.navigateTo({
       url: '/pages/city/city?cityId=' + cityId,
@@ -56,35 +56,62 @@ Page({
       params.sign = MD5sign;
       let store = Common.getStorage('store')
       Common.request.post(Api.housing.bindingProperty, params,
-      function (data) {
-        if (data.status == "OK") {
-          console.log(data);
-          let address = data.message.address // 用户详细地址
-          let cellPhone = data.message.cellPhone //物业电话
-          let housingCode = data.message.housingCode //缴费户号
-          let storeAddress = data.message.storeAddress //小区地址
-          let storeName = data.message.storeName    //物业名称
-          let housingAddress = storeName + ' (' + storeAddress + ')' //拼接的 物业+小区地址
-          let myAddress = storeAddress + '(' + address  + ')'
-          let customerName = data.message.customerName
-          let residualFee = data.message.residualFee// 欠费金额
-          // Common.setStorage({ 'housingAddress': housingAddress, 'myAddress': myAddress, 'residualFee': residualFee})
-          Common.setStorage('housingAddress',housingAddress)
-          Common.setStorage('myAddress', myAddress)
-          Common.setStorage('residualFee', residualFee)
-          that.setData({
-            residualFee,
-            housingAddress: housingAddress,
-            myAddress: myAddress,
-            customerName
-          })
-        } else {
-          console.log(error);
-        }
-      })
+        function(data) {
+          if (data.status == "OK") {
+            console.log(data);
+            let address = data.message.address // 用户详细地址
+            let cellPhone = data.message.cellPhone //物业电话
+            let housingCode = data.message.housingCode //缴费户号
+            let storeAddress = data.message.storeAddress //小区地址
+            let storeName = data.message.storeName //物业名称
+            let housingAddress = storeName + ' (' + storeAddress + ')' //拼接的 物业+小区地址
+            let myAddress = storeAddress + '(' + address + ')'
+            let customerName = data.message.customerName
+            let residualFee = data.message.residualFee // 欠费金额
+            // Common.setStorage({ 'housingAddress': housingAddress, 'myAddress': myAddress, 'residualFee': residualFee})
+            Common.setStorage('housingAddress', housingAddress)
+            Common.setStorage('myAddress', myAddress)
+            Common.setStorage('residualFee', residualFee)
+            that.setData({
+              residualFee,
+              housingAddress: housingAddress,
+              myAddress: myAddress,
+              customerName
+            })
+          } else {
+            console.log(error);
+          }
+        })
     }
   },
-  async conFirm(){
+  housingInfo() {
+    let params = {};
+    let _this = this;
+    let user = Common.getUser();
+    let storeId = Common.getStorage('storeId').toString()
+    console.log('storeId', storeId)
+    params.storeId = storeId
+    console.log(params.storeId, '---storeId2===')
+    let MD5sign = Common.md5sign(params);
+    params.sign = MD5sign;
+    Common.request.post(Api.productHousing.housingInfo, params,
+      function(data) {
+        if (data.status == "OK") {
+          console.log(data);
+          _this.setData({
+            storeId: data.message.id,
+            dwaddress: data.message.storeAddress,
+            wyname: data.message.storeName
+          });
+          Common.setStorage('dwaddress', data.message.storeAddress)
+          Common.setStorage('wyname', data.message.storeName)
+          Common.setStorage('storeId', data.message.id)
+        } else {
+          console.log(data.message);
+        }
+      })
+  },
+  async conFirm() {
     var that = this
     let cityId = Common.getStorage('cityId');
     let propertyId = Common.getStorage('storeId').toString()
@@ -119,16 +146,19 @@ Page({
     console.log("绑定User:", user)
     // let isBinging = user.isBinging
     Common.request.post(Api.housing.bindingProperty, params,
-      function (data) {
+      function(data) {
         console.log(data);
         if (data.status == "OK") {
-          // Common.setStorage('BindHouse',true)
+          that.housingInfo()
           Common.setStorage('isBinding', 1)
-
-          // Common.saveLogin()
           Common.saveUser(user)
-          Common.setStorage('user', Object.assign(user, { isBinding: 1 }))
-          Common.setStorage('user', Object.assign(user, { storeId: propertyId }))
+          Common.setStorage('user', Object.assign(user, {
+            isBinding: 1
+          }))
+          Common.setStorage('user', Object.assign(user, {
+            storeId: propertyId
+          }))
+          Common.setStorage('dwaddress', )
           let targetUrl = Common.getStorage('targetUrl')
           let isAddPay = Common.getStorage('isAddPay')
           if (targetUrl) {
@@ -149,19 +179,23 @@ Page({
         }
       })
   },
-    cancel() {
-    this.setData({ show: false })
+  cancel() {
+    this.setData({
+      show: false
+    })
     this.triggerEvent('cancel')
   },
-   bindingProperty() {
-     let that=this
-    let isBinding=Common.getUser().isBinding
-    if(isBinding==0){
-      console.log('isbing',isBinding)
-      this.setData({ show: false })
+  bindingProperty() {
+    let that = this
+    let isBinding = Common.getUser().isBinding
+    if (isBinding == 0) {
+      console.log('isbing', isBinding)
+      this.setData({
+        show: false
+      })
       this.triggerEvent('cancel')
       that.conFirm()
-    }else{
+    } else {
       this.setData({
         show: {
           type: Boolean,
@@ -176,9 +210,9 @@ Page({
     }
   },
   goIndex() {
-    Common.setStorage('Isb',1)
+    Common.setStorage('Isb', 1)
     // 如果是从购物车引导绑定的，返回首页
-    if(app.globalData.requireBindingForCart){
+    if (app.globalData.requireBindingForCart) {
       // Common.setStorage('Isb', 0)
       wx.switchTab({
         url: '/pages/index/index',
@@ -189,7 +223,7 @@ Page({
       url: '/pages/index/index',
     })
   },
-  cancel_HouseNum: function (e) {
+  cancel_HouseNum: function(e) {
     let that = this;
     that.setData({
       // HouseNumList: HouseNumListSwap,
@@ -197,14 +231,14 @@ Page({
       BindAddress: '',
     })
   },
-  search_HouseNum: function (e) {
+  search_HouseNum: function(e) {
     let that = this;
     that.setData({
       address_show: true
     })
   },
-  seacrch_HouseNum: function (e) {
-    let that=this
+  seacrch_HouseNum: function(e) {
+    let that = this
     that.setData({
       search_val: e.detail.value
     })
@@ -219,12 +253,12 @@ Page({
     };
     let MD5sign = Common.md5sign(params);
     params.sign = MD5sign;
-    Common.request.post(Api.address.customerHousing,params,function(data){
+    Common.request.post(Api.address.customerHousing, params, function(data) {
       if (data.status == "OK") {
         console.log(data);
-        let HouseNumList=data.rows
+        let HouseNumList = data.rows
         console.log(HouseNumList)
-        that.setData({  
+        that.setData({
           HouseNumList,
           // HouseNumListSwap
         })
@@ -251,39 +285,39 @@ Page({
       HouseNumList: searchedHouseNums
     })
   },
-goBindHouseNum(e){
-  console.log(e)
-  let BindAddress = e.currentTarget.dataset.address
-  let cusHousingCode = e.currentTarget.dataset.housing
-  this.setData({
-    BindAddress,
-    address_show: false,
-    cusHousingCode
-  })
+  goBindHouseNum(e) {
+    console.log(e)
+    let BindAddress = e.currentTarget.dataset.address
+    let cusHousingCode = e.currentTarget.dataset.housing
+    this.setData({
+      BindAddress,
+      address_show: false,
+      cusHousingCode
+    })
   },
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function(res) {
     return {
       title: '绑定小区',
       path: 'pages/bindAddress/bindAddress'
     }
   },
-onLoad(){
-  let customerName = ''
-  let storeId =''
-  let store = ''
-  let storeName =''
-  // let cityId = Common.getStorage('cityId')
-  let address =''
-},
-  async onShow () {
+  onLoad() {
+    let customerName = ''
+    let storeId = ''
+    let store = ''
+    let storeName = ''
+    // let cityId = Common.getStorage('cityId')
+    let address = ''
+  },
+  async onShow() {
     let userCode = Common.getStorage('userCode');
     if (!userCode) {
       userCode = Common.getStorage('user').userCode;
     }
-    let residualFee=''
-    if(!this.data.textarea){
-      residualFee=''
-    }else{
+    let residualFee = ''
+    if (!this.data.textarea) {
+      residualFee = ''
+    } else {
       residualFee = Common.getStorage('residualFee');
     }
     let customerName = Common.getStorage('customerName')
@@ -296,8 +330,8 @@ onLoad(){
     if (address && storeName) {
       housingAddress = storeName + ' ( ' + address + ')' //拼接的 物业+小区地址
     }
-     let MyAddress = Common.getStorage('MyAddress')
-      this.setData({
+    let MyAddress = Common.getStorage('MyAddress')
+    this.setData({
       userCode,
       housingAddress,
       storeName,

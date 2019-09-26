@@ -1,4 +1,3 @@
-var json = require("../../data/home_data.js");
 const Common = require("../../utils/common");
 var Api = require("../../utils/api");
 const app = getApp();

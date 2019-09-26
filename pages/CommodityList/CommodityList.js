@@ -10,6 +10,7 @@ Component({
   },
   computed: {
     list1() {
+      console.log("lisntsss:",this.data.list)
       return JSON.parse(this.data.list)
     },
     products_number() {

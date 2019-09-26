@@ -57,14 +57,20 @@ Page({
     var productId = e.currentTarget.dataset.productid
     var storeId = e.currentTarget.dataset.storeid
     var orderSourceType = e.currentTarget.dataset.soutype
+    var activityCode = e.currentTarget.dataset.activitycode
     if (orderSourceType == 1) {
       wx.navigateTo({
         url: '/pages/details/details?productId=' + productId + '&storeId=' + storeId,
       })
-    }else{
+    }
+    if (orderSourceType == 2) {
       wx.navigateTo({
         url: `/pages/store-detail/store-detail?storeId=${storeId}&productId=${productId}`
       })
+    }
+    if (orderSourceType == 3) {
+      wx.navigateTo({
+        url: `/pages/flashSale-detail/flashSale-detail?storeId=${storeId}&productId=${productId}&activityCode=${activityCode}&orderSourceType=${orderSourceType}`      })
     }
     
   },
